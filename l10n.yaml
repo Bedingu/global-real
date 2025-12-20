@@ -1,0 +1,7 @@
+arb-dir: lib/l10n
+template-arb-file: app_pt.arb
+output-dir: lib/generated
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+use-raw-key-names: false
+

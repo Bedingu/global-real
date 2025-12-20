@@ -1,0 +1,40 @@
+{
+  "@@locale": "pt",
+
+  "headline": "Construa patrimônio\ncom investimentos imobiliários",
+  "subheadline": "Curadoria, estratégia e inteligência imobiliária para investidores.",
+
+  "signup": "Criar conta",
+  "login": "Entrar",
+
+  "authority_curation": "Curadoria",
+  "authority_curation_desc": "Seleção estratégica de ativos",
+
+  "login_title": "Entrar",
+  "email": "E-mail",
+  "password": "Senha",
+  "login_button": "Entrar",
+  "no_account": "Não tem conta?",
+  "create_account": "Criar conta",
+
+  "signup_title": "Criar conta",
+  "signup_button": "Cadastrar",
+
+  "dashboard_title": "Dashboard",
+  "total_assets": "Patrimônio total",
+  "monthly_return": "Rentabilidade mensal",
+
+  "email": "E-mail",
+  "password": "Senha",
+
+  "email_required": "Informe seu e-mail",
+  "email_invalid": "E-mail inválido",
+
+  "password_required": "Informe sua senha",
+  "password_short": "A senha deve ter no mínimo 6 caracteres",
+
+  "login_invalid": "E-mail ou senha inválidos"
+
+}
+
+

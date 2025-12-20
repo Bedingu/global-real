@@ -1,0 +1,39 @@
+{
+  "@@locale": "en",
+
+  "headline": "Build wealth\nwith real estate investments",
+  "subheadline": "Curation, strategy and real estate intelligence for investors.",
+
+  "signup": "Sign up",
+  "login": "Login",
+
+  "authority_curation": "Curation",
+  "authority_curation_desc": "Strategic asset selection",
+
+  "login_title": "Login",
+  "email": "Email",
+  "password": "Password",
+  "login_button": "Login",
+  "no_account": "Don't have an account?",
+  "create_account": "Create account",
+
+  "signup_title": "Create account",
+  "signup_button": "Sign up",
+
+  "dashboard_title": "Dashboard",
+  "total_assets": "Total assets",
+  "monthly_return": "Monthly return",
+
+  "email": "Email",
+  "password": "Password",
+
+  "email_required": "Please enter your email",
+  "email_invalid": "Invalid email address",
+
+  "password_required": "Please enter your password",
+  "password_short": "Password must be at least 6 characters",
+
+  "login_invalid": "Invalid email or password"
+
+  }
+
