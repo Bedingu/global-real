@@ -1,16 +1,50 @@
-# global_real
+# 🌍 **Global Real — Market Intelligence for Short-Term Rental Investments**
 
-A new Flutter project.
+O **Global Real** é um app que ajuda investidores imobiliários a **descobrir, analisar e comparar empreendimentos**, com foco em **rentabilidade, short-term rentals e localização estratégica**.
 
-## Getting Started
+Ele combina dados de mercado, filtros inteligentes e inteligência de revenue para entregar uma análise realista e totalmente acionável.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 📌 **Principais Features**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🔍 **Descoberta e análise**
+- Busca por nome, cidade ou endereço
+- Dashboard responsivo com cards informativos
+- Localização via Google Maps Static API
+- Filtros inteligentes por:
+  - Capacidade (quartos/banheiros/hóspedes)
+  - Ocupação & diárias (ADR)
+  - Proximidade a metrô/aeroportos
+  - Drivers de demanda do mercado
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 💰 **Inteligência Financeira**
+- Cálculo de **Projected Monthly Revenue**
+- Cálculo de **Occupancy-adjusted ADR**
+- Taxas configuráveis (cleaning, condo, management)
+- Currency-aware (BRL ↔ USD)
+- Conversão automática USD → BRL
+
+### 🌐 **Mercados suportados**
+Atualmente, o app opera com o conceito de **MarketHub**:
+
+| Hub       | Moeda | Base | Locale |
+|----------|-------|------|--------|
+| São Paulo | BRL   | BRL  | pt_BR  |
+| Florida   | USD   | USD  | en_US  |
+
+Cada hub possui:
+- filtros padrão próprios
+- moeda própria
+- comportamento financeiro próprio
+
+### 🎯 **UX & Interações**
+- Cards com métricas rápidas
+- Badges inteligentes (Novo / Últimas unidades)
+- Favoritos com persistência no Supabase
+- Dashboard desktop-first / responsivo
+
+---
+
+## 🏗 **Arquitetura do App**
+
