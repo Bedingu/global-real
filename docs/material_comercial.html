@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Real — Plataforma de Inteligência Imobiliária</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0B1220;
+    color: #fff;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 48px;
+    page-break-after: always;
+    min-height: 100vh;
+  }
+
+  /* ── CAPA ── */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0B1220 0%, #111C2E 50%, #0B1220 100%);
+  }
+
+  .cover-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid rgba(255,193,7,0.3);
+    border-radius: 20px;
+    color: #FFC107;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #FFC107, #FFD54F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cover p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    max-width: 600px;
+    margin-bottom: 40px;
+  }
+
+  .cover-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 20px;
+  }
+
+  .cover-stat {
+    text-align: center;
+  }
+
+  .cover-stat .num {
+    font-size: 36px;
+    font-weight: 800;
+    color: #FFC107;
+  }
+
+  .cover-stat .label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* ── SEÇÕES ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFC107;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 36px;
+    max-width: 700px;
+  }
+
+  /* ── CARDS GRID ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: #111C2E;
+    border: 1px solid #1F2A44;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+
+  .card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .card p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.5;
+  }
+
+  .card ul {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  .card ul li {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    padding: 3px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .card ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #FFC107;
+  }
+
+  .gold-bg { background: rgba(255,193,7,0.1); }
+  .blue-bg { background: rgba(59,130,246,0.1); }
+  .green-bg { background: rgba(34,197,94,0.1); }
+  .red-bg { background: rgba(239,68,68,0.1); }
+  .purple-bg { background: rgba(139,92,246,0.1); }
+
+  .gold-text { color: #FFC107; }
+  .blue-text { color: #3B82F6; }
+  .green-text { color: #22C55E; }
+  .red-text { color: #EF4444; }
+  .purple-text { color: #8B5CF6; }
+
+  /* ── FEATURE ROW ── */
+  .feature-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .feature-row .num-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,193,7,0.12);
+    color: #FFC107;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .feature-row h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .feature-row p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.02));
+    border: 1px solid rgba(255,193,7,0.2);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin: 32px 0;
+    text-align: center;
+  }
+
+  .highlight-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFC107;
+    margin-bottom: 8px;
+  }
+
+  .highlight-box p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: #1F2A44;
+    margin: 40px 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: rgba(255,255,255,0.2);
+    font-size: 11px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #0B1220; }
+    .page { padding: 40px 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 1: CAPA -->
+<!-- ════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-badge">Plataforma Premium para Assessores</div>
+  <h1>Global Real</h1>
+  <p>Inteligência imobiliária, curadoria de ativos e ferramentas exclusivas para assessores de investimento de alto nível.</p>
+
+  <div class="cover-stats">
+    <div class="cover-stat">
+      <div class="num">2</div>
+      <div class="label">Mercados Globais</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">10+</div>
+      <div class="label">Ferramentas</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">4</div>
+      <div class="label">Idiomas</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">∞</div>
+      <div class="label">Oportunidades</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 2: O QUE É -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Sobre a Plataforma</div>
+  <h2>O que é a Global Real?</h2>
+  <p class="subtitle">Uma plataforma completa que reúne inteligência de mercado, ferramentas de análise e oportunidades de investimento imobiliário em um único ambiente — projetada exclusivamente para assessores que atendem investidores de alto patrimônio.</p>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Pilares</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon gold-bg"><span class="gold-text">🎯</span></div>
+      <h3>Curadoria</h3>
+      <p>Seleção estratégica de ativos imobiliários nos mercados de São Paulo e Flórida, com análise de rentabilidade e risco.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue-bg"><span class="blue-text">📊</span></div>
+      <h3>Estratégia</h3>
+      <p>Planejamento de portfólio imobiliário com simuladores, calculadoras e benchmarks de mercado integrados.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green-bg"><span class="green-text">🧠</span></div>
+      <h3>Inteligência</h3>
+      <p>Dados e análises de mercado em tempo real, com métricas como ADR, Yield, Occupancy e Confidence Score.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Disponível em 4 idiomas</h3>
+    <p>Português • English • Español • 中文 — Atenda clientes internacionais sem barreiras.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 3: FORMAS DE INVESTIMENTO -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Módulo Principal</div>
+  <h2>Formas de Investimento</h2>
+  <p class="subtitle">Cinco modalidades de investimento imobiliário com análise completa, simulação e dados em tempo real.</p>
+
+  <div class="feature-row">
+    <div class="num-circle">1</div>
+    <div>
+      <h4>Investimentos Privados</h4>
+      <p>Dashboard analítico com IRR anual/mensal, ROI, Payback, VPL. Gráficos de receita vs custos com toggle acumulado/mensal. Métricas proprietárias de retorno.</p>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div class="num-circle">2</div>
+    <div>
+      <h4>Fração Imobiliária</h4>
+      <p>Layout em 2 colunas com seleção de empreendimento, cotas de 2/4/6 semanas, calendário de reservas em tempo real (Supabase Realtime), simulador de valorização com sliders, benchmark Alpha vs CDI e Sharpe.</p>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div class="num-circle">3</div>
+    <div>
+      <h4>Lançamentos</h4>
+      <p>Empreendimentos lançados nos últimos 30 dias, exibidos em grid com cards contendo imagem Google Maps, métricas de ocupação, ADR e receita, badges de urgência e favoritos.</p>
+    </div>
+  </div>
+
+  <div class="feature-row">
+    <div class="num-circle">4</div>
+    <div>
+      <h4>Estoque (Liquidação)</h4>
+      <p>Empreendimentos em liquidação com badge de desconto, preços riscados (Tabela/Tabelão) e preço Week destacado, condições de pagamento expansíveis (entrada, parcelas 30/60/90, financiamento).</p>
+    </div>
+  </div>
+
+  <div class="feature-row" style="border-bottom: none;">
+    <div class="num-circle">5</div>
+    <div>
+      <h4>IPO / FIIs</h4>
+      <p>Inteligência Private para Fundos Imobiliários com scoring proprietário, filtros por tipo (Tijolo, Papel, Multiclasse, FoF) e segmento, ranking automático por score.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 4: FERRAMENTAS -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Ferramentas Exclusivas</div>
+  <h2>Catálogo e Calculadora</h2>
+  <p class="subtitle">Ferramentas de análise e comparação para embasar decisões de investimento com dados concretos.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon gold-bg"><span class="gold-text">📦</span></div>
+      <h3>Catálogo de Investimentos</h3>
+      <p>Produtos SPE com gráfico visual de rentabilidade meta vs proposta, investimento mínimo, status de captação e categorização por segmento.</p>
+      <ul>
+        <li>Gráfico de barras comparativo</li>
+        <li>Badge de status (Aberto / Encerrado)</li>
+        <li>Investimento mínimo destacado</li>
+        <li>Filtro por categoria e SPE</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-icon blue-bg"><span class="blue-text">🧮</span></div>
+      <h3>Calculadora de Investimentos</h3>
+      <p>Compare investimento em imóveis com CDI, IPCA, Ibovespa, S&P 500 e Poupança em um único gráfico interativo.</p>
+      <ul>
+        <li>Slider de valor inicial (R$ 10k a R$ 2M)</li>
+        <li>Slider de prazo (1 a 30 anos)</li>
+        <li>Gráfico de linhas com 6 índices</li>
+        <li>Tabela de resultados com lucro</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Mercados</div>
+  <h2>Leads Qualificados</h2>
+  <p class="subtitle">Acesso a leads de investidores nas regiões de São Paulo e Flórida, com gestão de status e informações de contato.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon purple-bg"><span class="purple-text">🏙️</span></div>
+      <h3>Mercado de São Paulo</h3>
+      <p>Leads de investidores na região de São Paulo com nome, empresa, contato, interesse, budget em R$ e status de acompanhamento.</p>
+      <ul>
+        <li>Status: Novo → Contatado → Qualificado → Fechado</li>
+        <li>Budget e data de entrada</li>
+        <li>Interesse específico do investidor</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-icon green-bg"><span class="green-text">🌴</span></div>
+      <h3>Mercado da Flórida</h3>
+      <p>Leads de investidores na região da Flórida com as mesmas funcionalidades, budget em US$ e foco no mercado americano.</p>
+      <ul>
+        <li>Mesma gestão de pipeline</li>
+        <li>Budget em dólares (US$)</li>
+        <li>Foco em condos e vacation homes</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 5: CAPACITAÇÃO + PARCERIA -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Capacitação</div>
+  <h2>Vídeos e Insights Exclusivos</h2>
+  <p class="subtitle">Como vender imóveis para investimento — conteúdo exclusivo para capacitação do assessor.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon red-bg"><span class="red-text">🎬</span></div>
+      <h3>Vídeos</h3>
+      <p>Aulas práticas sobre técnicas de abordagem, argumentação e fechamento com o perfil investidor.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon gold-bg"><span class="gold-text">📚</span></div>
+      <h3>Cursos</h3>
+      <p>Formação completa em análise de rentabilidade, métricas de mercado (ADR, Yield, ROI) e estratégias de portfólio.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue-bg"><span class="blue-text">📰</span></div>
+      <h3>Artigos</h3>
+      <p>Tendências de mercado, panoramas econômicos e análises de oportunidades atualizadas periodicamente.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Programa de Parceria</div>
+  <h2>Proposta de Parceria</h2>
+  <p class="subtitle">Torne-se um parceiro estratégico e acesse benefícios exclusivos para expandir seus negócios.</p>
+
+  <div class="highlight-box" style="text-align: left;">
+    <h3 style="font-size: 16px; margin-bottom: 12px;">A quem se destina?</h3>
+    <p>→ Assessores de investimento imobiliário<br>
+       → Corretores com foco em alta renda<br>
+       → Consultores financeiros independentes</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-color: rgba(255,193,7,0.3);">
+      <div class="card-icon gold-bg"><span class="gold-text">👑</span></div>
+      <h3 class="gold-text">Consultoria VIP</h3>
+      <p>Atendimento exclusivo e personalizado para seus clientes.</p>
+      <ul>
+        <li>Acesso prioritário a lançamentos</li>
+        <li>Relatórios personalizados</li>
+        <li>Suporte dedicado</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(59,130,246,0.3);">
+      <div class="card-icon blue-bg"><span class="blue-text">🧠</span></div>
+      <h3 class="blue-text">Mentoria Estratégica</h3>
+      <p>Desenvolvimento profissional com especialistas do setor.</p>
+      <ul>
+        <li>Sessões individuais mensais</li>
+        <li>Estratégias de captação</li>
+        <li>Análise de portfólio</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(34,197,94,0.3);">
+      <div class="card-icon green-bg"><span class="green-text">🚀</span></div>
+      <h3 class="green-text">Prospecção de Negócios</h3>
+      <p>Ferramentas e leads para expandir sua carteira.</p>
+      <ul>
+        <li>Leads qualificados</li>
+        <li>CRM integrado</li>
+        <li>Comissões diferenciadas</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 6: DASHBOARD PÚBLICO -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Área Pública</div>
+  <h2>Dashboard de Mercado</h2>
+  <p class="subtitle">Visão completa do mercado imobiliário com filtros avançados e cards de empreendimentos.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Filtros Avançados</h3>
+      <p style="margin-top: 8px;">8 categorias de filtros para refinar a busca:</p>
+      <ul>
+        <li>Hub (São Paulo, Rio, Flórida)</li>
+        <li>Tipo de imóvel (Apartamento, Studio, Casa, Comercial, Flat)</li>
+        <li>Capacidade (quartos, banheiros, hóspedes)</li>
+        <li>Proximidade do metrô</li>
+        <li>Faixa de preço</li>
+        <li>Data de entrega</li>
+        <li>Comodidades</li>
+        <li>Fatores de demanda</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Cards de Empreendimentos</h3>
+      <p style="margin-top: 8px;">Cada card exibe informações essenciais:</p>
+      <ul>
+        <li>Imagem via Google Maps Static API</li>
+        <li>Nome e localização</li>
+        <li>Capacidade (quartos, banheiros, hóspedes)</li>
+        <li>Occupancy Rate, ADR e Revenue</li>
+        <li>Confidence Score com badge colorido</li>
+        <li>Badges de urgência (Últimas unidades / Novo)</li>
+        <li>Botão de favoritos</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Tecnologia</div>
+  <h2>Stack Tecnológico</h2>
+  <p class="subtitle">Construído com tecnologias modernas para performance, segurança e escalabilidade.</p>
+
+  <div class="grid-3">
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 28px; margin-bottom: 8px;">💙</div>
+      <h3>Flutter</h3>
+      <p>Web, iOS e Android com uma única base de código.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 28px; margin-bottom: 8px;">⚡</div>
+      <h3>Supabase</h3>
+      <p>Backend com autenticação, banco de dados, Realtime e RLS.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 28px; margin-bottom: 8px;">💳</div>
+      <h3>Stripe</h3>
+      <p>Pagamentos seguros com assinatura mensal e anual.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Pronto para escalar</h3>
+    <p>Arquitetura preparada para múltiplos hubs, novos mercados e integrações futuras.</p>
+  </div>
+
+  <div class="footer">
+    Global Real — Plataforma de Inteligência Imobiliária<br>
+    Material confidencial • Uso exclusivo para parceiros
+  </div>
+</div>
+
+</body>
+</html>

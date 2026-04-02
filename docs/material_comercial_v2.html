@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Real — Plataforma de Inteligência Imobiliária</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0B1220;
+    color: #fff;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 48px;
+    page-break-after: always;
+    page-break-inside: avoid;
+    break-after: page;
+    break-inside: avoid;
+    min-height: 100vh;
+  }
+
+  /* ── CAPA ── */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0B1220 0%, #111C2E 50%, #0B1220 100%);
+  }
+
+  .cover-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid rgba(255,193,7,0.3);
+    border-radius: 20px;
+    color: #FFC107;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .cover h1 {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #FFC107, #FFD54F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cover p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    max-width: 600px;
+    margin-bottom: 40px;
+  }
+</style>
+<style>
+  .cover-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 20px;
+  }
+
+  .cover-stat .num {
+    font-size: 36px;
+    font-weight: 800;
+    color: #FFC107;
+  }
+
+  .cover-stat .label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  /* ── SEÇÕES ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFC107;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 36px;
+    max-width: 700px;
+  }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+
+  .card {
+    background: #111C2E;
+    border: 1px solid #1F2A44;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .card-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 14px;
+  }
+
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+  .card p { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+  .card ul { list-style: none; margin-top: 10px; }
+  .card ul li {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    padding: 3px 0 3px 16px; position: relative;
+  }
+  .card ul li::before { content: "→"; position: absolute; left: 0; color: #FFC107; }
+
+  .gold-bg { background: rgba(255,193,7,0.1); }
+  .blue-bg { background: rgba(59,130,246,0.1); }
+  .green-bg { background: rgba(34,197,94,0.1); }
+  .red-bg { background: rgba(239,68,68,0.1); }
+  .purple-bg { background: rgba(139,92,246,0.1); }
+
+  .gold-text { color: #FFC107; }
+  .blue-text { color: #3B82F6; }
+  .green-text { color: #22C55E; }
+  .red-text { color: #EF4444; }
+  .purple-text { color: #8B5CF6; }
+</style>
+<style>
+  .feature-row {
+    display: flex; align-items: center; gap: 20px;
+    padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .feature-row .num-circle {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,193,7,0.12); color: #FFC107;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; flex-shrink: 0;
+  }
+  .feature-row h4 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .feature-row p { font-size: 12px; color: rgba(255,255,255,0.4); }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.02));
+    border: 1px solid rgba(255,193,7,0.2);
+    border-radius: 14px; padding: 28px 32px; margin: 32px 0; text-align: center;
+  }
+  .highlight-box h3 { font-size: 22px; font-weight: 700; color: #FFC107; margin-bottom: 8px; }
+  .highlight-box p { font-size: 13px; color: rgba(255,255,255,0.45); }
+
+  .divider { height: 1px; background: #1F2A44; margin: 40px 0; }
+
+  .footer {
+    text-align: center; padding: 40px 0 20px;
+    color: rgba(255,255,255,0.2); font-size: 11px;
+  }
+</style>
+
+<style>
+  /* ══════════════════════════════════════════ */
+  /* PHONE MOCKUP — CSS PURO                   */
+  /* ══════════════════════════════════════════ */
+  .phone-showcase {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 32px;
+    margin: 40px 0;
+    perspective: 1200px;
+  }
+
+  .phone-showcase.trio { gap: 24px; }
+
+  .phone {
+    position: relative;
+    width: 220px;
+    border-radius: 32px;
+    background: #1a1a2e;
+    border: 3px solid #2a2a4a;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.05),
+      inset 0 0 0 1px rgba(255,255,255,0.03);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .phone:hover { transform: translateY(-8px); }
+  .phone.large { width: 260px; z-index: 2; }
+  .phone.tilted-left { transform: rotateY(8deg) rotateX(2deg); }
+  .phone.tilted-right { transform: rotateY(-8deg) rotateX(2deg); }
+  .phone.tilted-left:hover { transform: rotateY(8deg) rotateX(2deg) translateY(-8px); }
+  .phone.tilted-right:hover { transform: rotateY(-8deg) rotateX(2deg) translateY(-8px); }
+
+  /* Notch */
+  .phone-notch {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 22px; background: #1a1a2e;
+    border-radius: 0 0 16px 16px; z-index: 10;
+  }
+  .phone-notch::after {
+    content: ""; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 8px; height: 8px; background: #2a2a4a; border-radius: 50%;
+  }
+
+  /* Screen content */
+  .phone-screen {
+    aspect-ratio: 9 / 16;
+    background: #0B1220;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone-screen img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+  }
+
+  /* Placeholder */
+  .phone-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(180deg, #0B1220 0%, #111C2E 100%);
+    padding: 20px; text-align: center;
+  }
+  .phone-placeholder .ph-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.4; }
+  .phone-placeholder .ph-title { font-size: 11px; font-weight: 700; color: #FFC107; margin-bottom: 4px; }
+  .phone-placeholder .ph-desc { font-size: 8px; color: rgba(255,255,255,0.25); line-height: 1.4; }
+
+  /* Home bar */
+  .phone-homebar {
+    height: 20px; display: flex; align-items: center;
+    justify-content: center; background: rgba(0,0,0,0.2);
+  }
+  .phone-homebar::after {
+    content: ""; width: 80px; height: 4px;
+    background: rgba(255,255,255,0.15); border-radius: 2px;
+  }
+
+  /* Label */
+  .phone-label { text-align: center; margin-top: 12px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.5); }
+  .phone-label span { display: block; font-size: 9px; font-weight: 400; color: rgba(255,255,255,0.25); margin-top: 2px; }
+
+  /* ── PHONE + TEXT LAYOUT ── */
+  .phone-text-row { display: flex; align-items: center; gap: 48px; margin: 40px 0; }
+  .phone-text-row.reverse { flex-direction: row-reverse; }
+  .phone-text-row .text-side { flex: 1; }
+  .phone-text-row .text-side h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .phone-text-row .text-side p { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 16px; line-height: 1.6; }
+  .phone-text-row .text-side .feature-tag {
+    display: inline-block; padding: 4px 10px;
+    background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.2);
+    border-radius: 6px; font-size: 10px; color: #FFC107;
+    font-weight: 600; margin-right: 6px; margin-bottom: 6px;
+  }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    @page { margin: 0; size: A4; }
+    body { background: #0B1220 !important; }
+    .page { padding: 40px 36px; background: #0B1220 !important; page-break-after: always; page-break-inside: avoid; break-after: page; break-inside: avoid; min-height: 297mm; }
+    .card { background: #111C2E !important; border-color: #1F2A44 !important; page-break-inside: avoid; break-inside: avoid; }
+    .cover { background: linear-gradient(135deg, #0B1220 0%, #111C2E 50%, #0B1220 100%) !important; }
+    .highlight-box { background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.02)) !important; page-break-inside: avoid; }
+    .phone { background: #1a1a2e !important; }
+    .phone-screen { background: #0B1220 !important; }
+    .phone-placeholder { background: linear-gradient(180deg, #0B1220 0%, #111C2E 100%) !important; }
+    .phone-notch { background: #1a1a2e !important; }
+    .phone-homebar { background: rgba(0,0,0,0.2) !important; }
+    .phone-showcase { page-break-inside: avoid; break-inside: avoid; }
+    .phone-text-row { page-break-inside: avoid; break-inside: avoid; }
+    .grid-2, .grid-3 { page-break-inside: avoid; break-inside: avoid; }
+    .gold-bg { background: rgba(255,193,7,0.1) !important; }
+    .blue-bg { background: rgba(59,130,246,0.1) !important; }
+    .green-bg { background: rgba(34,197,94,0.1) !important; }
+    .red-bg { background: rgba(239,68,68,0.1) !important; }
+    .purple-bg { background: rgba(139,92,246,0.1) !important; }
+    .phone:hover { transform: none; }
+    .divider { page-break-after: avoid; }
+    h2, h3 { page-break-after: avoid; break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 1: CAPA COM 3 PHONES -->
+<!-- ════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-badge">Plataforma Premium para Assessores</div>
+  <h1>Global Real</h1>
+  <p>Inteligência imobiliária, curadoria de ativos e ferramentas exclusivas para assessores de investimento de alto nível.</p>
+
+  <!-- 3 phones na capa -->
+  <div class="phone-showcase trio">
+    <!-- Phone 1 — Dashboard -->
+    <div>
+      <div class="phone tilted-left">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE pelo screenshot: <img src="screenshots/dashboard.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">📊</div>
+            <div class="ph-title">Dashboard</div>
+            <div class="ph-desc">Filtros avançados e cards de empreendimentos</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Dashboard<span>Área pública</span></div>
+    </div>
+
+    <!-- Phone 2 — Investimentos (centro, maior) -->
+    <div>
+      <div class="phone large">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/investimentos.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">💰</div>
+            <div class="ph-title">Investimentos</div>
+            <div class="ph-desc">IRR, ROI, Payback, VPL e gráficos</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Investimentos Privados<span>Área premium</span></div>
+    </div>
+
+    <!-- Phone 3 — Fração -->
+    <div>
+      <div class="phone tilted-right">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/fracao.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🏠</div>
+            <div class="ph-title">Fração Imobiliária</div>
+            <div class="ph-desc">Calendário, simulador e benchmark</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Fração Imobiliária<span>Reservas em tempo real</span></div>
+    </div>
+  </div>
+
+  <div class="cover-stats">
+    <div class="cover-stat">
+      <div class="num">2</div>
+      <div class="label">Mercados Globais</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">10+</div>
+      <div class="label">Ferramentas</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">4</div>
+      <div class="label">Idiomas</div>
+    </div>
+    <div class="cover-stat">
+      <div class="num">∞</div>
+      <div class="label">Oportunidades</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 2: SOBRE + PILARES -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Sobre a Plataforma</div>
+  <h2>O que é a Global Real?</h2>
+  <p class="subtitle">Uma plataforma completa que reúne inteligência de mercado, ferramentas de análise e oportunidades de investimento imobiliário — projetada exclusivamente para assessores que atendem investidores de alto patrimônio.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon gold-bg"><span class="gold-text">🎯</span></div>
+      <h3>Curadoria</h3>
+      <p>Seleção estratégica de ativos imobiliários nos mercados de São Paulo e Flórida.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue-bg"><span class="blue-text">📊</span></div>
+      <h3>Estratégia</h3>
+      <p>Planejamento de portfólio com simuladores, calculadoras e benchmarks integrados.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green-bg"><span class="green-text">🧠</span></div>
+      <h3>Inteligência</h3>
+      <p>Dados e análises de mercado em tempo real com métricas proprietárias.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Disponível em 4 idiomas</h3>
+    <p>Português • English • Español • 中文 — Atenda clientes internacionais sem barreiras.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 3: FORMAS DE INVESTIMENTO        -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Formas de Investimento</div>
+  <h2>Oportunidades sob medida</h2>
+  <p class="subtitle">Cada tipo de investimento com sua própria interface, métricas e fluxo — tudo dentro da plataforma.</p>
+
+  <!-- Estoque -->
+  <div class="phone-text-row">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/estoque.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🏷️</div>
+            <div class="ph-title">Estoque</div>
+            <div class="ph-desc">Unidades com preço de liquidação e condições de pagamento</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+    </div>
+    <div class="text-side">
+      <h3>Estoque de Unidades</h3>
+      <p>Acesse unidades disponíveis com preços de liquidação, condições especiais de pagamento e badges de oportunidade. Cada unidade mostra preço original vs. preço promocional, metragem e condições expandíveis.</p>
+      <div>
+        <span class="feature-tag">Preço de liquidação</span>
+        <span class="feature-tag">Condições de pagamento</span>
+        <span class="feature-tag">Badges de status</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- IPO / FIIs -->
+  <div class="phone-text-row reverse">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/ipo.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">📈</div>
+            <div class="ph-title">IPO / FIIs</div>
+            <div class="ph-desc">Scoring proprietário e análise de fundos imobiliários</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+    </div>
+    <div class="text-side">
+      <h3>IPO & Fundos Imobiliários</h3>
+      <p>Sistema de scoring proprietário que avalia FIIs com base em múltiplos critérios: dividend yield, vacância, liquidez, gestão e potencial de valorização. Identifique as melhores oportunidades antes do mercado.</p>
+      <div>
+        <span class="feature-tag">Scoring proprietário</span>
+        <span class="feature-tag">Análise de FIIs</span>
+        <span class="feature-tag">Rankings</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lançamentos -->
+  <div class="phone-text-row">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/lancamentos.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🏗️</div>
+            <div class="ph-title">Lançamentos</div>
+            <div class="ph-desc">Empreendimentos em fase de lançamento com análise completa</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+    </div>
+    <div class="text-side">
+      <h3>Lançamentos Imobiliários</h3>
+      <p>Acompanhe empreendimentos em fase de lançamento com métricas de retorno projetado, localização estratégica e análise de mercado. Dados atualizados em tempo real via integração com incorporadoras.</p>
+      <div>
+        <span class="feature-tag">Retorno projetado</span>
+        <span class="feature-tag">Análise de mercado</span>
+        <span class="feature-tag">Tempo real</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fração Imobiliária -->
+  <div class="phone-text-row reverse">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/fracao.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🏠</div>
+            <div class="ph-title">Fração Imobiliária</div>
+            <div class="ph-desc">Calendário, ocupação e benchmark de rentabilidade</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+    </div>
+    <div class="text-side">
+      <h3>Fração Imobiliária</h3>
+      <p>Simulador completo com calendário de reservas em tempo real, indicadores de ocupação, projeção de valorização e benchmark contra CDI, IPCA e Ibovespa. Inclui cálculo de Alpha e Sharpe Ratio.</p>
+      <div>
+        <span class="feature-tag">Reservas em tempo real</span>
+        <span class="feature-tag">Benchmark</span>
+        <span class="feature-tag">Alpha & Sharpe</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 4: FERRAMENTAS                   -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Ferramentas Exclusivas</div>
+  <h2>Análise e inteligência na palma da mão</h2>
+  <p class="subtitle">Catálogo de produtos, calculadora de investimentos e gestão de leads — tudo integrado.</p>
+
+  <!-- Catálogo + Calculadora -->
+  <div class="phone-showcase">
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/catalogo.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">📋</div>
+            <div class="ph-title">Catálogo SPE</div>
+            <div class="ph-desc">Produtos com retorno alvo, investimento mínimo e status</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Catálogo de Investimentos<span>Produtos SPE curados</span></div>
+    </div>
+
+    <div>
+      <div class="phone large">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/calculadora.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🧮</div>
+            <div class="ph-title">Calculadora</div>
+            <div class="ph-desc">Compare 6 índices: Imóveis, CDI, IPCA, Ibovespa, S&P500, Poupança</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Calculadora de Investimentos<span>Simulação comparativa</span></div>
+    </div>
+
+    <div>
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/analytics.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">📊</div>
+            <div class="ph-title">Analytics</div>
+            <div class="ph-desc">IRR, ROI, Payback, VPL e gráficos de portfólio</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Analytics Privado<span>Métricas avançadas</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Market Leads -->
+  <div class="section-label">Mercados</div>
+  <h2>Gestão de Leads por Mercado</h2>
+  <p class="subtitle">Leads qualificados dos mercados de São Paulo e Flórida, com pipeline de status e informações de contato.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon gold-bg"><span class="gold-text">🇧🇷</span></div>
+      <h3>Mercado São Paulo</h3>
+      <p>Leads de investidores brasileiros interessados em imóveis de alto padrão na região metropolitana de SP.</p>
+      <ul>
+        <li>Avatar e dados de contato</li>
+        <li>Interesse e orçamento em R$</li>
+        <li>Pipeline de status (Novo → Qualificado → Proposta → Fechado)</li>
+        <li>Filtros por região e faixa de investimento</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-icon blue-bg"><span class="blue-text">🇺🇸</span></div>
+      <h3>Mercado Flórida</h3>
+      <p>Leads de investidores internacionais buscando oportunidades no mercado imobiliário da Flórida.</p>
+      <ul>
+        <li>Informações de contato completas</li>
+        <li>Orçamento em US$</li>
+        <li>Pipeline de conversão integrado</li>
+        <li>Segmentação por cidade e tipo de imóvel</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 5: CAPACITAÇÃO + PARCERIA        -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Capacitação</div>
+  <h2>Vídeos, Aulas e Insights</h2>
+  <p class="subtitle">Conteúdo exclusivo para capacitar assessores a vender imóveis como investimento com confiança e autoridade.</p>
+
+  <div class="phone-text-row">
+    <div>
+      <div class="phone large">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/educacao.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🎓</div>
+            <div class="ph-title">Educação</div>
+            <div class="ph-desc">Vídeos, aulas e materiais com thumbnails e categorias</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+    </div>
+    <div class="text-side">
+      <h3>Centro de Conhecimento</h3>
+      <p>Biblioteca de conteúdo com vídeos, aulas e materiais organizados por categoria. Cada item com thumbnail, duração, badge de categoria e descrição. Conteúdo atualizado regularmente para manter o assessor sempre à frente.</p>
+      <div>
+        <span class="feature-tag">Vídeo-aulas</span>
+        <span class="feature-tag">Materiais PDF</span>
+        <span class="feature-tag">Categorias</span>
+        <span class="feature-tag">Atualização contínua</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Parceria</div>
+  <h2>Proposta de Parceria</h2>
+  <p class="subtitle">Após conhecer a plataforma, o assessor pode formalizar interesse em diferentes modelos de parceria.</p>
+
+  <div class="grid-3">
+    <div class="card" style="border-color: rgba(255,193,7,0.3);">
+      <div class="card-icon gold-bg"><span class="gold-text">👑</span></div>
+      <h3>VIP</h3>
+      <p>Acesso completo à plataforma, suporte prioritário e comissões diferenciadas em todos os produtos.</p>
+      <ul>
+        <li>Acesso total à plataforma</li>
+        <li>Suporte prioritário 24/7</li>
+        <li>Comissões premium</li>
+        <li>Leads exclusivos</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(59,130,246,0.3);">
+      <div class="card-icon blue-bg"><span class="blue-text">🧠</span></div>
+      <h3>Mentoria</h3>
+      <p>Programa de mentoria com especialistas do mercado imobiliário para acelerar resultados.</p>
+      <ul>
+        <li>Sessões individuais</li>
+        <li>Estratégias personalizadas</li>
+        <li>Acesso a cases reais</li>
+        <li>Networking exclusivo</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(34,197,94,0.3);">
+      <div class="card-icon green-bg"><span class="green-text">🔍</span></div>
+      <h3>Prospecção</h3>
+      <p>Ferramentas e suporte para prospecção ativa de investidores qualificados.</p>
+      <ul>
+        <li>Base de leads qualificados</li>
+        <li>Scripts de abordagem</li>
+        <li>Funil de conversão</li>
+        <li>Relatórios de performance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Interessado em ser parceiro?</h3>
+    <p>Entre em contato diretamente pela plataforma e receba uma proposta personalizada de acordo com seu perfil e objetivos.</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 6: DASHBOARD PÚBLICO + TECH      -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Dashboard Público</div>
+  <h2>Vitrine inteligente de empreendimentos</h2>
+  <p class="subtitle">O dashboard público é a porta de entrada — filtros avançados, cards interativos e mapa integrado.</p>
+
+  <div class="phone-showcase trio">
+    <div>
+      <div class="phone tilted-left">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/filtros.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🔎</div>
+            <div class="ph-title">Filtros</div>
+            <div class="ph-desc">Hub, tipo, preço, proximidade, capacidade, data de entrega</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Filtros Avançados<span>6 categorias</span></div>
+    </div>
+
+    <div>
+      <div class="phone large">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/cards.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">🏢</div>
+            <div class="ph-title">Cards</div>
+            <div class="ph-desc">Empreendimentos com mapa, preço e detalhes</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Cards de Empreendimentos<span>Google Maps integrado</span></div>
+    </div>
+
+    <div>
+      <div class="phone tilted-right">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <!-- TROQUE: <img src="screenshots/todos_filtros.png"> -->
+          <div class="phone-placeholder">
+            <div class="ph-icon">⚙️</div>
+            <div class="ph-title">Todos os Filtros</div>
+            <div class="ph-desc">Painel completo com todos os critérios de busca</div>
+          </div>
+        </div>
+        <div class="phone-homebar"></div>
+      </div>
+      <div class="phone-label">Painel Completo<span>Busca refinada</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Tecnologia</div>
+  <h2>Stack de ponta</h2>
+
+  <div class="grid-3" style="margin-top: 24px;">
+    <div class="card">
+      <div class="card-icon blue-bg"><span class="blue-text">💙</span></div>
+      <h3>Flutter Web</h3>
+      <p>Interface responsiva e performática com Material Design 3 e animações fluidas.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green-bg"><span class="green-text">⚡</span></div>
+      <h3>Supabase</h3>
+      <p>Backend serverless com autenticação, banco de dados PostgreSQL e Realtime subscriptions.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple-bg"><span class="purple-text">💳</span></div>
+      <h3>Stripe</h3>
+      <p>Pagamentos seguros com gestão de assinaturas e checkout integrado.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-icon gold-bg"><span class="gold-text">🗺️</span></div>
+      <h3>Google Maps</h3>
+      <p>Mapas interativos com localização de empreendimentos e cálculo de proximidade.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon red-bg"><span class="red-text">🌐</span></div>
+      <h3>Internacionalização</h3>
+      <p>Suporte nativo a 4 idiomas com troca instantânea via interface.</p>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top: 40px;">
+    <h3>Pronto para transformar sua assessoria?</h3>
+    <p>A Global Real é a plataforma que faltava para você oferecer inteligência imobiliária de verdade aos seus clientes.</p>
+  </div>
+
+  <div class="footer">
+    <p>Global Real © 2026 — Plataforma de Inteligência Imobiliária</p>
+    <p style="margin-top: 6px;">Documento confidencial. Distribuição restrita a assessores autorizados.</p>
+  </div>
+</div>
+
+</body>
+</html>

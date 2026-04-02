@@ -1,9 +1,13 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  static final _supabase = Supabase.instance.client;
+  static final SupabaseClient _supabase = Supabase.instance.client;
 
-  /// LOGIN REAL
+  // =============================
+  // AUTH
+  // =============================
+
+  /// LOGIN
   static Future<void> login({
     required String email,
     required String password,
@@ -23,14 +27,33 @@ class AuthService {
     await _supabase.auth.signOut();
   }
 
-  /// AUTO-LOGIN
+  /// USUÁRIO LOGADO? (compatível com FutureBuilder)
   static Future<bool> isLoggedIn() async {
     final session = _supabase.auth.currentSession;
     return session != null;
   }
 
-  /// USUÁRIO ATUAL
+  /// ID DO USUÁRIO ATUAL
   static String? currentUserId() {
     return _supabase.auth.currentUser?.id;
+  }
+
+  // =============================
+  // PREMIUM (SUPABASE)
+  // =============================
+
+  /// VERIFICA SE O USUÁRIO É PREMIUM
+  static Future<bool> isPremiumUser() async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) return false;
+
+    final data = await _supabase
+        .from('profiles')
+        .select('is_premium, subscription_status')
+        .eq('id', user.id)
+        .single();
+
+    return data['is_premium'] == true &&
+        data['subscription_status'] == 'active';
   }
 }

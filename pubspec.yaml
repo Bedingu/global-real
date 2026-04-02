@@ -2,16 +2,21 @@ name: global_real
 description: "Global Real - Investimentos Imobiliários"
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
-  sdk: ^3.10.4
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  supabase_flutter: ^2.12.0
-
   flutter:
     sdk: flutter
+
+  table_calendar: ^3.0.9
+  supabase_flutter: ^2.12.0
+  flutter_svg: ^2.0.10
+  url_launcher: ^6.2.6
+  google_maps_flutter: ^2.6.0
+  flutter_dotenv: ^5.1.0
 
   flutter_localizations:
     sdk: flutter
@@ -28,8 +33,13 @@ dependencies:
   # Gráficos financeiros
   fl_chart: ^0.66.0
 
+  # Vídeo
+  video_player: ^2.8.1
+  chewie: ^1.8.0
+
   # Splash screen
   flutter_native_splash: ^2.4.7
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +53,9 @@ flutter:
 
   assets:
     - assets/images/logo_global_real.png
+    - assets/icons/
+    - assets/icons/demand_drivers/
+    - assets/.env
 
 flutter_native_splash:
   color: "#232845"

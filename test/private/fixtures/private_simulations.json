@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Vitacon Venâncio 943",
+    "input": {
+      "initialInvestment": 1000000,
+      "exitValue": 1614499,
+      "monthlyRevenue": 0,
+      "monthlyCosts": 0,
+      "revenueGrowthRateMonthly": 0,
+      "costGrowthRateMonthly": 0,
+      "durationMonths": 36,
+      "discountRateMonthly": 0.01
+    },
+    "expected": {
+      "irrAnnual": 0.171,
+      "roi": 0.614,
+      "paybackMonths": 36
+    }
+  },
+  {
+    "name": "Vitacon Higienópolis",
+    "input": {
+      "initialInvestment": 1000000,
+      "exitValue": 1705255,
+      "monthlyRevenue": 0,
+      "monthlyCosts": 0,
+      "revenueGrowthRateMonthly": 0,
+      "costGrowthRateMonthly": 0,
+      "durationMonths": 36,
+      "discountRateMonthly": 0.01
+    },
+    "expected": {
+      "irrAnnual": 0.206,
+      "roi": 0.705,
+      "paybackMonths": 36
+    }
+  },
+  {
+    "name": "Vitacon Augusta Bela Vista",
+    "input": {
+      "initialInvestment": 1000000,
+      "exitValue": 1829766,
+      "monthlyRevenue": 0,
+      "monthlyCosts": 0,
+      "revenueGrowthRateMonthly": 0,
+      "costGrowthRateMonthly": 0,
+      "durationMonths": 36,
+      "discountRateMonthly": 0.01
+    },
+    "expected": {
+      "irrAnnual": 0.264,
+      "roi": 0.83,
+      "paybackMonths": 36
+    }
+  },
+  {
+    "name": "Vitacon Al Barros 886",
+    "input": {
+      "initialInvestment": 1000000,
+      "exitValue": 1937399,
+      "monthlyRevenue": 0,
+      "monthlyCosts": 0,
+      "revenueGrowthRateMonthly": 0,
+      "costGrowthRateMonthly": 0,
+      "durationMonths": 36,
+      "discountRateMonthly": 0.01
+    },
+    "expected": {
+      "irrAnnual": 0.255,
+      "roi": 0.937,
+      "paybackMonths": 36
+    }
+  },
+  {
+    "name": "Vitacon Jardins",
+    "input": {
+      "initialInvestment": 1000000,
+      "exitValue": 1724202,
+      "monthlyRevenue": 0,
+      "monthlyCosts": 0,
+      "revenueGrowthRateMonthly": 0,
+      "costGrowthRateMonthly": 0,
+      "durationMonths": 36,
+      "discountRateMonthly": 0.01
+    },
+    "expected": {
+      "irrAnnual": 0.226,
+      "roi": 0.724,
+      "paybackMonths": 36
+    }
+  }
+]

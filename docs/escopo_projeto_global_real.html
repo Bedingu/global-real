@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Real — Escopo do Projeto</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #0B1220; color: #fff; line-height: 1.7; }
+
+  .page {
+    max-width: 900px; margin: 0 auto; padding: 60px 48px;
+    page-break-after: always; page-break-inside: avoid;
+    break-after: page; break-inside: avoid; min-height: 100vh;
+  }
+
+  /* CAPA */
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .cover-badge {
+    display: inline-block; padding: 6px 20px; border: 1px solid rgba(255,193,7,0.3);
+    border-radius: 20px; color: #FFC107; font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px;
+  }
+  .cover h1 {
+    font-size: 44px; font-weight: 800; margin-bottom: 16px;
+    background: linear-gradient(135deg, #FFC107, #FFD54F);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .cover .tagline { font-size: 16px; color: rgba(255,255,255,0.45); max-width: 600px; margin-bottom: 48px; }
+  .cover-meta { font-size: 12px; color: rgba(255,255,255,0.25); margin-top: 40px; }
+
+  /* SEÇÕES */
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #FFC107; margin-bottom: 6px;
+  }
+  h2 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: #FFC107; }
+  .subtitle { font-size: 14px; color: rgba(255,255,255,0.4); margin-bottom: 28px; }
+
+  .module {
+    background: #111C2E; border: 1px solid #1F2A44; border-radius: 12px;
+    padding: 20px 24px; margin-bottom: 14px;
+    page-break-inside: avoid; break-inside: avoid;
+  }
+  .module h3 { margin-bottom: 8px; }
+  .module p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+  .module ul { list-style: none; margin-top: 8px; }
+  .module ul li {
+    font-size: 12px; color: rgba(255,255,255,0.55); padding: 3px 0 3px 18px; position: relative;
+  }
+  .module ul li::before { content: "→"; position: absolute; left: 0; color: #FFC107; }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.02));
+    border: 1px solid rgba(255,193,7,0.2); border-radius: 14px;
+    padding: 24px 28px; margin: 28px 0; text-align: center;
+  }
+  .highlight-box h3 { font-size: 20px; margin-bottom: 6px; }
+  .highlight-box p { font-size: 13px; color: rgba(255,255,255,0.4); }
+
+  .divider { height: 1px; background: #1F2A44; margin: 32px 0; }
+
+  .tech-badge {
+    display: inline-block; padding: 5px 14px; margin: 4px;
+    background: rgba(255,193,7,0.08); border: 1px solid rgba(255,193,7,0.15);
+    border-radius: 8px; font-size: 12px; color: #FFC107; font-weight: 600;
+  }
+
+  .footer { text-align: center; padding: 40px 0 20px; color: rgba(255,255,255,0.2); font-size: 11px; }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    @page { margin: 0; size: A4; }
+    body { background: #0B1220 !important; }
+    .page { background: #0B1220 !important; padding: 40px 36px; min-height: 297mm; }
+    .module { background: #111C2E !important; border-color: #1F2A44 !important; }
+    .highlight-box { background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,193,7,0.02)) !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 1: CAPA                          -->
+<!-- ════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-badge">Documento de Escopo do Projeto</div>
+  <h1>Global Real</h1>
+  <p class="tagline">Plataforma de inteligência imobiliária para assessores de investimento de alto nível — do conceito à publicação nas lojas de aplicativos.</p>
+
+  <div style="display: flex; gap: 40px; margin-top: 32px;">
+    <div style="text-align: center;">
+      <div style="font-size: 32px; font-weight: 800; color: #FFC107;">12+</div>
+      <div style="font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px;">Módulos</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 32px; font-weight: 800; color: #FFC107;">4</div>
+      <div style="font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px;">Idiomas</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 32px; font-weight: 800; color: #FFC107;">2</div>
+      <div style="font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px;">Mercados</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 32px; font-weight: 800; color: #FFC107;">5</div>
+      <div style="font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px;">Integrações</div>
+    </div>
+  </div>
+
+  <div class="cover-meta">
+    <p>Março 2026 • Versão 1.0</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 2: VISÃO GERAL                   -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Visão Geral</div>
+  <h2>O que foi construído</h2>
+  <p class="subtitle">A Global Real é uma plataforma completa que combina inteligência de mercado, ferramentas de análise financeira e gestão de oportunidades imobiliárias — projetada para assessores que atendem investidores de alto patrimônio nos mercados de São Paulo e Flórida.</p>
+
+  <div class="module">
+    <h3>🎯 Objetivo do Projeto</h3>
+    <p>Criar uma plataforma SaaS premium que centralize todas as ferramentas necessárias para um assessor de investimentos imobiliários operar com excelência: desde a prospecção de oportunidades até a capacitação profissional, passando por análise financeira avançada e gestão de leads.</p>
+  </div>
+
+  <div class="module">
+    <h3>👥 Público-Alvo</h3>
+    <p>Assessores de investimento que atendem clientes de alto patrimônio, interessados em diversificação via ativos imobiliários nos mercados brasileiro e americano.</p>
+  </div>
+
+  <div class="module">
+    <h3>💰 Modelo de Negócio</h3>
+    <p>Assinatura premium via Stripe com área pública gratuita (vitrine de empreendimentos) e área privada exclusiva para assinantes (ferramentas, análises, leads e capacitação).</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Arquitetura</div>
+  <h2>Stack Tecnológico</h2>
+  <p class="subtitle">Tecnologias de ponta escolhidas para performance, escalabilidade e experiência premium.</p>
+
+  <div style="text-align: center; margin: 20px 0;">
+    <span class="tech-badge">Flutter Web</span>
+    <span class="tech-badge">Dart</span>
+    <span class="tech-badge">Supabase (PostgreSQL)</span>
+    <span class="tech-badge">Supabase Auth</span>
+    <span class="tech-badge">Supabase Realtime</span>
+    <span class="tech-badge">Stripe Payments</span>
+    <span class="tech-badge">Google Maps API</span>
+    <span class="tech-badge">Material Design 3</span>
+    <span class="tech-badge">Flutter Localizations (i18n)</span>
+    <span class="tech-badge">FL Chart</span>
+    <span class="tech-badge">Video Player / Chewie</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 3: ÁREA PÚBLICA                  -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Módulo 1</div>
+  <h2>Área Pública — Dashboard de Empreendimentos</h2>
+  <p class="subtitle">Vitrine inteligente acessível sem login, projetada para atrair e converter assessores em assinantes.</p>
+
+  <div class="module">
+    <h3>🏠 Home Page Institucional</h3>
+    <p>Página de entrada com branding premium, apresentação da plataforma, cards de funcionalidades e CTAs para cadastro/login.</p>
+    <ul>
+      <li>Design dark/gold com identidade visual premium</li>
+      <li>Seletor de idioma (4 idiomas) integrado no header</li>
+      <li>Botões de Login e Cadastro conectados ao fluxo de autenticação</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>📊 Dashboard com Filtros Avançados</h3>
+    <p>Painel principal com cards de empreendimentos e sistema de filtros sofisticado.</p>
+    <ul>
+      <li>Filtro por Hub (São Paulo, Miami, Orlando, Rio de Janeiro)</li>
+      <li>Filtro por Tipo de Imóvel (Residencial, Comercial, Misto, Terreno)</li>
+      <li>Filtro por Faixa de Preço com slider de range</li>
+      <li>Filtro por Proximidade (metrô, praia, aeroporto, etc.)</li>
+      <li>Filtro por Capacidade (quartos)</li>
+      <li>Filtro por Data de Entrega</li>
+      <li>Painel "Todos os Filtros" com todos os critérios combinados</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>🏢 Cards de Empreendimentos</h3>
+    <p>Cards compactos e proporcionais com informações essenciais de cada empreendimento.</p>
+    <ul>
+      <li>Imagem do Google Maps com localização real</li>
+      <li>Nome, endereço, preço, metragem e quartos</li>
+      <li>Badge de status (Lançamento, Em Obras, Pronto)</li>
+      <li>Layout responsivo e otimizado para performance</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>🔐 Autenticação e Cadastro</h3>
+    <p>Fluxo completo de autenticação integrado com Supabase Auth.</p>
+    <ul>
+      <li>Página de Login com branding premium</li>
+      <li>Página de Cadastro (Sign Up) com validação</li>
+      <li>Persistência de sessão via SharedPreferences</li>
+      <li>Paywall modal para funcionalidades premium</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 4: ÁREA PRIVADA — INVESTIMENTOS  -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Módulo 2</div>
+  <h2>Área Privada — Painel do Assessor</h2>
+  <p class="subtitle">Área exclusiva para assinantes com sidebar navegável organizada em 5 seções temáticas.</p>
+
+  <div class="module">
+    <h3>📈 Analytics de Investimentos</h3>
+    <p>Dashboard analítico com métricas financeiras avançadas do portfólio.</p>
+    <ul>
+      <li>IRR (Taxa Interna de Retorno) com cálculo proprietário</li>
+      <li>ROI, VPL (Valor Presente Líquido) e Payback</li>
+      <li>Gráficos interativos com FL Chart</li>
+      <li>Visão consolidada do portfólio</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>🏗️ Lançamentos Imobiliários</h3>
+    <p>Acompanhamento de empreendimentos em fase de lançamento com dados em tempo real.</p>
+    <ul>
+      <li>Métricas de retorno projetado</li>
+      <li>Localização estratégica e análise de mercado</li>
+      <li>Integração com dados de incorporadoras</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>🏷️ Estoque de Unidades</h3>
+    <p>Gestão de unidades disponíveis com preços de liquidação e condições especiais.</p>
+    <ul>
+      <li>Preço original vs. preço promocional com visual de desconto</li>
+      <li>Badges de oportunidade (Liquidação, Última Unidade, etc.)</li>
+      <li>Condições de pagamento expandíveis por unidade</li>
+      <li>Metragem, tipologia e status de cada unidade</li>
+      <li>Tabela Supabase: stock_items</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>📈 IPO & Fundos Imobiliários (FIIs)</h3>
+    <p>Sistema de scoring proprietário para avaliação de FIIs.</p>
+    <ul>
+      <li>Análise multi-critério: dividend yield, vacância, liquidez, gestão</li>
+      <li>Rankings e comparativos entre fundos</li>
+      <li>Potencial de valorização calculado</li>
+      <li>Interface integrada ao painel privado</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 5: FRAÇÃO + FERRAMENTAS          -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Módulo 3</div>
+  <h2>Fração Imobiliária & Ferramentas</h2>
+  <p class="subtitle">Simuladores avançados, catálogo de produtos e calculadora comparativa de investimentos.</p>
+
+  <div class="module">
+    <h3>🏠 Fração Imobiliária</h3>
+    <p>Módulo completo de simulação e análise de frações imobiliárias com dados em tempo real via Supabase Realtime.</p>
+    <ul>
+      <li>Seleção de propriedades com detalhes e imagens</li>
+      <li>Calendário interativo com indicadores coloridos por dia (reservado, disponível, manutenção)</li>
+      <li>Gauges circulares de taxa de ocupação</li>
+      <li>Sliders gold-themed para simulação de valorização</li>
+      <li>Benchmark contra CDI, IPCA e Ibovespa</li>
+      <li>Cálculo de Alpha e Sharpe Ratio com badges visuais</li>
+      <li>CTA com resumo da seleção e valores</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>📋 Catálogo de Investimentos (SPE)</h3>
+    <p>Vitrine de produtos de investimento estruturado com métricas de retorno.</p>
+    <ul>
+      <li>Gráficos de barras comparando retorno alvo vs. retorno proposto</li>
+      <li>Investimento mínimo, prazo e status de cada produto</li>
+      <li>Badges de status (Aberto, Em Captação, Encerrado)</li>
+      <li>Tabela Supabase: investment_catalog</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>🧮 Calculadora de Investimentos</h3>
+    <p>Simulador comparativo que projeta retornos em 6 índices diferentes.</p>
+    <ul>
+      <li>Sliders para valor inicial (R$ 10k a R$ 2M) e período (1 a 30 anos)</li>
+      <li>Gráfico de linhas comparando: Imóveis, CDI, IPCA+, Ibovespa, S&P 500, Poupança</li>
+      <li>Tabela de resultados com valor final e rentabilidade por índice</li>
+      <li>Atualização em tempo real conforme ajuste dos sliders</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Módulo 4</div>
+  <h2>Gestão de Leads por Mercado</h2>
+  <p class="subtitle">Pipeline de leads qualificados segmentado por mercado geográfico.</p>
+
+  <div class="grid-2">
+    <div class="module">
+      <h3>🇧🇷 Mercado São Paulo</h3>
+      <ul>
+        <li>Leads com avatar, contato e interesse</li>
+        <li>Orçamento em R$</li>
+        <li>Pipeline: Novo → Qualificado → Proposta → Fechado</li>
+        <li>Filtros por região e faixa</li>
+      </ul>
+    </div>
+    <div class="module">
+      <h3>🇺🇸 Mercado Flórida</h3>
+      <ul>
+        <li>Leads internacionais com contato completo</li>
+        <li>Orçamento em US$</li>
+        <li>Pipeline de conversão integrado</li>
+        <li>Segmentação por cidade e tipo</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size: 11px; color: rgba(255,255,255,0.3); text-align: center;">Tabela Supabase: market_leads</p>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 6: CAPACITAÇÃO + PARCERIA        -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Módulo 5</div>
+  <h2>Capacitação & Parceria</h2>
+  <p class="subtitle">Conteúdo educacional e modelos de parceria para engajamento e retenção de assessores.</p>
+
+  <div class="module">
+    <h3>🎓 Vídeos, Aulas e Insights</h3>
+    <p>Centro de conhecimento com conteúdo exclusivo para capacitação do assessor.</p>
+    <ul>
+      <li>Grid de conteúdos com thumbnails e categorias</li>
+      <li>Badges de tipo (Vídeo, Artigo, PDF, Webinar)</li>
+      <li>Duração e descrição de cada item</li>
+      <li>Player de vídeo integrado (Video Player + Chewie)</li>
+      <li>Tabela Supabase: education_content</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>🤝 Proposta de Parceria</h3>
+    <p>Área para formalização de interesse em diferentes modelos de parceria.</p>
+    <ul>
+      <li>Seção "A quem se destina?" com perfis de assessor</li>
+      <li>3 modelos de parceria: VIP, Mentoria e Prospecção</li>
+      <li>Cards detalhados com benefícios de cada modelo</li>
+      <li>CTA gold-themed para envio de proposta</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Módulo 6</div>
+  <h2>Internacionalização (i18n)</h2>
+  <p class="subtitle">Suporte completo a 4 idiomas em toda a plataforma.</p>
+
+  <div class="module">
+    <h3>🌐 4 Idiomas Nativos</h3>
+    <p>Toda a interface, filtros, modais, labels e mensagens traduzidos via Flutter Localizations.</p>
+    <ul>
+      <li>🇧🇷 Português (pt) — idioma principal</li>
+      <li>🇺🇸 English (en)</li>
+      <li>🇪🇸 Español (es)</li>
+      <li>🇨🇳 中文 (zh)</li>
+      <li>Seletor de idioma via PopupMenuButton no header</li>
+      <li>Arquivos ARB com 100+ chaves de tradução cada</li>
+      <li>Troca instantânea sem reload da página</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Módulo 7</div>
+  <h2>Pagamentos & Assinatura</h2>
+  <p class="subtitle">Integração completa com Stripe para gestão de assinaturas premium.</p>
+
+  <div class="module">
+    <h3>💳 Stripe Integration</h3>
+    <ul>
+      <li>Checkout Session via Stripe para assinatura</li>
+      <li>Página de sucesso pós-pagamento</li>
+      <li>Página de cancelamento</li>
+      <li>Paywall modal premium com design gold/dark</li>
+      <li>Verificação de status de assinatura no login</li>
+      <li>Botões de upgrade no dashboard com ícone de coroa</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PÁGINA 7: INFRAESTRUTURA + ENTREGÁVEIS  -->
+<!-- ════════════════════════════════════════ -->
+<div class="page">
+  <div class="section-label">Infraestrutura</div>
+  <h2>Backend & Banco de Dados</h2>
+  <p class="subtitle">Toda a infraestrutura de dados construída sobre Supabase (PostgreSQL).</p>
+
+  <div class="module">
+    <h3>🗄️ Tabelas Criadas no Supabase</h3>
+    <ul>
+      <li>profiles — perfis de usuário e status de assinatura</li>
+      <li>stock_items — estoque de unidades com preços e condições</li>
+      <li>education_content — conteúdo educacional (vídeos, artigos, PDFs)</li>
+      <li>investment_catalog — catálogo de produtos SPE</li>
+      <li>market_leads — leads qualificados por mercado (SP e FL)</li>
+    </ul>
+  </div>
+
+  <div class="module">
+    <h3>⚡ Funcionalidades do Supabase Utilizadas</h3>
+    <ul>
+      <li>Supabase Auth — autenticação com email/senha</li>
+      <li>Supabase Database — PostgreSQL gerenciado</li>
+      <li>Supabase Realtime — subscriptions para Fração Imobiliária</li>
+      <li>Row Level Security (RLS) — segurança por linha</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">Entregáveis</div>
+  <h2>O que foi entregue</h2>
+
+  <div class="grid-2">
+    <div class="module">
+      <h3>📱 Aplicação</h3>
+      <ul>
+        <li>App Flutter Web funcional</li>
+        <li>Build Android (.aab) para Google Play</li>
+        <li>Código-fonte completo e documentado</li>
+        <li>Configuração de assinatura de release</li>
+      </ul>
+    </div>
+    <div class="module">
+      <h3>🗄️ Backend</h3>
+      <ul>
+        <li>5 tabelas SQL criadas no Supabase</li>
+        <li>Scripts SQL versionados</li>
+        <li>Autenticação configurada</li>
+        <li>Realtime subscriptions ativas</li>
+      </ul>
+    </div>
+    <div class="module">
+      <h3>📄 Documentação</h3>
+      <ul>
+        <li>Material comercial HTML (v1 e v2)</li>
+        <li>Documento de escopo do projeto</li>
+        <li>Scripts SQL documentados</li>
+      </ul>
+    </div>
+    <div class="module">
+      <h3>🚀 Publicação</h3>
+      <ul>
+        <li>Conta Google Play Console configurada</li>
+        <li>Keystore de assinatura gerada</li>
+        <li>Build de release configurado</li>
+        <li>Preparação para Apple App Store</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Plataforma pronta para operação</h3>
+    <p>Todos os módulos desenvolvidos, testados e integrados. Backend configurado, pagamentos integrados e builds de publicação preparados.</p>
+  </div>
+
+  <div class="footer">
+    <p>Global Real © 2026 — Documento de Escopo do Projeto</p>
+    <p style="margin-top: 6px;">Confidencial. Uso interno.</p>
+  </div>
+</div>
+
+</body>
+</html>
