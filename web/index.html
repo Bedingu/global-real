@@ -113,5 +113,17 @@
   
   <script src="flutter_bootstrap.js" async=""></script>
 
+<!-- Cookie Banner -->
+<div id="cookieBanner" style="position:fixed;bottom:0;left:0;right:0;background:#111827;border-top:1px solid rgba(255,255,255,0.1);padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;z-index:99999;font-family:'Segoe UI',sans-serif;font-size:0.82rem;">
+  <p style="color:rgba(255,255,255,0.7);max-width:600px;margin:0;">🍪 Utilizamos cookies essenciais para funcionamento e opcionais para melhorar sua experiência. <a href="privacidade.html" target="_blank" style="color:#60A5FA;text-decoration:underline;">Política de Privacidade</a></p>
+  <div style="display:flex;gap:8px;flex-shrink:0;">
+    <button onclick="handleCookies('reject')" style="padding:7px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:white;font-size:0.78rem;font-weight:600;cursor:pointer;">Rejeitar Opcionais</button>
+    <button onclick="handleCookies('accept')" style="padding:7px 16px;border-radius:8px;border:none;background:#F59E0B;color:#000;font-size:0.78rem;font-weight:600;cursor:pointer;">Aceitar Todos</button>
+  </div>
+</div>
+<script>
+function handleCookies(c){localStorage.setItem('cookie_consent',c);document.getElementById('cookieBanner').style.display='none';}
+if(localStorage.getItem('cookie_consent')){document.getElementById('cookieBanner').style.display='none';}
+</script>
 
 </body></html>

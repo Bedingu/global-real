@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Real — Baixe o App</title>
+<meta name="description" content="Global Real - Plataforma de Investimentos Imobiliários com IA. Em breve na Google Play e App Store.">
+<meta property="og:title" content="Global Real — Baixe o App">
+<meta property="og:description" content="Plataforma de Investimentos Imobiliários com IA. São Paulo e Florida em um único app.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://global-real-rho.vercel.app/download.html">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(160deg, #232845 0%, #0F172A 60%, #0c1425 100%);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .container {
+    text-align: center;
+    padding: 40px 24px;
+    max-width: 500px;
+  }
+  .logo { font-size: 3rem; margin-bottom: 8px; }
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .tagline {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+  .coming-soon {
+    display: inline-block;
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 8px 24px;
+    border-radius: 24px;
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+  }
+  .date {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 36px;
+    opacity: 0.9;
+  }
+  .date span {
+    background: rgba(255,255,255,0.1);
+    padding: 6px 16px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  /* Email form */
+  .email-section {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 36px;
+  }
+  .email-section h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .email-section p {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-bottom: 16px;
+  }
+  .email-form {
+    display: flex;
+    gap: 8px;
+  }
+  .email-form input[type="email"] {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .email-form input[type="email"]::placeholder {
+    color: rgba(255,255,255,0.4);
+  }
+  .email-form input[type="email"]:focus {
+    border-color: #F59E0B;
+  }
+  .email-form button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    white-space: nowrap;
+  }
+  .email-form button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  .email-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .form-msg {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    min-height: 20px;
+  }
+  .form-msg.success { color: #34D399; }
+  .form-msg.error { color: #F87171; }
+
+  /* Stores */
+  .stores {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .store-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 12px 24px;
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+  .store-btn:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+  .store-btn .store-icon { font-size: 1.5rem; }
+  .store-btn .store-text { text-align: left; }
+  .store-btn .store-label { font-size: 0.65rem; opacity: 0.7; display: block; }
+  .store-btn .store-name { font-weight: 700; font-size: 0.95rem; }
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 auto 28px;
+  }
+  .features {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .feature {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .linkedin-link {
+    display: inline-block;
+    color: #60A5FA;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-top: 16px;
+    padding: 8px 20px;
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .linkedin-link:hover { background: rgba(96,165,250,0.1); }
+  .footer-text {
+    margin-top: 36px;
+    font-size: 0.75rem;
+    opacity: 0.35;
+  }
+  @media (max-width: 480px) {
+    .email-form { flex-direction: column; }
+  }
+
+  /* Cookie banner */
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111827;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    z-index: 9999;
+    font-size: 0.85rem;
+  }
+  .cookie-banner.hidden { display: none; }
+  .cookie-banner p {
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+  }
+  .cookie-banner a {
+    color: #60A5FA;
+    text-decoration: underline;
+  }
+  .cookie-btns {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .cookie-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .cookie-btn:hover { opacity: 0.85; }
+  .cookie-btn.accept {
+    background: #F59E0B;
+    color: #000;
+  }
+  .cookie-btn.reject {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">🏢</div>
+  <h1>Global Real</h1>
+  <p class="tagline">
+    Plataforma de Investimentos Imobiliários<br>com Inteligência Artificial
+  </p>
+
+  <div class="coming-soon">EM BREVE</div>
+
+  <div class="date">
+    <span>📅 Lançamento: 27 de Abril de 2026</span>
+  </div>
+
+  <!-- Email capture -->
+  <div class="email-section">
+    <h2>🔔 Seja o primeiro a saber</h2>
+    <p>Receba um aviso quando o app estiver disponível</p>
+    <form class="email-form" id="emailForm" onsubmit="return handleSubmit(event)">
+      <input type="email" id="emailInput" placeholder="seu@email.com" required>
+      <button type="submit" id="submitBtn">Avisar-me</button>
+    </form>
+    <div class="form-msg" id="formMsg"></div>
+  </div>
+
+  <div class="stores">
+    <a href="#" class="store-btn" onclick="event.preventDefault(); alert('Em breve disponível na Google Play! Lançamento: 27/04/2026')">
+      <span class="store-icon">▶️</span>
+      <span class="store-text">
+        <span class="store-label">Disponível no</span>
+        <span class="store-name">Google Play</span>
+      </span>
+    </a>
+    <a href="#" class="store-btn" onclick="event.preventDefault(); alert('Em breve disponível na App Store! Lançamento: 27/04/2026')">
+      <span class="store-icon">🍎</span>
+      <span class="store-text">
+        <span class="store-label">Disponível na</span>
+        <span class="store-name">App Store</span>
+      </span>
+    </a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="features">
+    <div class="feature"><span class="feature-icon">🤖</span> IA Integrada</div>
+    <div class="feature"><span class="feature-icon">🇧🇷</span> São Paulo</div>
+    <div class="feature"><span class="feature-icon">🇺🇸</span> Florida</div>
+    <div class="feature"><span class="feature-icon">🌍</span> 4 Idiomas</div>
+  </div>
+
+  <a href="https://www.linkedin.com/company/112828003/" class="linkedin-link" target="_blank" rel="noopener">
+    Siga no LinkedIn →
+  </a>
+
+  <p class="footer-text">© 2025 Global Real. Todos os direitos reservados.</p>
+</div>
+
+<!-- Cookie Banner -->
+<div class="cookie-banner" id="cookieBanner">
+  <p>🍪 Utilizamos cookies essenciais para funcionamento e opcionais para melhorar sua experiência.
+    <a href="privacidade.html" target="_blank">Política de Privacidade</a>
+  </p>
+  <div class="cookie-btns">
+    <button class="cookie-btn reject" onclick="handleCookies('reject')">Rejeitar Opcionais</button>
+    <button class="cookie-btn accept" onclick="handleCookies('accept')">Aceitar Todos</button>
+  </div>
+</div>
+
+<script>
+  // Cookie consent
+  function handleCookies(choice) {
+    localStorage.setItem('cookie_consent', choice);
+    document.getElementById('cookieBanner').classList.add('hidden');
+  }
+  if (localStorage.getItem('cookie_consent')) {
+    document.getElementById('cookieBanner').classList.add('hidden');
+  }
+</script>
+
+<script>
+  var SUPABASE_URL = "https://pcbwbndrnnqptxdbrqnm.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjYndibmRybm5xcHR4ZGJycW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxNTU1MjAsImV4cCI6MjA4MTczMTUyMH0.Sw5hgfkUHbLyAcTUwltrb_AH3Jg17m-LCcC_Ou6QtbE";
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    var email = document.getElementById("emailInput").value.trim();
+    var btn = document.getElementById("submitBtn");
+    var msg = document.getElementById("formMsg");
+
+    if (!email) return false;
+
+    btn.disabled = true;
+    btn.textContent = "Enviando...";
+    msg.textContent = "";
+    msg.className = "form-msg";
+
+    try {
+      var res = await fetch(SUPABASE_URL + "/rest/v1/email_subscribers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify({
+          email: email,
+          source: "landing_page",
+          language: navigator.language || "pt"
+        })
+      });
+
+      if (res.ok || res.status === 201) {
+        msg.textContent = "✅ Pronto! Você será avisado no lançamento.";
+        msg.className = "form-msg success";
+        document.getElementById("emailInput").value = "";
+      } else if (res.status === 409) {
+        msg.textContent = "📧 Este email já está cadastrado!";
+        msg.className = "form-msg success";
+      } else {
+        throw new Error("Status: " + res.status);
+      }
+    } catch (err) {
+      msg.textContent = "❌ Erro ao cadastrar. Tente novamente.";
+      msg.className = "form-msg error";
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Avisar-me";
+    return false;
+  }
+</script>
+</body>
+</html>

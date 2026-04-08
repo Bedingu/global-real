@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code — Global Real</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #232845;
+    margin: 0;
+  }
+  .wrapper {
+    text-align: center;
+    background: white;
+    padding: 48px;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+  h2 { color: #232845; margin-bottom: 8px; font-size: 1.5rem; }
+  .sub { color: #6B7280; font-size: 0.9rem; margin-bottom: 24px; }
+  #qr { margin: 0 auto 16px; }
+  .url {
+    font-size: 0.75rem;
+    color: #9CA3AF;
+    word-break: break-all;
+    margin-bottom: 20px;
+  }
+  .download-btn {
+    display: inline-block;
+    background: #232845;
+    color: white;
+    padding: 10px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .download-btn:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <h2>🏢 Global Real</h2>
+  <p class="sub">Escaneie para baixar o app</p>
+  <div id="qr"></div>
+  <div class="url">https://global-real-rho.vercel.app/download.html</div>
+  <a href="https://global-real-rho.vercel.app/download.html" class="download-btn">
+    Acessar página de download →
+  </a>
+</div>
+<script>
+(function(){
+  var url = "https://global-real-rho.vercel.app/download.html";
+  var size = 280;
+  var img = document.createElement('img');
+  img.src = "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "x" + size + "&data=" + encodeURIComponent(url) + "&color=232845&bgcolor=FFFFFF&margin=1";
+  img.alt = "QR Code - Global Real";
+  img.width = size;
+  img.height = size;
+  img.style.borderRadius = "12px";
+  img.style.display = "block";
+  img.style.margin = "0 auto";
+  img.onerror = function() {
+    document.getElementById('qr').innerHTML = '<div style="width:280px;height:280px;display:flex;align-items:center;justify-content:center;background:#F3F4F6;border-radius:12px;margin:0 auto;"><p style="color:#6B7280;font-size:0.85rem;">QR indisponível. Use o link abaixo.</p></div>';
+  };
+  document.getElementById('qr').appendChild(img);
+})();
+</script>
+</body>
+</html>

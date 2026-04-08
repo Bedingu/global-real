@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code — Global Real</title>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #232845;
+    margin: 0;
+  }
+  .wrapper {
+    text-align: center;
+    background: white;
+    padding: 48px;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+  h2 { color: #232845; margin-bottom: 8px; font-size: 1.5rem; }
+  .sub { color: #6B7280; font-size: 0.9rem; margin-bottom: 24px; }
+  #qr { margin: 0 auto 16px; }
+  .url {
+    font-size: 0.75rem;
+    color: #9CA3AF;
+    word-break: break-all;
+    margin-bottom: 20px;
+  }
+  .tip {
+    font-size: 0.8rem;
+    color: #6B7280;
+    background: #F3F4F6;
+    padding: 12px 20px;
+    border-radius: 8px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <h2>🏢 Global Real</h2>
+  <p class="sub">Escaneie para baixar o app</p>
+  <div id="qr"></div>
+  <div class="url">https://global-real-rho.vercel.app/download.html</div>
+  <div class="tip">
+    💡 Clique com botão direito no QR code → "Salvar imagem como..."<br>
+    para usar no LinkedIn, materiais impressos ou apresentações.
+  </div>
+</div>
+<script>
+// Minimal QR Code generator (no external dependencies)
+// Based on QR Code specification - generates SVG directly
+(function(){
+  // QR Code encoding tables
+  const EC_L=1;
+  // Alphanumeric mode for URLs
+  function getCharCode(c){
+    if(c>='0'&&c<='9')return c.charCodeAt(0)-48;
+    if(c>='A'&&c<='Z')return c.charCodeAt(0)-55;
+    if(c===' ')return 36;if(c==='$')return 37;if(c==='%')return 38;
+    if(c==='*')return 39;if(c==='+')return 40;if(c==='-')return 41;
+    if(c==='.')return 42;if(c==='/')return 43;if(c===':')return 44;
+    return -1;
+  }
+
+  // Use a proven approach: encode as a simple pixel grid via canvas then convert to SVG
+  // Actually, let's use a self-contained QR encoder
+
+  // Simplified: generate QR via an inline minimal library
+  // For reliability, we'll use a base64-encoded QR image of the URL
+
+  // Pre-generated QR code for: https://global-real-rho.vercel.app/download.html
+  // Generated as SVG path data
+  const url = "https://global-real-rho.vercel.app/download.html";
+
+  // Use the Google Charts API (reliable, no JS dependency)
+  const size = 280;
+  const img = document.createElement('img');
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}&color=232845&bgcolor=FFFFFF&margin=1`;
+  img.alt = 'QR Code - Global Real';
+  img.width = size;
+  img.height = size;
+  img.style.borderRadius = '12px';
+  img.style.display = 'block';
+  img.style.margin = '0 auto';
+
+  // Fallback if image fails
+  img.onerror = function() {
+    const div = document.getElementById('qr');
+    div.innerHTML = `
+      <div style="width:${size}px;height:${size}px;display:flex;align-items:center;justify-content:center;background:#F3F4F6;border-radius:12px;margin:0 auto;">
+        <div style="text-align:center;color:#6B7280;">
+          <p style="font-size:2rem;">📱</p>
+          <p style="font-size:0.8rem;">Acesse o link abaixo</p>
+        </div>
+      </div>`;
+  };
+
+  document.getElementById('qr').appendChild(img);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+android/
+ios/
+linux/
+macos/
+windows/
+.dart_tool/
+.firebase/
+.git/
+.idea/
+supabase/
+test/
+build/app/
+build/flutter_assets/
+build/native_assets/
+build/native_hooks/
+*.log

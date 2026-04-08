@@ -22,10 +22,7 @@ class AuthService {
     }
   }
 
-  /// LOGOUT
-  static Future<void> logout() async {
-    await _supabase.auth.signOut();
-  }
+  /// LOGOUT — veja abaixo (com limpeza de cache)
 
   /// USUÁRIO LOGADO? (compatível com FutureBuilder)
   static Future<bool> isLoggedIn() async {
@@ -55,5 +52,40 @@ class AuthService {
 
     return data['is_premium'] == true &&
         data['subscription_status'] == 'active';
+  }
+
+  // =============================
+  // ROLE (MASTER / ADVISOR / USER)
+  // =============================
+
+  static String? _cachedRole;
+
+  /// Buscar role do usuário atual
+  static Future<String> getUserRole() async {
+    if (_cachedRole != null) return _cachedRole!;
+
+    final user = _supabase.auth.currentUser;
+    if (user == null) return 'user';
+
+    try {
+      final data = await _supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+      _cachedRole = data['role'] as String? ?? 'user';
+    } catch (_) {
+      _cachedRole = 'user';
+    }
+    return _cachedRole!;
+  }
+
+  static bool get isMaster => _cachedRole == 'master';
+  static bool get isAdvisor => _cachedRole == 'advisor' || _cachedRole == 'master';
+
+  /// Limpar cache ao fazer logout
+  static Future<void> logout() async {
+    _cachedRole = null;
+    await _supabase.auth.signOut();
   }
 }
