@@ -351,12 +351,21 @@ toda la historia. También necesitas TIR, payback y valorización.
 
 ## Calendário Sugerido (Primeiras 4 Semanas)
 
-| Semana | Seg | Qua | Sex |
-|--------|-----|-----|-----|
-| 1 | Post 1 (Lançamento) | Post 2 (Dois Mercados) | Post 3 (Fração) |
-| 2 | Post 4 (Calculadora) | Post 5 (Short-Term Rental) | Post 6 (Gestão de Leads) |
-| 3 | Post 7 (Investir em Dólar) | Post 8 (ROI) | Novo post (tendência) |
-| 4 | Novo post (case/depoimento) | Novo post (mercado SP) | Novo post (mercado Florida) |
+| Data | Dia | Post | Status |
+|------|-----|------|--------|
+| 06/04 (dom) | Domingo | Post 1 — Lançamento / Apresentação | ✅ Publicado |
+| 08/04 (ter) | Terça | INT-1 — Brazilian Real Estate: Why Foreign Investors Are Paying Attention (inglês) | 📅 Agendado |
+| 10/04 (qui) | Quinta | Post 2 — Dois Mercados: SP e Florida | 📅 |
+| 14/04 (seg) | Segunda | Post 3 — Fração Imobiliária | 📅 |
+| 15/04 (ter) | Terça | INT-2 — How to Invest in Brazilian Real Estate as a Foreigner (inglês) | 📅 |
+| 17/04 (qui) | Quinta | Post 4 — Calculadora de Investimentos | 📅 |
+| 21/04 (seg) | Segunda | Post 5 — Short-Term Rental | 📅 |
+| 22/04 (ter) | Terça | INT-3 — São Paulo vs Orlando: Investment Comparison (inglês) | 📅 |
+| 24/04 (qui) | Quinta | Post 6 — Gestão de Leads para Assessores | 📅 |
+| 27/04 (dom) | Domingo | 🚀 Lançamento oficial — Google Play e App Store | 📅 |
+| 28/04 (seg) | Segunda | Post 7 — Investir em Dólar | 📅 |
+| 29/04 (ter) | Terça | INT-4 — Fractional Real Estate: Invest from $30K (inglês) | 📅 |
+| 01/05 (qui) | Quinta | Post 8 — ROI: O que é e por que importa | 📅 |
 
 ---
 
@@ -588,3 +597,5 @@ investors. Would love to connect and share insights.
 | Terça | Post internacional com dados | 100% Inglês |
 | Quinta | Post educação/oportunidade | PT + EN/ES/ZH |
 | Diário | 10-15 conexões com perfis-alvo | — |
+
+> Ritmo: 3 posts por semana (seg/ter/qui). Terça sempre em inglês para público internacional.
