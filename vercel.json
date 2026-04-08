@@ -1,3 +1,9 @@
 {
-  "outputDirectory": "build/web"
+  "outputDirectory": "build/web",
+  "routes": [
+    { "src": "/download-en.html", "dest": "/download-en.html" },
+    { "src": "/download.html", "dest": "/download.html" },
+    { "src": "/privacidade.html", "dest": "/privacidade.html" },
+    { "src": "/qrcode.html", "dest": "/qrcode.html" }
+  ]
 }
