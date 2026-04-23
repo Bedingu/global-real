@@ -99,40 +99,88 @@ de Latam. Florida: inversores globales, retorno en dólar.
 
 ---
 
-### POST 3 — Fração Imobiliária
-**Tipo:** Educação | **Formato:** Texto + Screenshot
+### POST 3 — Vitacon Higienópolis: Lançamento Agosto 2026
+**Tipo:** Empreendimento + Lançamento App | **Formato:** Texto + Imagem
 
 ```
-Fração imobiliária: investir em imóveis sem comprar um imóvel inteiro.
+🏗️ Vitacon Higienópolis — Lançamento previsto: Agosto 2026
 
-Como funciona:
-→ O empreendimento é dividido em frações (semanas)
-→ Você compra X semanas
-→ Recebe receita proporcional à ocupação
-→ Pode usar ou alugar
+Um dos bairros mais nobres de São Paulo agora com oportunidade de investimento via SPE.
 
-No Global Real, você simula tudo:
-semanas, ocupação, receita projetada e retorno por fração.
+📊 Números do empreendimento:
+→ Área: 59,17 m²
+→ R$/m² de entrada: R$ 16.900
+→ Estimativa de saída: R$ 30.000/m²
+→ Projeção de renda: 1% a.m.
+→ ROI projetado: 70,5%
+→ TIR/IRR: 22,0% a.a.
+→ Prazo de entrega: 36 meses (ago/2029)
+→ Entrada à vista a partir de R$ 200 mil
 
-É o modelo que está crescendo no Brasil e já é consolidado nos EUA.
+Ganho estimado de R$ 705 mil sobre aporte de R$ 1 milhão.
+
+Higienópolis é sinônimo de valorização, infraestrutura e demanda constante.
 
 ---
 
-🇺🇸 Fractional real estate: invest without buying the whole property.
-Simulate weeks, occupancy, revenue, and returns per fraction.
-Growing in Brazil, already established in the US.
+📱 Na próxima segunda-feira, dia 27, lançamos oficialmente o Global Real Estate — a plataforma que conecta investidores aos melhores empreendimentos de São Paulo e Florida.
 
-🇪🇸 Fracción inmobiliaria: invierte sin comprar el inmueble completo.
-Simula semanas, ocupación, ingresos y retorno por fracción.
+No app você pode:
+✅ Simular aportes e retornos de cada empreendimento
+✅ Acompanhar oportunidades em tempo real
+✅ Acessar conteúdo exclusivo sobre investimento imobiliário
 
-🇨🇳 房产分权：无需购买整套即可投资。模拟周数、入住率、
-收入和回报。巴西快速增长，美国已成熟。
+---
 
-#FraçãoImobiliária #Investimentos #PropTech
-#FractionalOwnership #RealEstateInvesting
+🏢 Você é corretor ou assessor de investimentos?
+
+Também estamos lançando o nosso CRM imobiliário com:
+→ Gestão de leads com IA (Lead Scoring automático)
+→ Roleta de distribuição de leads
+→ Funil de oportunidades completo
+→ Gestão de contratos, faturas e repasses
+→ Dashboard com métricas em tempo real
+
+Uma ferramenta pensada para quem quer profissionalizar a operação e vender mais.
+
+Quer conhecer? Acesse:
+🔗 App: globalreal-app.web.app
+🔗 CRM: disponível em breve
+
+---
+
+🇺🇸 Vitacon Higienópolis — Launch: August 2026
+One of São Paulo's most prestigious neighborhoods.
+Entry at R$ 16,900/m², projected exit at R$ 30,000/m².
+ROI: 70.5% | IRR: 22.0% p.a. | Min investment: R$ 200K.
+
+📱 Next Monday (Apr 27) we officially launch Global Real Estate.
+🏢 Brokers: our AI-powered CRM is also launching — lead scoring, opportunity funnels, and full rental management.
+
+🇪🇸 Vitacon Higienópolis — Lanzamiento: Agosto 2026
+Entrada desde R$ 16.900/m², salida estimada R$ 30.000/m².
+ROI: 70,5% | TIR: 22,0% anual.
+
+📱 El lunes 27 lanzamos oficialmente Global Real Estate.
+🏢 Corredores: nuestro CRM con IA también se lanza.
+
+🇨🇳 Vitacon Higienópolis — 2026年8月推出
+圣保罗最高端社区之一。
+入场价 R$ 16,900/m²，预计退出价 R$ 30,000/m²。
+投资回报率：70.5% | 内部收益率：22.0%
+最低投资：R$ 200,000。
+
+📱 4月27日（周一）正式发布 Global Real Estate 平台。
+🏢 经纪人：我们的AI驱动CRM同步上线 — 智能线索评分、
+机会漏斗、完整租赁管理。
+
+#InvestimentoImobiliário #Higienópolis #SãoPaulo
+#RealEstateInvesting #PropTech #Vitacon
+#SócioInvestidor #GlobalRealEstate #CRMImobiliário
+#Lançamento #CorretorDeImóveis #LeadScoring
 ```
 
-**Imagem:** `Fração Imobiliária_1.jpg`
+**Imagem:** Screenshot do empreendimento no app + screenshot do CRM lado a lado
 
 ---
 

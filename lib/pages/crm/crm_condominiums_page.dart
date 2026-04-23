@@ -51,7 +51,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(title: const Text('Condomínios'), backgroundColor: AppTheme.primaryBlue),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
               children: [
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                  child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                 ),
                 Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
                 const Text('CONDOMÍNIOS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -76,8 +76,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
                   icon: const Icon(Icons.add, size: 18),
                   label: const Text('Novo condomínio'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryBlue,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    backgroundColor: AppTheme.primaryBlue,                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   ),
                 ),
               ],
@@ -103,7 +102,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
     return Card(
       margin: const EdgeInsets.only(left: 24, bottom: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 0,
+      elevation: 2,
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -167,8 +166,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
                 child: ElevatedButton(
                   onPressed: _load,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryBlue,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    backgroundColor: AppTheme.primaryBlue,                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
                   child: const Text('Filtrar'),
                 ),
@@ -184,7 +182,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
     return Card(
       margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 0,
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -199,7 +197,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
                 DropdownButton<String>(
                   value: _sortBy,
                   underline: const SizedBox(),
-                  style: const TextStyle(fontSize: 13, color: Colors.black87),
+                  style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
                   items: const [
                     DropdownMenuItem(value: 'created_at', child: Text('Data de cadastro')),
                     DropdownMenuItem(value: 'updated_at', child: Text('Data de atualização')),
@@ -219,7 +217,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
                             children: [
                               Icon(Icons.domain_outlined, size: 80, color: Colors.grey[300]),
                               const SizedBox(height: 16),
-                              Text('Nenhum condomínio encontrado.', style: TextStyle(color: Colors.grey[500], fontSize: 15)),
+                              Text('Nenhum condomínio encontrado.', style: TextStyle(color: AppTheme.textSecondary, fontSize: 15)),
                               const SizedBox(height: 16),
                               ElevatedButton.icon(
                                 onPressed: () async {
@@ -229,8 +227,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
                                 icon: const Icon(Icons.add, size: 18),
                                 label: const Text('Novo condomínio'),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppTheme.primaryBlue,
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                  backgroundColor: AppTheme.primaryBlue,                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                                 ),
                               ),
                             ],
@@ -268,7 +265,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(condo['name'] ?? 'Sem nome', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                Text('${condo['neighborhood'] ?? ''} · ${condo['city'] ?? ''}', style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+                Text('${condo['neighborhood'] ?? ''} · ${condo['city'] ?? ''}', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
               ],
             ),
           ),
@@ -298,7 +295,7 @@ class _CrmCondominiumsPageState extends State<CrmCondominiumsPage> {
 
   Widget _dropdown(String hint) => DropdownButtonFormField<String>(
     isExpanded: true,
-    style: const TextStyle(fontSize: 13, color: Colors.black87),
+    style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
     decoration: InputDecoration(
       hintText: hint, hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
       filled: true, fillColor: Colors.white,

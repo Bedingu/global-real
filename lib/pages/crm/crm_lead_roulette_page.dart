@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme.dart';
 import 'crm_new_roulette_page.dart';
+import 'crm_roulette_history_page.dart';
 import 'crm_roulette_settings_page.dart';
 
 class CrmLeadRoulettePage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(title: const Text('Roletas de Leads'), backgroundColor: AppTheme.primaryBlue),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -70,7 +71,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
             // Breadcrumb
             Row(children: [
               GestureDetector(onTap: () => Navigator.pop(context),
-                child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600))),
+                child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600))),
               Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
               const Text('ROLETAS DE LEADS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
             ]),
@@ -82,7 +83,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmNewRoulettePage())),
                 icon: const Icon(Icons.add, size: 18),
                 label: const Text('Nova Roleta'),
-                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
+                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
               ),
               const SizedBox(width: 8),
               OutlinedButton.icon(
@@ -93,7 +94,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
               ),
               const SizedBox(width: 8),
               OutlinedButton.icon(
-                onPressed: () {},
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmRouletteHistoryPage())),
                 icon: const Icon(Icons.history, size: 18),
                 label: const Text('Roletagens'),
                 style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
@@ -104,7 +105,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
             // Filtros
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 0,
+              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -187,7 +188,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
             // Tabs: Venda | Locação | Temporada
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 0,
+              elevation: 2,
               child: Column(
                 children: [
                   TabBar(
@@ -275,7 +276,7 @@ class _CrmLeadRoulettePageState extends State<CrmLeadRoulettePage> with SingleTi
 
   Widget _drop(String? value, List<String> items, ValueChanged<String?> onChanged, {String hint = 'Todas'}) => DropdownButtonFormField<String>(
     value: value, isExpanded: true,
-    style: const TextStyle(fontSize: 13, color: Colors.black87),
+    style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
     decoration: InputDecoration(
       hintText: hint, hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
       filled: true, fillColor: Colors.white,

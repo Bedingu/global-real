@@ -31,6 +31,8 @@ class Development {
   final int? nearestSubwayDistanceMeters;
 
   final Map<String, bool>? amenities;
+  final double capex;
+  final String aPartirDe;
 
   const Development({
     required this.id,
@@ -56,6 +58,8 @@ class Development {
     required this.availableUnits,
     required this.createdAt,
     this.amenities,
+    this.capex = 200000,
+    this.aPartirDe = '200000',
   });
 
   factory Development.fromJson(Map<String, dynamic> json) {
@@ -140,6 +144,8 @@ class Development {
           ? DateTime.parse(json['created_at'])
           : DateTime.now(),
       amenities: parseAmenities(json['amenities']),
+      capex: toDouble(json['capex']),
+      aPartirDe: json['a_partir_de']?.toString() ?? '200000',
     );
   }
 }

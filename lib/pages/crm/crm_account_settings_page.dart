@@ -174,7 +174,7 @@ class _CrmAccountSettingsPageState extends State<CrmAccountSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         title: const Text('Configurações da Conta'),
         backgroundColor: AppTheme.primaryBlue,
@@ -196,7 +196,7 @@ class _CrmAccountSettingsPageState extends State<CrmAccountSettingsPage> {
                           children: [
                             GestureDetector(
                               onTap: () => Navigator.pop(context),
-                              child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                              child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                             ),
                             Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
                             const Text('CONFIGURAÇÕES DA CONTA', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -408,8 +408,7 @@ class _CrmAccountSettingsPageState extends State<CrmAccountSettingsPage> {
                   await _changePassword();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primaryBlue,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  backgroundColor: AppTheme.primaryBlue,                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 ),
                 child: _saving
                     ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
@@ -427,7 +426,7 @@ class _CrmAccountSettingsPageState extends State<CrmAccountSettingsPage> {
   Widget _sectionCard({required IconData icon, required String title, required Widget child}) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 0,
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -596,8 +595,7 @@ class _CrmAccountSettingsPageState extends State<CrmAccountSettingsPage> {
         ElevatedButton(
           onPressed: onNext ?? () async { await _saveProfile(); },
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.primaryBlue,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            backgroundColor: AppTheme.primaryBlue,            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),
           child: Text(nextLabel),
         ),

@@ -72,7 +72,7 @@ class _CrmNewCondominiumPageState extends State<CrmNewCondominiumPage> {
             RichText(
               textAlign: TextAlign.center,
               text: const TextSpan(
-                style: TextStyle(fontSize: 14, color: Colors.black87),
+                style: TextStyle(fontSize: 14, color: AppTheme.textPrimary),
                 children: [
                   TextSpan(text: 'As alterações '),
                   TextSpan(text: 'não serão salvas.', style: TextStyle(fontWeight: FontWeight.w700)),
@@ -144,7 +144,7 @@ class _CrmNewCondominiumPageState extends State<CrmNewCondominiumPage> {
         if (shouldPop && mounted) Navigator.pop(context);
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF0F2F5),
+        backgroundColor: AppTheme.background,
         appBar: AppBar(
           title: const Text('Novo Condomínio'),
           backgroundColor: AppTheme.primaryBlue,
@@ -177,7 +177,7 @@ class _CrmNewCondominiumPageState extends State<CrmNewCondominiumPage> {
                             if (ok && mounted) Navigator.pop(context);
                           } else { Navigator.pop(context); }
                         },
-                        child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                        child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                       ),
                       Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
                       const Text('CONDOMÍNIOS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -327,7 +327,7 @@ class _CrmNewCondominiumPageState extends State<CrmNewCondominiumPage> {
   Widget _sectionCard({required IconData icon, required String title, required Widget child}) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 0,
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -408,7 +408,7 @@ class _CrmNewCondominiumPageState extends State<CrmNewCondominiumPage> {
         ],
         ElevatedButton(
           onPressed: onNext ?? _save,
-          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+          style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
           child: Text(onNext != null ? 'Próximo' : 'Salvar'),
         ),
       ],

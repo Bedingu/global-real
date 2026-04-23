@@ -187,10 +187,16 @@ class _DashboardPageState extends State<DashboardPage> {
           IconButton(
             icon: const Icon(Icons.business_center_outlined),
             tooltip: 'CRM',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const CrmDashboardPage()),
-            ),
+            onPressed: () {
+              if (!_isPremiumUser && !kDevBypassPremium) {
+                _openPaywall();
+                return;
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const CrmDashboardPage()),
+              );
+            },
           ),
           IconButton(
             icon: const Icon(Icons.people_outline),
@@ -258,6 +264,33 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             ),
+          // 🔹 Botão Seja Sócio Investidor
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  // TODO: navegar para página de investidor
+                },
+                icon: const Icon(Icons.handshake_outlined, size: 20),
+                label: const Text(
+                  'Quero ser sócio de um empreendimento!\nConheça fundos e aportes disponíveis a partir de R\$ 800 mil.',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryBlue,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0,
+                ),
+              ),
+            ),
+          ),
           _buildSearch(),
           const SizedBox(height: 12),
           _buildFilterRow(),

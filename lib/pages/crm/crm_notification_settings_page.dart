@@ -94,7 +94,7 @@ class _CrmNotificationSettingsPageState extends State<CrmNotificationSettingsPag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         title: const Text('Configurações de Notificações'),
         backgroundColor: AppTheme.primaryBlue,
@@ -112,7 +112,7 @@ class _CrmNotificationSettingsPageState extends State<CrmNotificationSettingsPag
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                        child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                       ),
                       Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
                       const Text('CONFIGURAÇÕES DE NOTIFICAÇÕES', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -123,7 +123,7 @@ class _CrmNotificationSettingsPageState extends State<CrmNotificationSettingsPag
                   // Card principal
                   Card(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    elevation: 0,
+                    elevation: 2,
                     child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: Column(
@@ -194,17 +194,17 @@ class _CrmNotificationSettingsPageState extends State<CrmNotificationSettingsPag
                             children: [
                               const Spacer(),
                               Row(children: [
-                                Icon(Icons.chat_outlined, size: 16, color: Colors.grey[500]),
+                                Icon(Icons.chat_outlined, size: 16, color: AppTheme.textSecondary),
                                 const SizedBox(width: 4),
-                                Text('WhatsApp', style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+                                Text('WhatsApp', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
                                 const SizedBox(width: 4),
                                 Icon(Icons.info_outline, size: 14, color: Colors.grey[400]),
                               ]),
                               const SizedBox(width: 24),
                               Row(children: [
-                                Icon(Icons.notifications_outlined, size: 16, color: Colors.grey[500]),
+                                Icon(Icons.notifications_outlined, size: 16, color: AppTheme.textSecondary),
                                 const SizedBox(width: 4),
-                                Text('Push', style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+                                Text('Push', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
                                 const SizedBox(width: 4),
                                 Icon(Icons.info_outline, size: 14, color: Colors.grey[400]),
                               ]),
@@ -246,8 +246,7 @@ class _CrmNotificationSettingsPageState extends State<CrmNotificationSettingsPag
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.primaryBlue,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    backgroundColor: AppTheme.primaryBlue,                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   ),
                   child: const Text('Salvar'),
                 ),
@@ -295,7 +294,7 @@ class _CrmNotificationSettingsPageState extends State<CrmNotificationSettingsPag
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(notif.title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
-                Text(notif.desc, style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+                Text(notif.desc, style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
                 const SizedBox(height: 8),
               ],
             ),

@@ -47,9 +47,9 @@ class _LoginPageState extends State<LoginPage> {
         _errorMessage = e.message;
         _loading = false;
       });
-    } catch (_) {
+    } catch (e) {
       setState(() {
-        _errorMessage = 'Erro inesperado ao entrar';
+        _errorMessage = 'Erro: $e';
         _loading = false;
       });
     }

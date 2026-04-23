@@ -4,6 +4,8 @@
     { "src": "/download-en.html", "dest": "/download-en.html" },
     { "src": "/download.html", "dest": "/download.html" },
     { "src": "/privacidade.html", "dest": "/privacidade.html" },
-    { "src": "/qrcode.html", "dest": "/qrcode.html" }
+    { "src": "/qrcode.html", "dest": "/qrcode.html" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

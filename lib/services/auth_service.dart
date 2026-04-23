@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthService {
-  static final SupabaseClient _supabase = Supabase.instance.client;
+  static SupabaseClient get _supabase => Supabase.instance.client;
 
   // =============================
   // AUTH
@@ -12,13 +12,17 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    final response = await _supabase.auth.signInWithPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      final response = await _supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
 
-    if (response.user == null) {
-      throw Exception('Falha no login');
+      if (response.user == null) {
+        throw Exception('Falha no login');
+      }
+    } on AuthException {
+      rethrow;
     }
   }
 

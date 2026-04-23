@@ -36,9 +36,17 @@ Future<void> main() async {
     debugPrint("⚠️ Erro ao carregar .env: $e");
   }
 
-  // 2) Ler variáveis com fallback
-  final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
-  final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+  // 2) Ler variáveis com fallback hardcoded para web
+  var supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
+  var supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+
+  // Fallback se .env não carregou
+  if (supabaseUrl.isEmpty) {
+    supabaseUrl = 'https://pcbwbndrnnqptxdbrqnm.supabase.co';
+  }
+  if (supabaseAnonKey.isEmpty) {
+    supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjYndibmRybm5xcHR4ZGJycW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxNTU1MjAsImV4cCI6MjA4MTczMTUyMH0.Sw5hgfkUHbLyAcTUwltrb_AH3Jg17m-LCcC_Ou6QtbE';
+  }
 
   // 3) Inicializar Supabase se as chaves existirem
   if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {

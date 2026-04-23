@@ -5,8 +5,12 @@
 		},
 		{
 			"path": "screenshots"
+		},
+		{
+			"path": "../global_crm"
 		}
 	],
 	"settings": {
+		"git.ignoreLimitWarning": true
 	}
 }

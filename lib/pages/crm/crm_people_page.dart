@@ -46,7 +46,7 @@ class _CrmPeoplePageState extends State<CrmPeoplePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(title: const Text('Pessoas'), backgroundColor: AppTheme.primaryBlue),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -54,7 +54,7 @@ class _CrmPeoplePageState extends State<CrmPeoplePage> {
           // Breadcrumb
           Row(children: [
             GestureDetector(onTap: () => Navigator.pop(context),
-              child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600))),
+              child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600))),
             Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
             const Text('PESSOAS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
           ]),
@@ -65,13 +65,13 @@ class _CrmPeoplePageState extends State<CrmPeoplePage> {
             onPressed: () {},
             icon: const Icon(Icons.add, size: 18),
             label: const Text('Nova pessoa'),
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10)),
           ),
           const SizedBox(height: 24),
 
           // Filtros
           Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 2,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -119,7 +119,7 @@ class _CrmPeoplePageState extends State<CrmPeoplePage> {
 
           // Pessoas table
           Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 2,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -135,13 +135,13 @@ class _CrmPeoplePageState extends State<CrmPeoplePage> {
                   const Text('Selecionar', style: TextStyle(fontSize: 13)),
                   const SizedBox(width: 12),
                   SizedBox(width: 120, child: DropdownButtonFormField<String>(
-                    decoration: _inputDeco('Selecionar'), style: const TextStyle(fontSize: 12, color: Colors.black87),
+                    decoration: _inputDeco('Selecionar'), style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary),
                     items: const [DropdownMenuItem(value: 'all', child: Text('Todos')), DropdownMenuItem(value: 'none', child: Text('Nenhum'))],
                     onChanged: (_) {},
                   )),
                   const Spacer(),
                   SizedBox(width: 200, child: DropdownButtonFormField<String>(
-                    value: _sortOrder, style: const TextStyle(fontSize: 12, color: Colors.black87),
+                    value: _sortOrder, style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary),
                     decoration: _inputDeco(''),
                     items: ['Ordem alfabética', 'Mais recentes', 'Mais antigos'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                     onChanged: (v) => setState(() => _sortOrder = v!),
@@ -194,7 +194,7 @@ class _CrmPeoplePageState extends State<CrmPeoplePage> {
   ]);
 
   Widget _drop(String? value, List<String> items, ValueChanged<String?> onChanged, String hint) => DropdownButtonFormField<String>(
-    value: value, isExpanded: true, style: const TextStyle(fontSize: 13, color: Colors.black87),
+    value: value, isExpanded: true, style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
     decoration: _inputDeco(hint),
     items: items.map((e) => DropdownMenuItem(value: e, child: Text(e, style: const TextStyle(fontSize: 13)))).toList(),
     onChanged: onChanged,

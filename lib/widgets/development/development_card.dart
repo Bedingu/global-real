@@ -61,6 +61,18 @@ Future<void> openMaps(String query) async {
   if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) return;
 }
 
+String _formatCapex(double value) {
+  if (value >= 1000000) {
+    final m = value / 1000000;
+    return m == m.roundToDouble() ? '${m.toInt()} Mi' : '${m.toStringAsFixed(1)} Mi';
+  }
+  if (value >= 1000) {
+    final k = value / 1000;
+    return k == k.roundToDouble() ? '${k.toInt()} Mil' : '${k.toStringAsFixed(0)} Mil';
+  }
+  return value.toStringAsFixed(0);
+}
+
 class DevelopmentCard extends StatelessWidget {
   final Development development;
   final bool isFavorite;
@@ -224,7 +236,7 @@ class DevelopmentCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Name
+                      // Name + Valor a partir de
                       Text(
                         development.name,
                         maxLines: 1,
@@ -246,54 +258,75 @@ class DevelopmentCard extends StatelessWidget {
                           color: Colors.white54,
                         ),
                       ),
-                      const SizedBox(height: 8),
-
-                      // Capacity chips
-                      Row(
-                        children: [
-                          _CapacityChip(
-                              icon: Icons.bed,
-                              value: '${development.bedrooms}'),
-                          const SizedBox(width: 8),
-                          _CapacityChip(
-                              icon: Icons.bathtub_outlined,
-                              value: '${development.bathrooms}'),
-                          const SizedBox(width: 8),
-                          _CapacityChip(
-                              icon: Icons.people_outline,
-                              value: '${development.maxGuests}'),
-                        ],
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Metrics row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _MetricPill(
-                            value:
-                                '${development.occupancyRate.toStringAsFixed(0)}%',
-                            label: 'Occ',
-                          ),
-                          _MetricPill(
-                            value: formatMoneyByHub(
-                                development.avgDailyRate,
-                                hub: development.hub),
-                            label: 'ADR',
-                          ),
-                          _MetricPill(
-                            value: formatMoneyByHub(
-                                revenueResult.grossMonthly,
-                                hub: development.hub),
-                            label: 'Rev',
-                          ),
-                        ],
-                      ),
                       const SizedBox(height: 6),
 
-                      // Confidence badge
-                      _ConfidenceBadge(score: confidenceScore),
+                      // Valor a partir de
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD4AF37).withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          'Entrada a partir de R\$ ${_formatCapex(double.tryParse(development.aPartirDe) ?? 200000)}',
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFFD4AF37)),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Rentabilidade + Entrada à vista
+                      Row(
+                        children: [
+                          // Projeção de renda
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withValues(alpha: 0.15),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(mainAxisSize: MainAxisSize.min, children: [
+                              const Icon(Icons.trending_up, size: 14, color: Colors.greenAccent),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${development.occupancyRate.toStringAsFixed(0)}% a.m.',
+                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.greenAccent),
+                              ),
+                            ]),
+                          ),
+                          const SizedBox(width: 8),
+                          // Entrada à vista
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                              Icon(Icons.payments_outlined, size: 14, color: Colors.white54),
+                              SizedBox(width: 4),
+                              Text('Entrada à vista', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white54)),
+                            ]),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // Seja Sócio Investidor button
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD4AF37).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: const Color(0xFFD4AF37).withValues(alpha: 0.3), width: 0.5),
+                        ),
+                        child: const Text(
+                          'Seja Sócio Investidor',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFFD4AF37)),
+                        ),
+                      ),
                     ],
                   ),
                 ),

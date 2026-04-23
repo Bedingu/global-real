@@ -29,7 +29,7 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(
         title: const Text('Meu Plano'),
         backgroundColor: AppTheme.primaryBlue,
@@ -46,7 +46,7 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                        child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                       ),
                       Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
                       const Text('MEU PLANO', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -61,7 +61,7 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
                   // Planos disponíveis
                   const Text('Escolha seu plano', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 8),
-                  Text('Desbloqueie todo o potencial do CRM imobiliário', style: TextStyle(color: Colors.grey[500])),
+                  Text('Desbloqueie todo o potencial do CRM imobiliário', style: TextStyle(color: AppTheme.textSecondary)),
                   const SizedBox(height: 24),
 
                   LayoutBuilder(
@@ -124,7 +124,7 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
   Widget _buildCurrentPlan() {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 0,
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Row(
@@ -154,7 +154,7 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
                     _isPremium
                         ? 'Você tem acesso completo a todas as funcionalidades.'
                         : 'Você está no plano gratuito. Faça upgrade para desbloquear o CRM completo.',
-                    style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                    style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
                   ),
                 ],
               ),
@@ -207,7 +207,7 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
                     if (period.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 4, left: 2),
-                        child: Text(period, style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+                        child: Text(period, style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
                       ),
                   ],
                 ),

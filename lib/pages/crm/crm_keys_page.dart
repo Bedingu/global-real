@@ -96,7 +96,7 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(title: const Text('Chaves'), backgroundColor: AppTheme.primaryBlue),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -107,7 +107,7 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
             Row(children: [
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
               ),
               Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
               const Text('CHAVES', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -117,7 +117,7 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
             // Filtros
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 0,
+              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -176,8 +176,7 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
                         child: ElevatedButton(
                           onPressed: _load,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.primaryBlue,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            backgroundColor: AppTheme.primaryBlue,                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),                            padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
                           child: const Text('Filtrar'),
                         ),
@@ -192,7 +191,7 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
             // Tabela de chaves
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 0,
+              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -270,11 +269,11 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
       ),
       child: Row(children: [
         Expanded(flex: 1, child: Text(key['id']?.toString().substring(0, 6) ?? '-', style: const TextStyle(fontSize: 12))),
-        Expanded(flex: 1, child: Text('-', style: TextStyle(fontSize: 12, color: Colors.grey[500]))),
+        Expanded(flex: 1, child: Text('-', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary))),
         Expanded(flex: 2, child: Text(key['property_id']?.toString().substring(0, 8) ?? '-', style: const TextStyle(fontSize: 12))),
         Expanded(flex: 2, child: Text(key['person_name'] ?? '-', style: const TextStyle(fontSize: 12))),
         Expanded(flex: 1, child: _statusBadge(status)),
-        Expanded(flex: 2, child: Text(key['returned_at'] ?? '-', style: TextStyle(fontSize: 12, color: Colors.grey[500]))),
+        Expanded(flex: 2, child: Text(key['returned_at'] ?? '-', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary))),
       ]),
     );
   }
@@ -326,7 +325,7 @@ class _CrmKeysPageState extends State<CrmKeysPage> {
         DropdownButtonFormField<String>(
           value: _status,
           isExpanded: true,
-          style: const TextStyle(fontSize: 13, color: Colors.black87),
+          style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
           decoration: InputDecoration(
             hintText: 'Todos', hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
             filled: true, fillColor: Colors.white,

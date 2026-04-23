@@ -85,7 +85,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
           const Text('Deseja sair sem salvar?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
           const SizedBox(height: 8),
           RichText(textAlign: TextAlign.center, text: const TextSpan(
-            style: TextStyle(fontSize: 14, color: Colors.black87),
+            style: TextStyle(fontSize: 14, color: AppTheme.textPrimary),
             children: [TextSpan(text: 'As alterações '), TextSpan(text: 'não serão salvas.', style: TextStyle(fontWeight: FontWeight.w700))],
           )),
         ]),
@@ -111,7 +111,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
         if (ok && mounted) Navigator.pop(context);
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF0F2F5),
+        backgroundColor: AppTheme.background,
         appBar: AppBar(title: const Text('Nova Roleta'), backgroundColor: AppTheme.primaryBlue,
           leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () async {
             if (_hasChanges) { final ok = await _onWillPop(); if (ok && mounted) Navigator.pop(context); }
@@ -126,7 +126,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
                 // Breadcrumb
                 Row(children: [
                   GestureDetector(onTap: () async { if (_hasChanges) { final ok = await _onWillPop(); if (ok && mounted) Navigator.pop(context); } else Navigator.pop(context); },
-                    child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600))),
+                    child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600))),
                   Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
                   const Text('ROLETAS DE LEADS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                   Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
@@ -200,14 +200,14 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(text: const TextSpan(children: [
-                    TextSpan(text: 'Equipe', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.black87)),
+                    TextSpan(text: 'Equipe', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
                     TextSpan(text: ' *', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.red)),
                   ])),
                   const SizedBox(height: 6),
                   DropdownButtonFormField<String>(
                     value: _selectedTeams[idx],
                     isExpanded: true,
-                    style: const TextStyle(fontSize: 13, color: Colors.black87),
+                    style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
                     decoration: _inputDeco('Selecione uma equipe'),
                     items: _availableTeams.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                     onChanged: (v) => setState(() { _selectedTeams[idx] = v; _mark(); }),
@@ -275,7 +275,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
         DropdownButtonFormField<String>(
           value: _leadOrigin,
           isExpanded: true,
-          style: const TextStyle(fontSize: 13, color: Colors.black87),
+          style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
           decoration: _inputDeco('Escolha uma origem'),
           items: _availableOrigins.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
           onChanged: (v) => setState(() { _leadOrigin = v; _mark(); }),
@@ -337,7 +337,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
       const SizedBox(height: 16),
       // Card 2: Localização
       Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 2,
         child: Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Localização', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: AppTheme.primaryBlue)),
           const SizedBox(height: 16),
@@ -440,7 +440,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
                 const SizedBox(width: 8),
                 Expanded(child: DropdownButtonFormField<String>(decoration: _inputDeco('Minutos'), items: const [
                   DropdownMenuItem(value: 'Minutos', child: Text('Minutos')), DropdownMenuItem(value: 'Horas', child: Text('Horas')),
-                ], onChanged: (_) {}, style: const TextStyle(fontSize: 13, color: Colors.black87))),
+                ], onChanged: (_) {}, style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary))),
               ]),
             ])),
           ]);
@@ -480,7 +480,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
           style: const TextStyle(fontSize: 13),
           keyboardType: TextInputType.datetime,
         )),
-        Padding(padding: const EdgeInsets.symmetric(horizontal: 12), child: Text('até', style: TextStyle(color: Colors.grey[500], fontSize: 13))),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 12), child: Text('até', style: TextStyle(color: AppTheme.textSecondary, fontSize: 13))),
         SizedBox(width: 100, child: TextField(
           decoration: _inputDeco('18:00'),
           style: const TextStyle(fontSize: 13),
@@ -521,7 +521,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
     children: [
       Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
       const SizedBox(height: 6),
-      DropdownButtonFormField<String>(value: value, isExpanded: true, style: const TextStyle(fontSize: 13, color: Colors.black87),
+      DropdownButtonFormField<String>(value: value, isExpanded: true, style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
         decoration: _inputDeco(hint),
         items: items.map((e) => DropdownMenuItem(value: e, child: Text(e, style: const TextStyle(fontSize: 13)))).toList(), onChanged: onChanged),
     ],
@@ -530,12 +530,12 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
   Widget _navButtonsSave({VoidCallback? onBack}) => Row(mainAxisAlignment: MainAxisAlignment.end, children: [
     if (onBack != null) ...[OutlinedButton(onPressed: onBack, style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)), child: const Text('Voltar')), const SizedBox(width: 12)],
     ElevatedButton(onPressed: () { ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Roleta salva com sucesso!'), backgroundColor: Colors.green)); },
-      style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+      style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
       child: const Text('Salvar')),
   ]);
 
   Widget _card(IconData icon, String title, Widget child) => Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 2,
     child: Padding(padding: const EdgeInsets.all(24), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [Icon(icon, size: 20, color: AppTheme.primaryBlue), const SizedBox(width: 8), Text(title, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16))]),
       const Divider(height: 32), child,
@@ -549,7 +549,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
 
   Widget _dropField(String label, String? value, List<String> items, ValueChanged<String?> onChanged) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)), const SizedBox(height: 6),
-    DropdownButtonFormField<String>(value: value, isExpanded: true, style: const TextStyle(fontSize: 13, color: Colors.black87),
+    DropdownButtonFormField<String>(value: value, isExpanded: true, style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
       decoration: _inputDeco('Escolha uma finalidade'),
       items: items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(), onChanged: onChanged),
   ]);
@@ -564,7 +564,7 @@ class _CrmNewRoulettePageState extends State<CrmNewRoulettePage> {
 
   Widget _navButtons({VoidCallback? onBack, VoidCallback? onNext}) => Row(mainAxisAlignment: MainAxisAlignment.end, children: [
     if (onBack != null) ...[OutlinedButton(onPressed: onBack, style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)), child: const Text('Voltar')), const SizedBox(width: 12)],
-    ElevatedButton(onPressed: onNext, style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)), child: const Text('Próximo')),
+    ElevatedButton(onPressed: onNext, style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)), child: const Text('Próximo')),
   ]);
 
   InputDecoration _inputDeco(String hint) => InputDecoration(

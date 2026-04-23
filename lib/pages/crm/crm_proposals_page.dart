@@ -58,7 +58,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       appBar: AppBar(title: const Text('Propostas'), backgroundColor: AppTheme.primaryBlue),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -69,7 +69,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
             Row(children: [
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w600)),
+                child: Text('INÍCIO', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
               ),
               Icon(Icons.chevron_right, size: 16, color: Colors.grey[400]),
               const Text('PROPOSTAS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
@@ -79,7 +79,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
             // Filtros
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 0,
+              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -134,7 +134,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
                     Row(children: [
                       Expanded(child: OutlinedButton(onPressed: _clear, style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Limpar'))),
                       const SizedBox(width: 12),
-                      Expanded(child: ElevatedButton(onPressed: _load, style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Filtrar'))),
+                      Expanded(child: ElevatedButton(onPressed: _load, style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryBlue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(vertical: 14)), child: const Text('Filtrar'))),
                     ]),
                   ],
                 ),
@@ -145,7 +145,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
             // Tabela
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              elevation: 0,
+              elevation: 2,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -161,7 +161,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
                       DropdownButton<String>(
                         value: _sortBy,
                         underline: const SizedBox(),
-                        style: const TextStyle(fontSize: 13, color: Colors.black87),
+                        style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
                         items: const [
                           DropdownMenuItem(value: 'created_at', child: Text('Data de cadastro')),
                           DropdownMenuItem(value: 'due_date', child: Text('Data de validade')),
@@ -228,10 +228,10 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
       child: Row(children: [
         Expanded(flex: 2, child: Text(p['property_id']?.toString().substring(0, 8) ?? '-', style: const TextStyle(fontSize: 12))),
         Expanded(flex: 1, child: Text(p['proposed_value'] != null ? 'R\$ ${(p['proposed_value'] as num).toStringAsFixed(0)}' : '-', style: const TextStyle(fontSize: 12))),
-        Expanded(flex: 1, child: Text(p['due_date'] ?? '-', style: TextStyle(fontSize: 12, color: Colors.grey[500]))),
-        Expanded(flex: 1, child: Text('-', style: TextStyle(fontSize: 12, color: Colors.grey[500]))),
-        Expanded(flex: 2, child: Text('-', style: TextStyle(fontSize: 12, color: Colors.grey[500]))),
-        Expanded(flex: 1, child: Text('-', style: TextStyle(fontSize: 12, color: Colors.grey[500]))),
+        Expanded(flex: 1, child: Text(p['due_date'] ?? '-', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary))),
+        Expanded(flex: 1, child: Text('-', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary))),
+        Expanded(flex: 2, child: Text('-', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary))),
+        Expanded(flex: 1, child: Text('-', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary))),
         Expanded(flex: 1, child: _badge(status)),
       ]),
     );
@@ -283,7 +283,7 @@ class _CrmProposalsPageState extends State<CrmProposalsPage> {
 
   Widget _drop(String? value, List<String> items, ValueChanged<String?> onChanged) => DropdownButtonFormField<String>(
     value: value, isExpanded: true,
-    style: const TextStyle(fontSize: 13, color: Colors.black87),
+    style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary),
     decoration: InputDecoration(
       hintText: 'Escolha', hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
       filled: true, fillColor: Colors.white,

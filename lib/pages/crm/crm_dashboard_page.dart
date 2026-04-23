@@ -13,6 +13,14 @@ import 'crm_proposals_page.dart';
 import 'crm_leads_page.dart';
 import 'crm_lead_roulette_page.dart';
 import 'crm_people_page.dart';
+import 'crm_opportunities_page.dart';
+import 'crm_activities_page.dart';
+import 'crm_portals_page.dart';
+import 'crm_rentals_contracts_page.dart';
+import 'crm_rentals_invoices_page.dart';
+import 'crm_rentals_transfers_page.dart';
+import 'crm_rentals_analysis_page.dart';
+import 'crm_rentals_billing_page.dart';
 
 class CrmDashboardPage extends StatefulWidget {
   const CrmDashboardPage({super.key});
@@ -25,6 +33,20 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
   CrmDashboardData? _data;
   bool _loading = true;
   int _selectedIndex = 0;
+  bool _isRentalsExpanded = false;
+  bool _isMySiteExpanded = false;
+  bool _isSystemExpanded = false;
+
+  static final _rentalsSubItems = [
+    _SubItem('Contratos', const CrmRentalsContractsPage()),
+    _SubItem('Faturas', const CrmRentalsInvoicesPage()),
+    _SubItem('Repasses', const CrmRentalsTransfersPage()),
+    _SubItem('Análises', const CrmRentalsAnalysisPage()),
+    _SubItem('Régua de cobrança', const CrmRentalsBillingPage()),
+  ];
+
+  static const _mySiteSubLabels = ['Configurações', 'Blog', 'Páginas', 'Depoimentos'];
+  static const _systemSubLabels = ['Configurações', 'Etiquetas e origens', 'Feriados', 'Usuários e grupos', 'Modelos de Doc', 'Importador XML', 'Webhooks'];
 
   static const _menuItems = [
     _MenuItem(icon: Icons.home_outlined, labelKey: 'crm_home'),
@@ -37,9 +59,14 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
     _MenuItem(icon: Icons.person_outline, labelKey: 'crm_people'),
     _MenuItem(icon: Icons.trending_up_outlined, labelKey: 'crm_opportunities'),
     _MenuItem(icon: Icons.event_outlined, labelKey: 'crm_activities'),
+    _MenuItem(icon: Icons.language_outlined, labelKey: 'crm_portals'),
     _MenuItem(icon: Icons.home_work_outlined, labelKey: 'crm_rentals'),
     _MenuItem(icon: Icons.sell_outlined, labelKey: 'crm_sales'),
     _MenuItem(icon: Icons.bar_chart_outlined, labelKey: 'crm_reports'),
+    _MenuItem(icon: Icons.extension_outlined, labelKey: 'crm_integrations'),
+    _MenuItem(icon: Icons.web_outlined, labelKey: 'crm_mysite'),
+    _MenuItem(icon: Icons.settings_outlined, labelKey: 'crm_system'),
+    _MenuItem(icon: Icons.info_outline, labelKey: 'crm_support'),
   ];
 
   @override
@@ -67,9 +94,14 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
       case 'crm_people': return 'Pessoas';
       case 'crm_opportunities': return 'Oportunidades';
       case 'crm_activities': return 'Atividades';
+      case 'crm_portals': return 'Portais';
       case 'crm_rentals': return 'Aluguéis';
       case 'crm_sales': return 'Vendas';
       case 'crm_reports': return 'Relatórios';
+      case 'crm_integrations': return 'Integrações';
+      case 'crm_mysite': return 'Meu site';
+      case 'crm_system': return 'Sistema';
+      case 'crm_support': return 'Dicas e apoio';
       default: return key;
     }
   }
@@ -77,7 +109,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
+      backgroundColor: AppTheme.background,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth > 800;
@@ -145,7 +177,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
               itemBuilder: (_, i) {
                 final item = _menuItems[i];
                 final selected = _selectedIndex == i;
-                return Material(
+                final menuItem = Material(
                   color: selected ? Colors.white.withValues(alpha: 0.12) : Colors.transparent,
                   child: InkWell(
                     onTap: () {
@@ -163,6 +195,18 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmLeadRoulettePage()));
                       } else if (i == 7) {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmPeoplePage()));
+                      } else if (i == 8) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmOpportunitiesPage()));
+                      } else if (i == 9) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmActivitiesPage()));
+                      } else if (i == 10) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmPortalsPage()));
+                      } else if (i == 11) {
+                        setState(() => _isRentalsExpanded = !_isRentalsExpanded);
+                      } else if (i == 15) {
+                        setState(() => _isMySiteExpanded = !_isMySiteExpanded);
+                      } else if (i == 16) {
+                        setState(() => _isSystemExpanded = !_isSystemExpanded);
                       } else {
                         setState(() => _selectedIndex = i);
                       }
@@ -177,20 +221,56 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                           Icon(item.icon, color: selected ? Colors.white : Colors.white60, size: 20),
                           if (isWide) ...[
                             const SizedBox(width: 12),
-                            Text(
+                            Expanded(child: Text(
                               _menuLabel(item.labelKey),
                               style: TextStyle(
                                 color: selected ? Colors.white : Colors.white60,
                                 fontSize: 13,
                                 fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                               ),
-                            ),
+                            )),
+                            if (item.labelKey == 'crm_rentals')
+                              Icon(_isRentalsExpanded ? Icons.expand_less : Icons.expand_more, color: Colors.white60, size: 18),
+                            if (item.labelKey == 'crm_mysite')
+                              Icon(_isMySiteExpanded ? Icons.expand_less : Icons.expand_more, color: Colors.white60, size: 18),
+                            if (item.labelKey == 'crm_system')
+                              Icon(_isSystemExpanded ? Icons.expand_less : Icons.expand_more, color: Colors.white60, size: 18),
                           ],
                         ],
                       ),
                     ),
                   ),
                 );
+                if (item.labelKey == 'crm_rentals' && _isRentalsExpanded && isWide) {
+                  return Column(mainAxisSize: MainAxisSize.min, children: [
+                    menuItem,
+                    ..._rentalsSubItems.map((sub) => Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => sub.page)),
+                        child: Container(
+                          height: 36,
+                          padding: const EdgeInsets.only(left: 48),
+                          alignment: Alignment.centerLeft,
+                          child: Text(sub.label, style: const TextStyle(color: Colors.white60, fontSize: 12)),
+                        ),
+                      ),
+                    )),
+                  ]);
+                }
+                if (item.labelKey == 'crm_mysite' && _isMySiteExpanded && isWide) {
+                  return Column(mainAxisSize: MainAxisSize.min, children: [
+                    menuItem,
+                    ..._mySiteSubLabels.map((label) => _subMenuItem(label)),
+                  ]);
+                }
+                if (item.labelKey == 'crm_system' && _isSystemExpanded && isWide) {
+                  return Column(mainAxisSize: MainAxisSize.min, children: [
+                    menuItem,
+                    ..._systemSubLabels.map((label) => _subMenuItem(label)),
+                  ]);
+                }
+                return menuItem;
               },
             ),
           ),
@@ -388,7 +468,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
   }) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 0,
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -428,7 +508,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 Text(
                   'Nenhuma atividade atrasada ou\nagendada para hoje!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey[500], fontSize: 13),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                 ),
               ],
             )
@@ -503,7 +583,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
             '${d.propertiesTotal}',
             style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
           ),
-          Text('Imóveis', style: TextStyle(color: Colors.grey[500], fontSize: 12)),
+          Text('Imóveis', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
           const SizedBox(height: 16),
           _statusBadge('${d.propertiesPending} Em aprovação', const Color(0xFF2563EB)),
           const SizedBox(height: 6),
@@ -548,13 +628,26 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
 
   // ==================== HELPERS ====================
 
+  Widget _subMenuItem(String label) => Material(
+    color: Colors.transparent,
+    child: InkWell(
+      onTap: () {},
+      child: Container(
+        height: 36,
+        padding: const EdgeInsets.only(left: 48),
+        alignment: Alignment.centerLeft,
+        child: Text(label, style: const TextStyle(color: Colors.white60, fontSize: 12)),
+      ),
+    ),
+  );
+
   Widget _statItem(String value, String label) {
     return Expanded(
       child: Column(
         children: [
           Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: AppTheme.primaryBlue)),
           const SizedBox(height: 4),
-          Text(label, textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Colors.grey[500])),
+          Text(label, textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
         ],
       ),
     );
@@ -598,4 +691,10 @@ class _MenuItem {
   final IconData icon;
   final String labelKey;
   const _MenuItem({required this.icon, required this.labelKey});
+}
+
+class _SubItem {
+  final String label;
+  final Widget page;
+  const _SubItem(this.label, this.page);
 }

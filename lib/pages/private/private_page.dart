@@ -17,6 +17,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'fraction_page.dart';
 import 'widgets/IPO_page.dart';
 import 'str_analytics_page.dart';
+import '../admin/admin_videos_page.dart';
 
 enum PrivateInvestmentType {
   education,
@@ -1239,6 +1240,26 @@ class _PrivatePageState extends State<PrivatePage> {
               ),
             ],
           ),
+          // Admin button - gerenciar vídeos
+          FutureBuilder<bool>(
+            future: _checkIsAdmin(),
+            builder: (context, snap) {
+              if (snap.data != true) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: ElevatedButton.icon(
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AdminVideosPage())),
+                  icon: const Icon(Icons.admin_panel_settings, size: 18),
+                  label: const Text('Gerenciar Vídeos'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _gold,
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+              );
+            },
+          ),
           const SizedBox(height: 24),
 
           // Categorias
@@ -1429,10 +1450,26 @@ class _PrivatePageState extends State<PrivatePage> {
       final data = await Supabase.instance.client
           .from('education_content')
           .select()
+          .eq('status', 'published')
           .order('created_at', ascending: false);
       return List<Map<String, dynamic>>.from(data);
     } catch (_) {
       return [];
+    }
+  }
+
+  Future<bool> _checkIsAdmin() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user == null) return false;
+    try {
+      final profile = await Supabase.instance.client
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+      return profile['role'] == 'admin';
+    } catch (_) {
+      return false;
     }
   }
 
