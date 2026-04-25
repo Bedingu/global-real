@@ -25,64 +25,69 @@ Future<void> main() async {
     usePathUrlStrategy();
   }
 
-  // 1) Carregar variáveis de ambiente
+  // Wrap toda inicialização em try/catch para nunca crashar na abertura
   try {
-    await dotenv.load(fileName: 'assets/.env');
-  } catch (e) {
-    debugPrint("⚠️ Erro ao carregar .env: $e");
-  }
-
-  // 2) Ler variáveis com fallback hardcoded para web
-  var supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
-  var supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
-
-  // Fallback se .env não carregou
-  if (supabaseUrl.isEmpty) {
-    supabaseUrl = 'https://pcbwbndrnnqptxdbrqnm.supabase.co';
-  }
-  if (supabaseAnonKey.isEmpty) {
-    supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjYndibmRybm5xcHR4ZGJycW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxNTU1MjAsImV4cCI6MjA4MTczMTUyMH0.Sw5hgfkUHbLyAcTUwltrb_AH3Jg17m-LCcC_Ou6QtbE';
-  }
-
-  // 3) Inicializar Supabase se as chaves existirem
-  if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {
+    // 1) Carregar variáveis de ambiente
     try {
-      await Supabase.initialize(
-        url: supabaseUrl,
-        anonKey: supabaseAnonKey,
-      );
-      debugPrint("✅ Supabase inicializado: $supabaseUrl");
+      await dotenv.load(fileName: 'assets/.env');
     } catch (e) {
-      debugPrint("❌ Erro ao inicializar Supabase: $e");
+      debugPrint("⚠️ Erro ao carregar .env: $e");
     }
-  } else {
-    debugPrint("❌ SUPABASE_URL ou SUPABASE_ANON_KEY não definidas no .env");
-  }
 
-  // 4) Buscar câmbio inicial (opcional)
-  try {
-    await ExchangeRateService.fetchUsdToBrl();
-  } catch (e) {
-    debugPrint("⚠️ Erro ao buscar câmbio USD/BRL: $e");
-  }
+    // 2) Ler variáveis com fallback hardcoded
+    var supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
+    var supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
 
-  // 5) Carregar regras de scoring
-  try {
-    await LeadScoringService.loadRules();
-  } catch (e) {
-    debugPrint("⚠️ Erro ao carregar regras de scoring: $e");
-  }
+    if (supabaseUrl.isEmpty) {
+      supabaseUrl = 'https://pcbwbndrnnqptxdbrqnm.supabase.co';
+    }
+    if (supabaseAnonKey.isEmpty) {
+      supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjYndibmRybm5xcHR4ZGJycW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxNTU1MjAsImV4cCI6MjA4MTczMTUyMH0.Sw5hgfkUHbLyAcTUwltrb_AH3Jg17m-LCcC_Ou6QtbE';
+    }
 
-  // 5.1) Carregar role do usuário (se logado)
-  try {
-    if (await AuthService.isLoggedIn()) {
-      await AuthService.getUserRole();
+    // 3) Inicializar Supabase
+    if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {
+      try {
+        await Supabase.initialize(
+          url: supabaseUrl,
+          anonKey: supabaseAnonKey,
+        );
+        debugPrint("✅ Supabase inicializado: $supabaseUrl");
+      } catch (e) {
+        debugPrint("❌ Erro ao inicializar Supabase: $e");
+      }
+    }
+
+    // 4) Buscar câmbio inicial (opcional, com timeout)
+    try {
+      await ExchangeRateService.fetchUsdToBrl().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => debugPrint("⚠️ Timeout ao buscar câmbio"),
+      );
+    } catch (e) {
+      debugPrint("⚠️ Erro ao buscar câmbio USD/BRL: $e");
+    }
+
+    // 5) Carregar regras de scoring
+    try {
+      await LeadScoringService.loadRules();
+    } catch (e) {
+      debugPrint("⚠️ Erro ao carregar regras de scoring: $e");
+    }
+
+    // 5.1) Carregar role do usuário (se logado)
+    try {
+      if (await AuthService.isLoggedIn()) {
+        await AuthService.getUserRole();
+      }
+    } catch (e) {
+      debugPrint("⚠️ Erro ao carregar role: $e");
     }
   } catch (e) {
-    debugPrint("⚠️ Erro ao carregar role: $e");
+    debugPrint("❌ Erro fatal na inicialização: $e");
   }
 
-  // 6) Rodar o app
+  // 6) Rodar o app — SEMPRE, mesmo se algo falhou acima
   runApp(const MyApp());
 }
 
