@@ -18,7 +18,7 @@
     }
   },
   {
-    "name": "Vitacon Higienópolis",
+    "name": "Senior Living Albert Einstein",
     "input": {
       "initialInvestment": 1000000,
       "exitValue": 1705255,
@@ -86,6 +86,24 @@
     "expected": {
       "irrAnnual": 0.226,
       "roi": 0.724,
+      "paybackMonths": 36
+    }
+  },
+  {
+    "name": "Vitacon Nove de Julho",
+    "input": {
+      "initialInvestment": 200000,
+      "exitValue": 371893,
+      "monthlyRevenue": 0,
+      "monthlyCosts": 0,
+      "revenueGrowthRateMonthly": 0,
+      "costGrowthRateMonthly": 0,
+      "durationMonths": 36,
+      "discountRateMonthly": 0.01
+    },
+    "expected": {
+      "irrAnnual": 0.209,
+      "roi": 0.859,
       "paybackMonths": 36
     }
   }

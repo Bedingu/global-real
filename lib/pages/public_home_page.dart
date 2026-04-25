@@ -73,11 +73,8 @@ class _PublicHomePageState extends State<PublicHomePage> {
             // ═══ HERO ═══
             _buildHero(t, isWide, contentWidth),
 
-            // ═══ AUTORIDADE ═══
-            _buildAuthoritySection(t, isWide, contentWidth),
-
-            // ═══ LANÇAMENTOS ═══
-            _buildLaunchesSection(t, isWide, contentWidth),
+            // ═══ DESTAQUE: SENIOR LIVING ═══
+            _buildFeaturedDevelopment(t, isWide, contentWidth),
 
             // ═══ GUIA DO INVESTIDOR ═══
             _buildInvestorGuide(t, isWide, contentWidth),
@@ -87,9 +84,6 @@ class _PublicHomePageState extends State<PublicHomePage> {
 
             // ═══ NÚMEROS ═══
             _buildNumbers(t, isWide, contentWidth),
-
-            // ═══ COMUNIDADE ═══
-            _buildCommunity(t, isWide, contentWidth),
 
             // ═══ CTA FINAL ═══
             _buildFinalCta(t, isWide, contentWidth),
@@ -238,6 +232,185 @@ class _PublicHomePageState extends State<PublicHomePage> {
         height: 320,
         width: double.infinity,
         fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  // ═══════════════════════════════════════
+  // DESTAQUE: SENIOR LIVING ALBERT EINSTEIN
+  // ═══════════════════════════════════════
+  Widget _buildFeaturedDevelopment(AppLocalizations t, bool isWide, double contentWidth) {
+    const featuredImage = 'https://pcbwbndrnnqptxdbrqnm.supabase.co/storage/v1/object/public/development-images/senior-living/page39_img01_1280x720.jpeg';
+    const secondImage = 'https://pcbwbndrnnqptxdbrqnm.supabase.co/storage/v1/object/public/development-images/senior-living/page43_img01_4396x2473.jpeg';
+
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF0D1B2A), Color(0xFF1B2838)],
+        ),
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: contentWidth),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 56),
+            child: Column(
+              children: [
+                // Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: _gold.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: _gold.withValues(alpha: 0.3)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.star, color: _gold, size: 14),
+                      SizedBox(width: 6),
+                      Text('Empreendimento em Destaque',
+                          style: TextStyle(color: _gold, fontSize: 12, fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                // Title
+                const Text(
+                  'Senior Living Albert Einstein',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Higienópolis, São Paulo — O primeiro Senior Living com a chancela Albert Einstein',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white60, fontSize: 15, height: 1.4),
+                ),
+                const SizedBox(height: 32),
+
+                // Images
+                isWide
+                    ? Row(
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.network(featuredImage, height: 320, fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => Container(height: 320, color: _card)),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.network(secondImage, height: 152, width: double.infinity, fit: BoxFit.cover,
+                                      errorBuilder: (_, __, ___) => Container(height: 152, color: _card)),
+                                ),
+                                const SizedBox(height: 16),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.network(
+                                    'https://pcbwbndrnnqptxdbrqnm.supabase.co/storage/v1/object/public/development-images/senior-living/page44_img01_4396x2473.jpeg',
+                                    height: 152, width: double.infinity, fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => Container(height: 152, color: _card),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(featuredImage, height: 220, width: double.infinity, fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Container(height: 220, color: _card)),
+                      ),
+
+                const SizedBox(height: 32),
+
+                // Metrics
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    _featuredMetric('R\$ 16.900', 'Preço/m² entrada'),
+                    _featuredMetric('R\$ 30.000', 'Preço/m² saída estimada'),
+                    _featuredMetric('70,5%', 'ROI projetado'),
+                    _featuredMetric('22%', 'TIR/IRR a.a.'),
+                    _featuredMetric('36 meses', 'Prazo de entrega'),
+                    _featuredMetric('R\$ 200 mil', 'Entrada a partir de'),
+                  ],
+                ),
+
+                const SizedBox(height: 32),
+
+                // CTA
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: _navigateSignup,
+                      icon: const Icon(Icons.rocket_launch, size: 18),
+                      label: const Text('Quero Investir', style: TextStyle(fontWeight: FontWeight.w700)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _gold,
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton.icon(
+                      onPressed: () => _openWhatsApp(),
+                      icon: const Icon(Icons.chat, size: 18),
+                      label: const Text('Falar com Consultor'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white24),
+                        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _featuredMetric(String value, String label) {
+    return Container(
+      width: 160,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: _border, width: 0.5),
+      ),
+      child: Column(
+        children: [
+          Text(value, style: const TextStyle(color: _gold, fontSize: 18, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 4),
+          Text(label, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white54, fontSize: 11)),
+        ],
       ),
     );
   }

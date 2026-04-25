@@ -99,90 +99,90 @@ de Latam. Florida: inversores globales, retorno en dólar.
 
 ---
 
-### POST 3 — Vitacon Higienópolis: Lançamento Agosto 2026
-**Tipo:** Empreendimento + Lançamento App | **Formato:** Texto + Imagem
+    ### POST 3 — Senior Living Albert Einstein: Lançamento Agosto 2026
+    **Tipo:** Empreendimento + Lançamento App | **Formato:** Texto + Imagem
 
-```
-🏗️ Vitacon Higienópolis — Lançamento previsto: Agosto 2026
+    ```
+    🏗️ Senior Living Albert Einstein — Lançamento previsto: Agosto 2026
 
-Um dos bairros mais nobres de São Paulo agora com oportunidade de investimento via SPE.
+    Um dos bairros mais nobres de São Paulo agora com oportunidade de investimento via SPE.
 
-📊 Números do empreendimento:
-→ Área: 59,17 m²
-→ R$/m² de entrada: R$ 16.900
-→ Estimativa de saída: R$ 30.000/m²
-→ Projeção de renda: 1% a.m.
-→ ROI projetado: 70,5%
-→ TIR/IRR: 22,0% a.a.
-→ Prazo de entrega: 36 meses (ago/2029)
-→ Entrada à vista a partir de R$ 200 mil
+    📊 Números do empreendimento:
+    → Área: 59,17 m²
+    → R$/m² de entrada: R$ 16.900
+    → Estimativa de saída: R$ 30.000/m²
+    → Projeção de renda: 1% a.m.
+    → ROI projetado: 70,5%
+    → TIR/IRR: 22,0% a.a.
+    → Prazo de entrega: 36 meses (ago/2029)
+    → Entrada à vista a partir de R$ 200 mil
 
-Ganho estimado de R$ 705 mil sobre aporte de R$ 1 milhão.
+    Ganho estimado de R$ 705 mil sobre aporte de R$ 1 milhão.
 
-Higienópolis é sinônimo de valorização, infraestrutura e demanda constante.
+    Higienópolis é sinônimo de valorização, infraestrutura e demanda constante.
 
----
+    ---
 
-📱 Na próxima segunda-feira, dia 27, lançamos oficialmente o Global Real Estate — a plataforma que conecta investidores aos melhores empreendimentos de São Paulo e Florida.
+    📱 Na próxima segunda-feira, dia 27, lançamos oficialmente o Global Real Estate — a plataforma que conecta investidores aos melhores empreendimentos de São Paulo e Florida.
 
-No app você pode:
-✅ Simular aportes e retornos de cada empreendimento
-✅ Acompanhar oportunidades em tempo real
-✅ Acessar conteúdo exclusivo sobre investimento imobiliário
+    No app você pode:
+    ✅ Simular aportes e retornos de cada empreendimento
+    ✅ Acompanhar oportunidades em tempo real
+    ✅ Acessar conteúdo exclusivo sobre investimento imobiliário
 
----
+    ---
 
-🏢 Você é corretor ou assessor de investimentos?
+    🏢 Você é corretor ou assessor de investimentos?
 
-Também estamos lançando o nosso CRM imobiliário com:
-→ Gestão de leads com IA (Lead Scoring automático)
-→ Roleta de distribuição de leads
-→ Funil de oportunidades completo
-→ Gestão de contratos, faturas e repasses
-→ Dashboard com métricas em tempo real
+    Também estamos lançando o nosso CRM imobiliário com:
+    → Gestão de leads com IA (Lead Scoring automático)
+    → Roleta de distribuição de leads
+    → Funil de oportunidades completo
+    → Gestão de contratos, faturas e repasses
+    → Dashboard com métricas em tempo real
 
-Uma ferramenta pensada para quem quer profissionalizar a operação e vender mais.
+    Uma ferramenta pensada para quem quer profissionalizar a operação e vender mais.
 
-Quer conhecer? Acesse:
-🔗 App: globalreal-app.web.app
-🔗 CRM: disponível em breve
+    Quer conhecer? Acesse:
+    🔗 App: globalreal-app.web.app
+    🔗 CRM: disponível em breve
 
----
+    ---
 
-🇺🇸 Vitacon Higienópolis — Launch: August 2026
-One of São Paulo's most prestigious neighborhoods.
-Entry at R$ 16,900/m², projected exit at R$ 30,000/m².
-ROI: 70.5% | IRR: 22.0% p.a. | Min investment: R$ 200K.
+    🇺🇸 Senior Living Albert Einstein — Launch: August 2026
+    One of São Paulo's most prestigious neighborhoods.
+    Entry at R$ 16,900/m², projected exit at R$ 30,000/m².
+    ROI: 70.5% | IRR: 22.0% p.a. | Min investment: R$ 200K.
 
-📱 Next Monday (Apr 27) we officially launch Global Real Estate.
-🏢 Brokers: our AI-powered CRM is also launching — lead scoring, opportunity funnels, and full rental management.
+    📱 Next Monday (Apr 27) we officially launch Global Real Estate.
+    🏢 Brokers: our AI-powered CRM is also launching — lead scoring, opportunity funnels, and full rental management.
 
-🇪🇸 Vitacon Higienópolis — Lanzamiento: Agosto 2026
-Entrada desde R$ 16.900/m², salida estimada R$ 30.000/m².
-ROI: 70,5% | TIR: 22,0% anual.
+    🇪🇸 Senior Living Albert Einstein — Lanzamiento: Agosto 2026
+    Entrada desde R$ 16.900/m², salida estimada R$ 30.000/m².
+    ROI: 70,5% | TIR: 22,0% anual.
 
-📱 El lunes 27 lanzamos oficialmente Global Real Estate.
-🏢 Corredores: nuestro CRM con IA también se lanza.
+    📱 El lunes 27 lanzamos oficialmente Global Real Estate.
+    🏢 Corredores: nuestro CRM con IA también se lanza.
 
-🇨🇳 Vitacon Higienópolis — 2026年8月推出
-圣保罗最高端社区之一。
-入场价 R$ 16,900/m²，预计退出价 R$ 30,000/m²。
-投资回报率：70.5% | 内部收益率：22.0%
-最低投资：R$ 200,000。
+    🇨🇳 Senior Living Albert Einstein — 2026年8月推出
+    圣保罗最高端社区之一。
+    入场价 R$ 16,900/m²，预计退出价 R$ 30,000/m²。
+    投资回报率：70.5% | 内部收益率：22.0%
+    最低投资：R$ 200,000。
 
-📱 4月27日（周一）正式发布 Global Real Estate 平台。
-🏢 经纪人：我们的AI驱动CRM同步上线 — 智能线索评分、
-机会漏斗、完整租赁管理。
+    📱 4月27日（周一）正式发布 Global Real Estate 平台。
+    🏢 经纪人：我们的AI驱动CRM同步上线 — 智能线索评分、
+    机会漏斗、完整租赁管理。
 
-#InvestimentoImobiliário #Higienópolis #SãoPaulo
-#RealEstateInvesting #PropTech #Vitacon
-#SócioInvestidor #GlobalRealEstate #CRMImobiliário
-#Lançamento #CorretorDeImóveis #LeadScoring
-```
+    #InvestimentoImobiliário #SeniorLiving #AlbertEinstein #Higienópolis #SãoPaulo
+    #RealEstateInvesting #PropTech #Vitacon
+    #SócioInvestidor #GlobalRealEstate #CRMImobiliário
+    #Lançamento #CorretorDeImóveis #LeadScoring
+    ```
 
-**Imagem:** Screenshot do empreendimento no app + screenshot do CRM lado a lado
+    **Imagem:** Screenshot do empreendimento no app + screenshot do CRM lado a lado
 
----
+    ---
 
 ### POST 4 — Calculadora de Investimentos
 **Tipo:** Produto | **Formato:** Texto + Screenshot

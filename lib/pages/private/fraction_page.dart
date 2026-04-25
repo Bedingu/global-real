@@ -55,10 +55,15 @@ class _FractionPageState extends State<FractionPage> {
       4: {"price": 610000, "simultaneous": 2},
       6: {"price": 890000, "simultaneous": 3},
     },
-    "Vitacon Higienópolis": {
+    "Senior Living Albert Einstein": {
       2: {"price": 350000, "simultaneous": 1},
       4: {"price": 640000, "simultaneous": 2},
       6: {"price": 920000, "simultaneous": 3},
+    },
+    "Vitacon Nove de Julho": {
+      2: {"price": 200000, "simultaneous": 1},
+      4: {"price": 380000, "simultaneous": 2},
+      6: {"price": 550000, "simultaneous": 3},
     },
   };
 

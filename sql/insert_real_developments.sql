@@ -46,21 +46,21 @@ INSERT INTO public.developments (
   '200000', '1000000',
   '{"parking": true, "pool": true, "air_conditioning": true, "pet_friendly": false}'
 ),
--- 3. Vitacon Higienópolis
+-- 3. Senior Living Albert Einstein
 (
   'saopaulo',
-  'Vitacon Higienópolis',
+  'Senior Living Albert Einstein',
   'Higienópolis, São Paulo, SP',
   '2029-08-31',
   'Apartamento',
   '59,17 m²', '1', 1, 1, 2,
   1.0, 30000, 0, 0,
-  0, 0, '{"Higienópolis","Mackenzie","Pacaembu"}',
+  0, 0, '{"Higienópolis","Albert Einstein","Mackenzie","Pacaembu"}',
   'Higienópolis, São Paulo',
   'Higienópolis-Mackenzie', 300,
   10, 1000000, 16900, 1.0,
   '200000', '1000000',
-  '{"parking": true, "pool": true, "air_conditioning": true, "pet_friendly": true}'
+  '{"parking": true, "pool": true, "air_conditioning": true, "pet_friendly": true, "senior_living": true}'
 ),
 -- 4. Vitacon Alameda Barros 886
 (
@@ -77,4 +77,20 @@ INSERT INTO public.developments (
   10, 1200000, 11900, 1.0,
   '200000', '1200000',
   '{"parking": true, "pool": true, "air_conditioning": true, "pet_friendly": false}'
+),
+-- 5. Vitacon Nove de Julho
+(
+  'saopaulo',
+  'Vitacon Nove de Julho',
+  'Bela Vista, São Paulo, SP',
+  '2030-04-30',
+  'Studio',
+  '18,35 m²', '1', 1, 1, 2,
+  0.8, 20000, 0, 0,
+  0, 0, '{"Bela Vista","Sírio-Libanês","FGV","Av. Paulista","Estação 14-Bis"}',
+  'Rua Nove de Julho, Bela Vista, São Paulo',
+  '14-Bis (Linha Laranja)', 100,
+  10, 200000, 10900, 0.8,
+  '200000', '500000',
+  '{"parking": false, "pool": false, "air_conditioning": true, "pet_friendly": true, "coworking": true, "fitness": true, "podcast_studio": true, "laundry": true, "concierge": true}'
 );

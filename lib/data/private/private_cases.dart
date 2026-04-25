@@ -16,7 +16,7 @@ final List<PrivateCase> privateCases = [
     ),
   ),
   PrivateCase(
-    name: "Vitacon Higienópolis",
+    name: "Senior Living Albert Einstein",
     input: PrivateSimulationInput(
       initialInvestment: 1000000,
       monthlyRevenue: 0,
@@ -61,6 +61,19 @@ final List<PrivateCase> privateCases = [
       monthlyRevenue: 0,
       monthlyCosts: 0,
       exitValue: 1724202,
+      durationMonths: 36,
+      revenueGrowthRateMonthly: 0,
+      costGrowthRateMonthly: 0,
+      discountRateMonthly: 0.01,
+    ),
+  ),
+  PrivateCase(
+    name: "Vitacon Nove de Julho",
+    input: PrivateSimulationInput(
+      initialInvestment: 200000,
+      monthlyRevenue: 0,
+      monthlyCosts: 0,
+      exitValue: 371893,
       durationMonths: 36,
       revenueGrowthRateMonthly: 0,
       costGrowthRateMonthly: 0,

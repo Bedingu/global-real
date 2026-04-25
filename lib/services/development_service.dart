@@ -40,7 +40,8 @@ class DevelopmentService {
       avg_daily_rate,
       yield,
       a_partir_de,
-      até
+      até,
+      images
     ''');
 
     // =========================
