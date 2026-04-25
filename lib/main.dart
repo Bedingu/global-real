@@ -23,15 +23,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
 
-  // 1) Carregar variáveis de ambiente diferenciando WEB vs MOBILE/DESKTOP
+  // 1) Carregar variáveis de ambiente
   try {
-    if (kIsWeb) {
-      // No web o .env precisa estar dentro de assets/
-      await dotenv.load(fileName: 'assets/.env');
-    } else {
-      // No mobile/desktop pode ficar na raiz
-      await dotenv.load(fileName: '.env');
-    }
+    await dotenv.load(fileName: 'assets/.env');
   } catch (e) {
     debugPrint("⚠️ Erro ao carregar .env: $e");
   }
