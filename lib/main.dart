@@ -21,7 +21,9 @@ import 'services/lead_scoring_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  usePathUrlStrategy();
+  if (kIsWeb) {
+    usePathUrlStrategy();
+  }
 
   // 1) Carregar variáveis de ambiente
   try {
