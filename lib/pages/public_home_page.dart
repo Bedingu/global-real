@@ -102,15 +102,15 @@ class _PublicHomePageState extends State<PublicHomePage> {
   // ═══════════════════════════════════════
   Widget _buildNavbar(AppLocalizations t, bool isWide) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: isWide ? 24 : 16, vertical: isWide ? 16 : 10),
+      padding: EdgeInsets.symmetric(horizontal: isWide ? 24 : 12, vertical: isWide ? 16 : 8),
       color: _blue,
       child: Row(
         children: [
-          Image.asset('assets/images/logo_global_real.png', height: isWide ? 88 : 48),
+          Image.asset('assets/images/logo_global_real.png', height: isWide ? 88 : 40),
           const Spacer(),
           // Idioma
           PopupMenuButton<Locale>(
-            icon: const Icon(Icons.language, color: Colors.white70, size: 20),
+            icon: Icon(Icons.language, color: Colors.white70, size: isWide ? 20 : 18),
             color: _card,
             onSelected: (locale) => widget.onChangeLanguage(locale),
             itemBuilder: (_) => const [
@@ -120,21 +120,33 @@ class _PublicHomePageState extends State<PublicHomePage> {
               PopupMenuItem(value: Locale('zh'), child: Text('🇨🇳  中文', style: TextStyle(color: Colors.white))),
             ],
           ),
-          const SizedBox(width: 8),
-          TextButton(
-            onPressed: _navigateLogin,
-            child: Text(t.login, style: const TextStyle(color: Colors.white70, fontSize: 14)),
-          ),
-          const SizedBox(width: 8),
+          SizedBox(width: isWide ? 8 : 4),
+          // Entrar — botão outlined no mobile pra ficar mais visível
+          isWide
+              ? TextButton(
+                  onPressed: _navigateLogin,
+                  child: Text(t.login, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                )
+              : OutlinedButton(
+                  onPressed: _navigateLogin,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white38),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: Text(t.login, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                ),
+          SizedBox(width: isWide ? 8 : 4),
           ElevatedButton(
             onPressed: _navigateSignup,
             style: ElevatedButton.styleFrom(
               backgroundColor: _gold,
               foregroundColor: Colors.black,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: isWide ? 20 : 12, vertical: isWide ? 10 : 8),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-            child: Text(t.signup, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+            child: Text(t.signup, style: TextStyle(fontWeight: FontWeight.w600, fontSize: isWide ? 13 : 12)),
           ),
         ],
       ),
