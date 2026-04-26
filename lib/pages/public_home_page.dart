@@ -122,34 +122,31 @@ class _PublicHomePageState extends State<PublicHomePage> {
               PopupMenuItem(value: Locale('zh'), child: Text('🇨🇳  中文', style: TextStyle(color: Colors.white))),
             ],
           ),
-          SizedBox(width: isWide ? 8 : 4),
-          // Entrar — botão outlined no mobile pra ficar mais visível
-          isWide
-              ? TextButton(
-                  onPressed: _navigateLogin,
-                  child: Text(t.login, style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                )
-              : OutlinedButton(
-                  onPressed: _navigateLogin,
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.white38),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: Text(t.login, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-                ),
-          SizedBox(width: isWide ? 8 : 4),
-          ElevatedButton(
-            onPressed: _navigateSignup,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _gold,
-              foregroundColor: Colors.black,
-              padding: EdgeInsets.symmetric(horizontal: isWide ? 20 : 12, vertical: isWide ? 10 : 8),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          if (isWide) ...[
+            SizedBox(width: isWide ? 8 : 4),
+            TextButton(
+              onPressed: _navigateLogin,
+              child: Text(t.login, style: const TextStyle(color: Colors.white70, fontSize: 14)),
             ),
-            child: Text(t.signup, style: TextStyle(fontWeight: FontWeight.w600, fontSize: isWide ? 13 : 12)),
-          ),
+            SizedBox(width: isWide ? 8 : 4),
+            ElevatedButton(
+              onPressed: _navigateSignup,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _gold,
+                foregroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              child: Text(t.signup, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+            ),
+          ] else ...[
+            const SizedBox(width: 4),
+            IconButton(
+              icon: const Icon(Icons.chat_outlined, color: Colors.white70, size: 20),
+              tooltip: 'WhatsApp',
+              onPressed: () => _openWhatsApp(),
+            ),
+          ],
         ],
       ),
     );
