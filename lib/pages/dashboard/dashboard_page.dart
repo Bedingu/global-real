@@ -389,7 +389,6 @@ class _DashboardPageState extends State<DashboardPage> {
           _filterButton(
             label: t.filter_investment,
             icon: Icons.trending_up,
-            highlighted: true,
             onTap: () {
               if (!_isPremiumUser && !kDevBypassPremium) {
                 _openPaywall();
