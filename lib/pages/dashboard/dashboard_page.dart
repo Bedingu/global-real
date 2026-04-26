@@ -308,11 +308,168 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
           _buildSearch(),
           const SizedBox(height: 12),
-          _buildFilterRow(),
+          _buildFilterRowResponsive(context),
           const SizedBox(height: 24),
           _buildResults(),
         ],
       ),
+    );
+  }
+
+  // =============================
+  // FILTER ROW RESPONSIVE
+  // =============================
+
+  Widget _buildFilterRowResponsive(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+
+    if (isMobile) {
+      return _buildMobileFilterBar();
+    }
+    return _buildFilterRow();
+  }
+
+  Widget _buildMobileFilterBar() {
+    final t = AppLocalizations.of(context)!;
+    return Row(
+      children: [
+        // Hub selector
+        Expanded(
+          child: MarketHubFilter(
+            value: _hub,
+            onChanged: (hub) {
+              setState(() {
+                _hub = hub;
+                _marketFilter = defaultMarketFilterByHub(hub);
+              });
+            },
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Botão Filtros
+        InkWell(
+          onTap: () => _openMobileFilterDrawer(context),
+          borderRadius: BorderRadius.circular(_filterRadius),
+          child: Container(
+            height: _filterHeight,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            decoration: BoxDecoration(
+              color: _filterBg,
+              borderRadius: BorderRadius.circular(_filterRadius),
+              border: Border.all(color: _filterBorder),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.tune, size: 16),
+                SizedBox(width: 6),
+                Text('Filtros', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        // Botão Investimento
+        InkWell(
+          onTap: () {
+            if (!_isPremiumUser && !kDevBypassPremium) {
+              _openPaywall();
+              return;
+            }
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivatePage()));
+          },
+          borderRadius: BorderRadius.circular(_filterRadius),
+          child: Container(
+            height: _filterHeight,
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            decoration: BoxDecoration(
+              color: const Color(0xFF232845),
+              borderRadius: BorderRadius.circular(_filterRadius),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.trending_up, size: 16, color: Colors.white),
+                SizedBox(width: 6),
+                Text('Investir', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _openMobileFilterDrawer(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.7,
+        maxChildSize: 0.9,
+        minChildSize: 0.4,
+        expand: false,
+        builder: (_, scrollController) => ListView(
+          controller: scrollController,
+          padding: const EdgeInsets.all(20),
+          children: [
+            // Handle
+            Center(
+              child: Container(
+                width: 40, height: 4,
+                decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(2)),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text('Filtros', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            // Empreendimentos
+            _mobileFilterTile(t.filter_developments, Icons.apartment_outlined, _openMarketFilter),
+            _mobileFilterTile(t.filter_capacity, Icons.people_outline, _openCapacityFilter),
+            _mobileFilterTile(t.budget_title, Icons.attach_money, _openBudgetModal),
+            _mobileFilterTile(t.amenities_title, Icons.pool_outlined, _openAmenitiesModal),
+            _mobileFilterTile(t.filter_property_type, Icons.apartment_outlined, _openPropertyTypeModal),
+            _mobileFilterTile(t.filter_delivery_date, Icons.calendar_month_outlined, _openDeliveryDateModal),
+            _mobileFilterTile(t.filter_price_range, Icons.price_change_outlined, _openPriceRangeModal),
+            _mobileFilterTile('Proximidade', Icons.near_me_outlined, () {
+              Navigator.pop(ctx);
+              // TODO: open proximity filter
+            }),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(ctx),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF232845),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text('Aplicar Filtros', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _mobileFilterTile(String label, IconData icon, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: const Color(0xFF232845), size: 22),
+      title: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+      trailing: const Icon(Icons.chevron_right, size: 20, color: Colors.grey),
+      onTap: () {
+        Navigator.pop(context);
+        onTap();
+      },
+      contentPadding: EdgeInsets.zero,
     );
   }
 
