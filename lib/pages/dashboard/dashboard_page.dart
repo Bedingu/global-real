@@ -430,7 +430,7 @@ class _DashboardPageState extends State<DashboardPage> {
             const Text('Filtros', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             // Empreendimentos
-            _mobileFilterTile(t.filter_developments, Icons.apartment_outlined, _openMarketFilter),
+            _mobileFilterTile('Empreendimentos', Icons.apartment_outlined, _openMarketFilter),
             _mobileFilterTile(t.filter_capacity, Icons.people_outline, _openCapacityFilter),
             _mobileFilterTile(t.budget_title, Icons.attach_money, _openBudgetModal),
             _mobileFilterTile(t.amenities_title, Icons.pool_outlined, _openAmenitiesModal),
