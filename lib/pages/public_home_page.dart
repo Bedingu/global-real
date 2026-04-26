@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -101,11 +102,11 @@ class _PublicHomePageState extends State<PublicHomePage> {
   // ═══════════════════════════════════════
   Widget _buildNavbar(AppLocalizations t, bool isWide) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: isWide ? 24 : 16, vertical: isWide ? 16 : 10),
       color: _blue,
       child: Row(
         children: [
-          Image.asset('assets/images/logo_global_real.png', height: 88),
+          Image.asset('assets/images/logo_global_real.png', height: isWide ? 88 : 48),
           const Spacer(),
           // Idioma
           PopupMenuButton<Locale>(
@@ -854,23 +855,25 @@ class _PublicHomePageState extends State<PublicHomePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white54, fontSize: 14)),
                 const SizedBox(height: 28),
-                // QR Code
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                // QR Code — only on web
+                if (kIsWeb) ...[
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: QrImageView(
+                      data: 'https://global-real-rho.vercel.app',
+                      version: QrVersions.auto,
+                      size: 140,
+                      backgroundColor: Colors.white,
+                    ),
                   ),
-                  child: QrImageView(
-                    data: 'https://global-real-rho.vercel.app',
-                    version: QrVersions.auto,
-                    size: 140,
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Text('Escaneie para acessar o app', style: TextStyle(color: Colors.white54, fontSize: 12)),
-                const SizedBox(height: 28),
+                  const SizedBox(height: 10),
+                  const Text('Escaneie para acessar o app', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                  const SizedBox(height: 28),
+                ],
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
