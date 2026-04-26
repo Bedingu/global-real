@@ -64,7 +64,8 @@ class _PublicHomePageState extends State<PublicHomePage> {
 
     return Scaffold(
       backgroundColor: _bg,
-      body: SingleChildScrollView(
+      body: SafeArea(
+        child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
@@ -93,6 +94,7 @@ class _PublicHomePageState extends State<PublicHomePage> {
             _buildFooter(t, isWide, contentWidth),
           ],
         ),
+      ),
       ),
     );
   }
