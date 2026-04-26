@@ -13,7 +13,7 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.globalreal.app
       flutter: stable
-      xcode: latest
+      xcode: 16.4
       vars:
         BUNDLE_ID: "com.globalreal.app"
         APP_STORE_APPLE_ID: 6761792961
@@ -24,6 +24,19 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter pub get
+      - name: Patch PathProviderPlugin crash
+        script: |
+          echo "Removing PathProviderPlugin from GeneratedPluginRegistrant.m to fix iOS 18.7 crash..."
+          REGISTRANT_FILE="ios/Runner/GeneratedPluginRegistrant.m"
+          if [ -f "$REGISTRANT_FILE" ]; then
+            sed -i '' '/path_provider_foundation/d' "$REGISTRANT_FILE"
+            sed -i '' '/PathProviderPlugin/d' "$REGISTRANT_FILE"
+            echo "PathProviderPlugin removed successfully"
+            cat "$REGISTRANT_FILE"
+          fi
+      - name: Install CocoaPods
+        script: |
+          cd ios && pod install --repo-update
       - name: Build IPA
         script: |
           flutter build ipa --release \
