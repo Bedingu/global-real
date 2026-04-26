@@ -78,17 +78,20 @@ class _PublicHomePageState extends State<PublicHomePage> {
             // ═══ DESTAQUE: SENIOR LIVING ═══
             _buildFeaturedDevelopment(t, isWide, contentWidth),
 
-            // ═══ GUIA DO INVESTIDOR ═══
-            _buildInvestorGuide(t, isWide, contentWidth),
+            // ═══ GUIA DO INVESTIDOR (só web) ═══
+            if (kIsWeb)
+              _buildInvestorGuide(t, isWide, contentWidth),
 
-            // ═══ POR QUE INVESTIR ═══
-            _buildWhyInvest(t, isWide, contentWidth),
+            // ═══ POR QUE INVESTIR (só web) ═══
+            if (kIsWeb)
+              _buildWhyInvest(t, isWide, contentWidth),
 
             // ═══ NÚMEROS ═══
             _buildNumbers(t, isWide, contentWidth),
 
-            // ═══ CTA FINAL ═══
-            _buildFinalCta(t, isWide, contentWidth),
+            // ═══ CTA FINAL (só web) ═══
+            if (kIsWeb)
+              _buildFinalCta(t, isWide, contentWidth),
 
             // ═══ FOOTER ═══
             _buildFooter(t, isWide, contentWidth),
