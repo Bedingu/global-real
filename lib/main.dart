@@ -147,6 +147,10 @@ class _MyAppState extends State<MyApp> {
                   if (snapshot.data == true) {
                     return const DashboardPage();
                   }
+                  // No mobile, ir direto pro login em vez da landing page
+                  if (!kIsWeb) {
+                    return const LoginPage();
+                  }
                   return PublicHomePage(
                     onChangeLanguage: _changeLanguage,
                   );
