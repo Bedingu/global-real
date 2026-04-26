@@ -185,20 +185,6 @@ class _DashboardPageState extends State<DashboardPage> {
         title: Text(t.dashboard_title),
         actions: [
           IconButton(
-            icon: const Icon(Icons.business_center_outlined),
-            tooltip: 'CRM',
-            onPressed: () {
-              if (!_isPremiumUser && !kDevBypassPremium) {
-                _openPaywall();
-                return;
-              }
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CrmDashboardPage()),
-              );
-            },
-          ),
-          IconButton(
             icon: const Icon(Icons.people_outline),
             tooltip: 'Leads',
             onPressed: () => Navigator.push(

@@ -132,8 +132,6 @@ class _MyAppState extends State<MyApp> {
             return MaterialPageRoute(builder: (_) => const DashboardPage());
           case '/leads':
             return MaterialPageRoute(builder: (_) => const LeadsPage());
-          case '/crm':
-            return MaterialPageRoute(builder: (_) => const CrmDashboardPage());
           default:
             return MaterialPageRoute(
               builder: (_) => FutureBuilder<bool>(
