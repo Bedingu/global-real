@@ -232,65 +232,94 @@ class _DashboardPageState extends State<DashboardPage> {
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          // 🔹 Botão Desbloquear Premium
-          if (!_isPremiumUser && !kDevBypassPremium)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0B1220),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: SizedBox(
-                  height: 50,
-                  child: ElevatedButton.icon(
-                    onPressed: _openPaywall,
-                    icon: const Icon(Icons.workspace_premium, size: 20),
-                    label: Text(
-                      t.paywall_cta,
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFFFC107),
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
           // 🔹 Botão Seja Sócio Investidor
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // TODO: navegar para página de investidor
-                },
-                icon: const Icon(Icons.handshake_outlined, size: 20),
-                label: const Text(
-                  'Quero ser sócio de um empreendimento!\nConheça fundos e aportes disponíveis a partir de R\$ 800 mil.',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.primaryBlue,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivatePage()));
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF1A237E), Color(0xFF0D47A1)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  elevation: 0,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.handshake_outlined, color: Colors.white, size: 28),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Seja Sócio Investidor',
+                            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Aportes a partir de R\$ 200 mil',
+                            style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 16),
+                  ],
                 ),
               ),
             ),
           ),
+          // 🔹 Widget Assinatura Premium (para não-premium)
+          if (!_isPremiumUser && !kDevBypassPremium)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: GestureDetector(
+                onTap: _openPaywall,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF2A1F00), Color(0xFF1A1500)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFFFFC107).withValues(alpha: 0.3)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.workspace_premium, color: Color(0xFFFFC107), size: 28),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Turbine suas vendas',
+                              style: TextStyle(color: Color(0xFFFFC107), fontSize: 15, fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Assine e acesse CRM, leads e simulações exclusivas',
+                              style: TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.arrow_forward_ios, color: Color(0xFFFFC107), size: 16),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           _buildSearch(),
           const SizedBox(height: 12),
           _buildFilterRow(),
@@ -360,6 +389,7 @@ class _DashboardPageState extends State<DashboardPage> {
           _filterButton(
             label: t.filter_investment,
             icon: Icons.trending_up,
+            highlighted: true,
             onTap: () {
               if (!_isPremiumUser && !kDevBypassPremium) {
                 _openPaywall();
@@ -393,6 +423,7 @@ class _DashboardPageState extends State<DashboardPage> {
     required String label,
     required VoidCallback onTap,
     IconData? icon,
+    bool highlighted = false,
   }) {
     return InkWell(
       onTap: onTap,
@@ -401,20 +432,20 @@ class _DashboardPageState extends State<DashboardPage> {
         height: _filterHeight,
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
-          color: _filterBg,
+          color: highlighted ? const Color(0xFFFFF8E1) : _filterBg,
           borderRadius: BorderRadius.circular(_filterRadius),
-          border: Border.all(color: _filterBorder),
+          border: Border.all(color: highlighted ? const Color(0xFFFFC107) : _filterBorder),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (icon != null) ...[
-              Icon(icon, size: 15),
+              Icon(icon, size: 15, color: highlighted ? const Color(0xFFE65100) : null),
               const SizedBox(width: 5),
             ],
-            Text(label, style: const TextStyle(fontSize: 12)),
+            Text(label, style: TextStyle(fontSize: 12, fontWeight: highlighted ? FontWeight.w700 : FontWeight.normal, color: highlighted ? const Color(0xFFE65100) : null)),
             const SizedBox(width: 4),
-            const Icon(Icons.keyboard_arrow_down, size: 15),
+            Icon(Icons.keyboard_arrow_down, size: 15, color: highlighted ? const Color(0xFFE65100) : null),
           ],
         ),
       ),
