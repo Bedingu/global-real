@@ -921,7 +921,10 @@ class _PublicHomePageState extends State<PublicHomePage> {
   }
 
   Future<void> _openWhatsApp() async {
-    final uri = Uri.parse('https://wa.me/5511996701990?text=Olá, venho do site Global Real Estate');
+    final message = Uri.encodeComponent(
+      'Olá, venho do App Global Real e gostaria de falar sobre o empreendimento Senior Living Albert Einstein.'
+    );
+    final uri = Uri.parse('https://wa.me/5511996701990?text=$message');
     if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
