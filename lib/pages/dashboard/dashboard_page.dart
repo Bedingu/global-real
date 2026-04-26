@@ -244,7 +244,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF1A237E), Color(0xFF0D47A1)],
+                    colors: [Color(0xFF232845), Color(0xFF2C3366)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
