@@ -732,64 +732,132 @@ class _PrivatePageState extends State<PrivatePage> {
     final costData = _showCumulative ? _cumulative(costs) : costs;
     final netData = _showCumulative ? _cumulative(net) : net;
 
-    return LineChart(
-      LineChartData(
-        backgroundColor: Colors.transparent,
-        gridData: FlGridData(
-          show: true,
-          drawVerticalLine: false,
-          horizontalInterval: _hInterval(revData, costData, netData),
-          getDrawingHorizontalLine: (_) =>
-              FlLine(color: Colors.white10, strokeWidth: 0.5),
-        ),
-        titlesData: FlTitlesData(
-          topTitles:
-              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles:
-              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              interval: _xInterval(revData.length),
-              getTitlesWidget: (v, _) => Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Text(v.toInt().toString(),
-                    style:
-                        const TextStyle(color: Colors.white30, fontSize: 10)),
+    // Calcular limites do eixo Y — excluir o último ponto (repasse final) pra não comprimir
+    final allExceptLast = [
+      ...revData.take(revData.length > 1 ? revData.length - 1 : revData.length),
+      ...costData.take(costData.length > 1 ? costData.length - 1 : costData.length),
+      ...netData.take(netData.length > 1 ? netData.length - 1 : netData.length),
+    ];
+    final allValues = [...revData, ...costData, ...netData];
+
+    double maxY;
+    double minY;
+    if (allExceptLast.isNotEmpty && _showCumulative) {
+      final maxExceptLast = allExceptLast.reduce((a, b) => a > b ? a : b);
+      final minExceptLast = allExceptLast.reduce((a, b) => a < b ? a : b);
+      final peakValue = allValues.reduce((a, b) => a > b ? a : b);
+      // Se o pico é muito maior que o resto, limitar o Y
+      if (peakValue > maxExceptLast * 2.5) {
+        maxY = maxExceptLast * 1.8;
+        minY = minExceptLast * 1.2;
+      } else {
+        maxY = peakValue * 1.1;
+        minY = allValues.reduce((a, b) => a < b ? a : b) * 1.1;
+      }
+    } else {
+      maxY = allValues.isEmpty ? 1 : allValues.reduce((a, b) => a > b ? a : b) * 1.1;
+      minY = allValues.isEmpty ? 0 : allValues.reduce((a, b) => a < b ? a : b) * 1.1;
+    }
+
+    // Anotação do valor final
+    final finalRevenue = revData.isNotEmpty ? revData.last : 0.0;
+    final finalNet = netData.isNotEmpty ? netData.last : 0.0;
+
+    return Column(
+      children: [
+        Expanded(
+          child: LineChart(
+            LineChartData(
+              maxY: maxY,
+              minY: minY < 0 ? minY : null,
+              backgroundColor: Colors.transparent,
+              gridData: FlGridData(
+                show: true,
+                drawVerticalLine: false,
+                horizontalInterval: _hInterval(
+                  allExceptLast.isNotEmpty ? allExceptLast : revData,
+                  costData,
+                  netData,
+                ),
+                getDrawingHorizontalLine: (_) =>
+                    FlLine(color: Colors.white10, strokeWidth: 0.5),
+              ),
+              titlesData: FlTitlesData(
+                topTitles:
+                    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles:
+                    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    interval: _xInterval(revData.length),
+                    getTitlesWidget: (v, _) => Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(v.toInt().toString(),
+                          style:
+                              const TextStyle(color: Colors.white30, fontSize: 10)),
+                    ),
+                  ),
+                ),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 50,
+                    getTitlesWidget: (v, _) => Text(_shortNum(v),
+                        style:
+                            const TextStyle(color: Colors.white30, fontSize: 10)),
+                  ),
+                ),
+              ),
+              borderData: FlBorderData(show: false),
+              lineBarsData: [
+                _line(revData, _blue, 1.8),
+                _line(costData, _red, 1.8),
+                _line(netData, _gold, 2.2),
+              ],
+              lineTouchData: LineTouchData(
+                touchTooltipData: LineTouchTooltipData(
+                  getTooltipItems: (spots) => spots.map((s) {
+                    final c = [_blue, _red, _gold];
+                    return LineTooltipItem(
+                      _fmtCurrency(s.y),
+                      TextStyle(
+                          color: c[s.barIndex % c.length],
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
           ),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 50,
-              getTitlesWidget: (v, _) => Text(_shortNum(v),
-                  style:
-                      const TextStyle(color: Colors.white30, fontSize: 10)),
+        ),
+        // Anotação do valor final de saída
+        if (_showCumulative && finalRevenue > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: _gold.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: _gold.withValues(alpha: 0.2)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.trending_up, color: _gold, size: 16),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Retorno final: ${_fmtCurrency(finalRevenue)}  •  Lucro: ${_fmtCurrency(finalNet)}',
+                    style: const TextStyle(color: _gold, fontSize: 12, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        borderData: FlBorderData(show: false),
-        lineBarsData: [
-          _line(revData, _blue, 1.8),
-          _line(costData, _red, 1.8),
-          _line(netData, _gold, 2.2),
-        ],
-        lineTouchData: LineTouchData(
-          touchTooltipData: LineTouchTooltipData(
-            getTooltipItems: (spots) => spots.map((s) {
-              final c = [_blue, _red, _gold];
-              return LineTooltipItem(
-                _fmtCurrency(s.y),
-                TextStyle(
-                    color: c[s.barIndex % c.length],
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
+      ],
     );
   }
 
