@@ -1748,8 +1748,47 @@ class _PrivatePageState extends State<PrivatePage> {
   // PARTNERSHIP VIEW — Proposta de Parceria
   // ==========================================================
   Widget _buildPartnershipView(AppLocalizations t) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
+    final partnershipCards = [
+      _partnershipTypeCard(
+        icon: Icons.workspace_premium,
+        title: t.partnership_vip_title,
+        description: t.partnership_vip_desc,
+        features: [
+          t.partnership_vip_1,
+          t.partnership_vip_2,
+          t.partnership_vip_3,
+        ],
+        accentColor: _gold,
+      ),
+      _partnershipTypeCard(
+        icon: Icons.psychology_outlined,
+        title: t.partnership_mentoring_title,
+        description: t.partnership_mentoring_desc,
+        features: [
+          t.partnership_mentoring_1,
+          t.partnership_mentoring_2,
+          t.partnership_mentoring_3,
+        ],
+        accentColor: _blue,
+      ),
+      _partnershipTypeCard(
+        icon: Icons.business_center_outlined,
+        title: t.partnership_prospecting_title,
+        description: t.partnership_prospecting_desc,
+        features: [
+          t.partnership_prospecting_1,
+          t.partnership_prospecting_2,
+          t.partnership_prospecting_3,
+        ],
+        accentColor: const Color(0xFF22C55E),
+      ),
+    ];
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1758,25 +1797,26 @@ class _PrivatePageState extends State<PrivatePage> {
             children: [
               const Icon(Icons.handshake_outlined, color: _gold, size: 22),
               const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.partnership_title,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 2),
-                  Text(t.partnership_subtitle,
-                      style: const TextStyle(
-                          color: Colors.white38, fontSize: 12)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.partnership_title,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 2),
+                    Text(t.partnership_subtitle,
+                        style: const TextStyle(
+                            color: Colors.white38, fontSize: 12)),
+                  ],
+                ),
               ),
             ],
           ),
           const SizedBox(height: 24),
 
-          // ── A quem se destina? ──
           _partnershipSection(
             icon: Icons.people_outline,
             title: t.partnership_audience_title,
@@ -1789,7 +1829,6 @@ class _PrivatePageState extends State<PrivatePage> {
           ),
           const SizedBox(height: 16),
 
-          // ── Tipos de Parceria ──
           Text(t.partnership_types_title.toUpperCase(),
               style: const TextStyle(
                   color: Colors.white24,
@@ -1798,53 +1837,25 @@ class _PrivatePageState extends State<PrivatePage> {
                   letterSpacing: 1)),
           const SizedBox(height: 12),
 
-          // Cards grid
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: _partnershipTypeCard(
-                  icon: Icons.workspace_premium,
-                  title: t.partnership_vip_title,
-                  description: t.partnership_vip_desc,
-                  features: [
-                    t.partnership_vip_1,
-                    t.partnership_vip_2,
-                    t.partnership_vip_3,
-                  ],
-                  accentColor: _gold,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: _partnershipTypeCard(
-                  icon: Icons.psychology_outlined,
-                  title: t.partnership_mentoring_title,
-                  description: t.partnership_mentoring_desc,
-                  features: [
-                    t.partnership_mentoring_1,
-                    t.partnership_mentoring_2,
-                    t.partnership_mentoring_3,
-                  ],
-                  accentColor: _blue,
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: _partnershipTypeCard(
-                  icon: Icons.business_center_outlined,
-                  title: t.partnership_prospecting_title,
-                  description: t.partnership_prospecting_desc,
-                  features: [
-                    t.partnership_prospecting_1,
-                    t.partnership_prospecting_2,
-                    t.partnership_prospecting_3,
-                  ],
-                  accentColor: const Color(0xFF22C55E),
-                ),
-              ),
-            ],
-          ),
+          // Cards — coluna no mobile, row no desktop
+          if (isMobile)
+            Column(
+              children: partnershipCards.map((card) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: card,
+              )).toList(),
+            )
+          else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: partnershipCards[0]),
+                const SizedBox(width: 14),
+                Expanded(child: partnershipCards[1]),
+                const SizedBox(width: 14),
+                Expanded(child: partnershipCards[2]),
+              ],
+            ),
           const SizedBox(height: 24),
 
           // CTA
