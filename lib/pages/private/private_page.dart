@@ -90,43 +90,57 @@ class _PrivatePageState extends State<PrivatePage> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
+    final content = switch (_selectedType) {
+      PrivateInvestmentType.education => _buildEducationView(t),
+      PrivateInvestmentType.privateInvestments => _buildPrivateContent(t),
+      PrivateInvestmentType.realEstateFraction => const FractionPage(),
+      PrivateInvestmentType.launches => _buildLaunchesView(t),
+      PrivateInvestmentType.stock => _buildStockView(t),
+      PrivateInvestmentType.ipo => const IPOPage(),
+      PrivateInvestmentType.catalog => _buildCatalogView(t),
+      PrivateInvestmentType.calculator => _buildCalculatorView(t),
+      PrivateInvestmentType.strAnalytics => const STRAnalyticsPage(),
+      PrivateInvestmentType.marketSP => _buildMarketLeadsView(t, 'sao_paulo'),
+      PrivateInvestmentType.marketFL => _buildMarketLeadsView(t, 'florida'),
+      PrivateInvestmentType.partnership => _buildPartnershipView(t),
+    };
+
+    if (isMobile) {
+      return Scaffold(
+        backgroundColor: _bg,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF0D1628),
+          title: Row(
+            children: [
+              const Icon(Icons.insights, color: _gold, size: 20),
+              const SizedBox(width: 8),
+              Text(t.private_title, style: const TextStyle(fontSize: 15)),
+            ],
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+        drawer: Drawer(
+          backgroundColor: const Color(0xFF0D1628),
+          child: SafeArea(child: _buildSidebar(t)),
+        ),
+        body: SafeArea(child: content),
+      );
+    }
 
     return Scaffold(
       backgroundColor: _bg,
       body: Row(
         children: [
-          // ── SIDEBAR ──
           _buildSidebar(t),
-
-          // ── MAIN CONTENT ──
-          Expanded(
-            child: switch (_selectedType) {
-              PrivateInvestmentType.education =>
-                _buildEducationView(t),
-              PrivateInvestmentType.privateInvestments =>
-                _buildPrivateContent(t),
-              PrivateInvestmentType.realEstateFraction =>
-                const FractionPage(),
-              PrivateInvestmentType.launches =>
-                _buildLaunchesView(t),
-              PrivateInvestmentType.stock =>
-                _buildStockView(t),
-              PrivateInvestmentType.ipo =>
-                const IPOPage(),
-              PrivateInvestmentType.catalog =>
-                _buildCatalogView(t),
-              PrivateInvestmentType.calculator =>
-                _buildCalculatorView(t),
-              PrivateInvestmentType.strAnalytics =>
-                const STRAnalyticsPage(),
-              PrivateInvestmentType.marketSP =>
-                _buildMarketLeadsView(t, 'sao_paulo'),
-              PrivateInvestmentType.marketFL =>
-                _buildMarketLeadsView(t, 'florida'),
-              PrivateInvestmentType.partnership =>
-                _buildPartnershipView(t),
-            },
-          ),
+          Expanded(child: content),
         ],
       ),
     );
@@ -340,7 +354,14 @@ class _PrivatePageState extends State<PrivatePage> {
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
-          onTap: onTap,
+          onTap: () {
+            onTap();
+            // Close drawer on mobile
+            final scaffold = Scaffold.maybeOf(context);
+            if (scaffold != null && scaffold.isDrawerOpen) {
+              Navigator.pop(context);
+            }
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: Row(
