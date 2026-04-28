@@ -1997,8 +1997,11 @@ class _PrivatePageState extends State<PrivatePage> {
   // CATALOG VIEW — Catálogo de Produtos SPE
   // ==========================================================
   Widget _buildCatalogView(AppLocalizations t) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -2006,53 +2009,54 @@ class _PrivatePageState extends State<PrivatePage> {
             children: [
               const Icon(Icons.storefront_outlined, color: _gold, size: 22),
               const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(t.catalog_title,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 2),
-                  Text(t.catalog_subtitle,
-                      style: const TextStyle(
-                          color: Colors.white38, fontSize: 12)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(t.catalog_title,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 2),
+                    Text(t.catalog_subtitle,
+                        style: const TextStyle(
+                            color: Colors.white38, fontSize: 12)),
+                  ],
+                ),
               ),
             ],
           ),
           const SizedBox(height: 24),
-          Expanded(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: _fetchCatalogProducts(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                      child: CircularProgressIndicator(color: _gold));
-                }
-                final items = snapshot.data ?? [];
-                if (items.isEmpty) {
-                  return Center(
-                    child: Text(t.catalog_no_items,
-                        style: const TextStyle(
-                            color: Colors.white38, fontSize: 14)),
-                  );
-                }
-                return GridView.builder(
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 14,
-                    mainAxisSpacing: 14,
-                    childAspectRatio: 0.85,
-                  ),
-                  itemCount: items.length,
-                  itemBuilder: (context, i) =>
-                      _buildCatalogCard(items[i], t),
+          FutureBuilder<List<Map<String, dynamic>>>(
+            future: _fetchCatalogProducts(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(color: _gold));
+              }
+              final items = snapshot.data ?? [];
+              if (items.isEmpty) {
+                return Center(
+                  child: Text(t.catalog_no_items,
+                      style: const TextStyle(
+                          color: Colors.white38, fontSize: 14)),
                 );
-              },
-            ),
+              }
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: isMobile ? 1 : 2,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                  childAspectRatio: isMobile ? 1.4 : 0.85,
+                ),
+                itemCount: items.length,
+                itemBuilder: (context, i) =>
+                    _buildCatalogCard(items[i], t),
+              );
+            },
           ),
         ],
       ),
