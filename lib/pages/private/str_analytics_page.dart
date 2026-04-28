@@ -46,13 +46,60 @@ class _STRAnalyticsPageState extends State<STRAnalyticsPage> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
     return Container(
       color: _bg,
       child: Column(
         children: [
-          _buildTabBar(t),
+          isMobile ? _buildMobileTabSelector(t) : _buildTabBar(t),
           Expanded(child: _buildContent(t)),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMobileTabSelector(AppLocalizations t) {
+    final tabs = [
+      (STRSection.revenueCalc, t.str_revenue_calc),
+      (STRSection.heatmap, t.str_heatmap),
+      (STRSection.compSets, t.str_comp_sets),
+      (STRSection.dynamicPricing, t.str_dynamic_pricing),
+      (STRSection.seasonality, t.str_seasonality),
+      (STRSection.strProperties, t.str_properties),
+    ];
+    final currentLabel = tabs.firstWhere((t) => t.$1 == _section).$2;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: const BoxDecoration(
+        color: Color(0xFF0D1628),
+        border: Border(bottom: BorderSide(color: _border, width: 0.5)),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14),
+        decoration: BoxDecoration(
+          color: _card,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: _border),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<STRSection>(
+            value: _section,
+            isExpanded: true,
+            dropdownColor: _card,
+            icon: const Icon(Icons.keyboard_arrow_down, color: _gold, size: 20),
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+            items: tabs.map((tab) => DropdownMenuItem(
+              value: tab.$1,
+              child: Text(tab.$2),
+            )).toList(),
+            onChanged: (v) {
+              if (v != null) setState(() => _section = v);
+            },
+          ),
+        ),
       ),
     );
   }
