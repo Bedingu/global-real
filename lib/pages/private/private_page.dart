@@ -908,44 +908,48 @@ class _PrivatePageState extends State<PrivatePage> {
   // LAUNCHES VIEW
   // ==========================================================
   Widget _buildLaunchesView(AppLocalizations t) {
-    // Busca empreendimentos criados nos últimos 30 dias
-    final cutoff = DateTime.now().subtract(const Duration(days: 30));
+    final cutoff = DateTime.now().subtract(const Duration(days: 90));
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header
-        Row(
-          children: [
-            const Icon(Icons.rocket_launch_outlined, color: _gold, size: 20),
-            const SizedBox(width: 10),
-            Text(t.private_launches,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-          ],
-        ),
-        const SizedBox(height: 4),
-        Text(t.private_launches_subtitle,
-            style: const TextStyle(color: Colors.white38, fontSize: 13)),
-        const SizedBox(height: 20),
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              const Icon(Icons.rocket_launch_outlined, color: _gold, size: 20),
+              const SizedBox(width: 10),
+              Text(t.private_launches,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(t.private_launches_subtitle,
+              style: const TextStyle(color: Colors.white38, fontSize: 13)),
+          const SizedBox(height: 20),
 
-        // Grid de cards
-        Expanded(
-          child: FutureBuilder<List<Development>>(
+          // ── DESTAQUE DO MÊS ──
+          _buildFeaturedLaunchCard(),
+          const SizedBox(height: 24),
+
+          // ── OUTROS LANÇAMENTOS ──
+          FutureBuilder<List<Development>>(
             future: _fetchRecentLaunches(cutoff),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                    child: CircularProgressIndicator(color: _gold));
+                return const Center(child: CircularProgressIndicator(color: _gold));
               }
               final devs = snapshot.data ?? [];
               if (devs.isEmpty) {
                 return Center(
                   child: Text(t.private_no_launches,
-                      style: const TextStyle(
-                          color: Colors.white38, fontSize: 14)),
+                      style: const TextStyle(color: Colors.white38, fontSize: 14)),
                 );
               }
 
@@ -953,14 +957,16 @@ class _PrivatePageState extends State<PrivatePage> {
                 future: FavoriteService.fetchFavoriteIds(),
                 builder: (context, favSnap) {
                   final favIds = favSnap.data ?? {};
+                  final crossCount = isMobile ? 2 : 3;
 
                   return GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossCount,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
-                      childAspectRatio: 0.88,
+                      childAspectRatio: isMobile ? 0.75 : 0.88,
                     ),
                     itemCount: devs.length,
                     itemBuilder: (context, i) {
@@ -971,9 +977,7 @@ class _PrivatePageState extends State<PrivatePage> {
                         onFavorite: () async {
                           final isFav = favIds.contains(dev.id);
                           setState(() {
-                            isFav
-                                ? favIds.remove(dev.id)
-                                : favIds.add(dev.id);
+                            isFav ? favIds.remove(dev.id) : favIds.add(dev.id);
                           });
                           isFav
                               ? await FavoriteService.removeFavorite(dev.id)
@@ -986,8 +990,120 @@ class _PrivatePageState extends State<PrivatePage> {
               );
             },
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeaturedLaunchCard() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1A1500), Color(0xFF0D1628)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-      ],
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _gold.withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Imagem
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Image.network(
+              'https://pcbwbndrnnqptxdbrqnm.supabase.co/storage/v1/object/public/development-images/senior-living/page39_img01_1280x720.jpeg',
+              height: 180,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(height: 180, color: _card),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: _gold.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: _gold.withValues(alpha: 0.3)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.star, color: _gold, size: 12),
+                      SizedBox(width: 4),
+                      Text('Destaque do Mês', style: TextStyle(color: _gold, fontSize: 10, fontWeight: FontWeight.w700)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Senior Living Albert Einstein',
+                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Higienópolis, São Paulo • Lançamento Ago/2026',
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 12),
+                ),
+                const SizedBox(height: 12),
+                // Métricas
+                Row(
+                  children: [
+                    _launchMetric('R\$ 16.900', '/m²'),
+                    const SizedBox(width: 16),
+                    _launchMetric('70,5%', 'ROI'),
+                    const SizedBox(width: 16),
+                    _launchMetric('22%', 'TIR a.a.'),
+                    const SizedBox(width: 16),
+                    _launchMetric('R\$ 200 mil', 'Entrada'),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                // CTA
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      setState(() => _selectedType = PrivateInvestmentType.privateInvestments);
+                    },
+                    icon: const Icon(Icons.trending_up, size: 16),
+                    label: const Text('Simular Investimento', style: TextStyle(fontWeight: FontWeight.w600)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _gold,
+                      foregroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _launchMetric(String value, String label) {
+    return Expanded(
+      child: Column(
+        children: [
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(value, style: const TextStyle(color: _gold, fontSize: 14, fontWeight: FontWeight.bold)),
+          ),
+          const SizedBox(height: 2),
+          Text(label, style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 10)),
+        ],
+      ),
     );
   }
 
