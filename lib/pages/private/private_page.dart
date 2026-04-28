@@ -388,6 +388,48 @@ class _PrivatePageState extends State<PrivatePage> {
   }
 
   // ==========================================================
+  // SELETOR DE EMPREENDIMENTO
+  // ==========================================================
+  Widget _buildDevelopmentSelector() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      decoration: BoxDecoration(
+        color: const Color(0xFF131E30),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: _border, width: 0.6),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<PrivateCase>(
+          value: _selectedCase,
+          isExpanded: true,
+          dropdownColor: _card,
+          icon: const Icon(Icons.keyboard_arrow_down, color: _gold, size: 20),
+          style: const TextStyle(color: Colors.white, fontSize: 14),
+          items: privateCases.map((c) => DropdownMenuItem(
+            value: c,
+            child: Row(
+              children: [
+                const Icon(Icons.apartment, color: _gold, size: 18),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(c.name, overflow: TextOverflow.ellipsis),
+                ),
+              ],
+            ),
+          )).toList(),
+          onChanged: (c) {
+            if (c == null) return;
+            setState(() {
+              _selectedCase = c;
+              _runSimulation();
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  // ==========================================================
   // MAIN CONTENT — INVESTIMENTOS PRIVADOS
   // ==========================================================
   Widget _buildPrivateContent(AppLocalizations t) {
@@ -399,6 +441,10 @@ class _PrivatePageState extends State<PrivatePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ── SELETOR DE EMPREENDIMENTO ──
+          _buildDevelopmentSelector(),
+          const SizedBox(height: 16),
+
           // ── TOP: METRIC CARDS ──
           _buildMetricsRow(t),
           const SizedBox(height: 16),
