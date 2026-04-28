@@ -391,12 +391,15 @@ class _PrivatePageState extends State<PrivatePage> {
   // MAIN CONTENT — INVESTIMENTOS PRIVADOS
   // ==========================================================
   Widget _buildPrivateContent(AppLocalizations t) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(isMobile ? 16 : 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── TOP: 5 METRIC CARDS ──
+          // ── TOP: METRIC CARDS ──
           _buildMetricsRow(t),
           const SizedBox(height: 16),
 
@@ -405,7 +408,10 @@ class _PrivatePageState extends State<PrivatePage> {
           const SizedBox(height: 20),
 
           // ── CHART SECTION ──
-          Expanded(child: _buildChartSection(t)),
+          SizedBox(
+            height: 400,
+            child: _buildChartSection(t),
+          ),
         ],
       ),
     );
@@ -430,6 +436,20 @@ class _PrivatePageState extends State<PrivatePage> {
       _MetricData(Icons.account_balance_wallet, t.private_npv,
           _fmtCurrency(_result.npv), t.private_npv_desc),
     ];
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
+    if (isMobile) {
+      return Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: metrics.map((m) => SizedBox(
+          width: (screenWidth - 48) / 2,
+          child: _metricCard(m),
+        )).toList(),
+      );
+    }
 
     return Row(
       children: metrics
