@@ -2,7 +2,7 @@ name: global_real
 description: "Global Real - Investimentos Imobiliários"
 publish_to: 'none'
 
-version: 1.4.1+19
+version: 1.4.2+20
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
