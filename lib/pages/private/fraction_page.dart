@@ -223,51 +223,70 @@ class _FractionPageState extends State<FractionPage> {
     final price = (option["price"] as num).toDouble();
     final simultaneous = option["simultaneous"] as int;
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+
+    final leftColumn = [
+      _buildHeader(t),
+      const SizedBox(height: 20),
+      _buildDevelopmentSelector(t),
+      const SizedBox(height: 20),
+      _buildQuotaCards(t),
+      const SizedBox(height: 20),
+      _buildFractionSummary(t, price, simultaneous),
+      const SizedBox(height: 20),
+      _buildCalendar(t),
+      const SizedBox(height: 20),
+      _buildOccupancySection(t),
+    ];
+
+    final rightColumn = [
+      _buildMetricsGrid(t, price),
+      const SizedBox(height: 16),
+      _buildValuationCard(t),
+      const SizedBox(height: 16),
+      _buildBenchmarkCard(t),
+      const SizedBox(height: 16),
+      _buildCTA(t, price),
+    ];
+
+    if (isMobile) {
+      return Container(
+        color: _bg,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ...leftColumn,
+              const SizedBox(height: 24),
+              ...rightColumn,
+            ],
+          ),
+        ),
+      );
+    }
+
     return Container(
       color: _bg,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── COLUNA ESQUERDA: Seleção + Calendário ──
           Expanded(
             flex: 5,
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(t),
-                  const SizedBox(height: 20),
-                  _buildDevelopmentSelector(t),
-                  const SizedBox(height: 20),
-                  _buildQuotaCards(t),
-                  const SizedBox(height: 20),
-                  _buildFractionSummary(t, price, simultaneous),
-                  const SizedBox(height: 20),
-                  _buildCalendar(t),
-                  const SizedBox(height: 20),
-                  _buildOccupancySection(t),
-                ],
+                children: leftColumn,
               ),
             ),
           ),
-
-          // ── COLUNA DIREITA: Métricas + Simulação ──
           Expanded(
             flex: 4,
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(0, 24, 24, 24),
-              child: Column(
-                children: [
-                  _buildMetricsGrid(t, price),
-                  const SizedBox(height: 16),
-                  _buildValuationCard(t),
-                  const SizedBox(height: 16),
-                  _buildBenchmarkCard(t),
-                  const SizedBox(height: 16),
-                  _buildCTA(t, price),
-                ],
-              ),
+              child: Column(children: rightColumn),
             ),
           ),
         ],
