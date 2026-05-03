@@ -8,6 +8,7 @@ import '../../helpers/confidence_score_calculator.dart';
 import '../../helpers/hub_currency_helper.dart';
 import '../../widgets/common/animated_urgency_badge.dart';
 import '../../widgets/common/urgency_badge.dart';
+import '../../pages/development/development_detail_page.dart';
 
 // ── Premium Unsplash images by hub + type ──
 const _unsplashImages = <String, List<String>>{
