@@ -115,7 +115,17 @@ class DevelopmentCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: () => openMaps(development.localizacaoMaps),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => DevelopmentDetailPage(
+                developmentId: development.id,
+                hub: development.hub,
+              ),
+            ),
+          );
+        },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
