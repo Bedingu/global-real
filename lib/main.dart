@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'theme.dart';
 import 'pages/public_home_page.dart';
@@ -18,6 +19,7 @@ import 'generated/app_localizations.dart';
 import 'services/auth_service.dart';
 import 'services/exchange_rate_service.dart';
 import 'services/lead_scoring_service.dart';
+import 'services/push_notification_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +29,16 @@ Future<void> main() async {
 
   // Wrap toda inicialização em try/catch para nunca crashar na abertura
   try {
+    // 0) Inicializar Firebase (push notifications)
+    if (!kIsWeb) {
+      try {
+        await Firebase.initializeApp();
+        debugPrint('✅ Firebase inicializado');
+      } catch (e) {
+        debugPrint('⚠️ Erro ao inicializar Firebase: $e');
+      }
+    }
+
     // 1) Carregar variáveis de ambiente
     try {
       await dotenv.load(fileName: 'assets/.env');
@@ -82,6 +94,15 @@ Future<void> main() async {
       }
     } catch (e) {
       debugPrint("⚠️ Erro ao carregar role: $e");
+    }
+
+    // 6) Inicializar push notifications (só mobile)
+    if (!kIsWeb) {
+      try {
+        await PushNotificationService.initialize();
+      } catch (e) {
+        debugPrint("⚠️ Erro ao inicializar push: $e");
+      }
     }
   } catch (e) {
     debugPrint("❌ Erro fatal na inicialização: $e");
