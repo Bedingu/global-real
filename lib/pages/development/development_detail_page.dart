@@ -33,16 +33,40 @@ class _DevelopmentDetailPageState extends State<DevelopmentDetailPage> {
 
   List<String> _getPresentationSlides(String devName) {
     if (devName.contains('Senior Living')) {
-      return List.generate(53, (i) {
-        final page = i + 1;
-        return '$_baseUrl/senior-living/slides/slide_${page.toString().padLeft(2, '0')}_01_1920x1080.jpeg';
-      });
+      const files = [
+        'slide_01_01_1639x921.jpeg', 'slide_02_01_1920x1080.jpeg', 'slide_03_01_1920x1080.jpeg',
+        'slide_04_01_1920x1080.jpeg', 'slide_05_01_1920x1080.jpeg', 'slide_06_01_1920x1080.jpeg',
+        'slide_07_01_1536x864.jpeg', 'slide_08_01_1920x1080.jpeg', 'slide_09_01_1518x857.jpeg',
+        'slide_10_01_1920x1080.jpeg', 'slide_11_01_1536x864.jpeg', 'slide_12_01_1920x1080.jpeg',
+        'slide_13_01_1896x1067.jpeg', 'slide_14_01_1390x776.jpeg', 'slide_15_01_1920x1080.jpeg',
+        'slide_16_01_1920x1080.jpeg', 'slide_17_01_1920x1080.jpeg', 'slide_18_01_1920x1080.png',
+        'slide_19_01_1920x1080.jpeg', 'slide_20_01_1920x1080.png', 'slide_21_01_1920x1080.jpeg',
+        'slide_22_01_1920x1080.jpeg', 'slide_23_01_1920x1080.jpeg', 'slide_24_01_1920x1080.jpeg',
+        'slide_25_01_1920x1080.jpeg', 'slide_26_01_1920x1080.jpeg', 'slide_27_01_1920x1080.jpeg',
+        'slide_28_01_1920x1080.jpeg', 'slide_29_01_1920x1080.jpeg', 'slide_30_01_1920x1080.jpeg',
+        'slide_32_01_1920x1080.jpeg', 'slide_33_01_1920x1080.jpeg', 'slide_34_01_1920x1080.jpeg',
+        'slide_35_01_1920x1080.jpeg', 'slide_36_01_1920x1080.jpeg', 'slide_37_01_1920x1080.jpeg',
+        'slide_38_01_1920x1080.jpeg', 'slide_39_01_1280x720.jpeg', 'slide_40_01_1280x720.jpeg',
+        'slide_41_01_1280x720.jpeg', 'slide_42_01_1280x720.jpeg', 'slide_43_01_4396x2473.jpeg',
+        'slide_44_01_4396x2473.jpeg', 'slide_45_01_4396x2470.jpeg', 'slide_46_01_4396x2224.jpeg',
+        'slide_47_01_4389x2478.jpeg', 'slide_48_01_4389x2466.jpeg', 'slide_49_01_1920x1080.jpeg',
+        'slide_50_01_1920x1080.jpeg', 'slide_51_01_1920x1080.jpeg', 'slide_52_01_1920x1080.jpeg',
+        'slide_53_01_1639x921.jpeg',
+      ];
+      return files.map((f) => '$_baseUrl/senior-living/slides/$f').toList();
     }
     if (devName.contains('Nove de Julho')) {
-      return List.generate(42, (i) {
-        final page = i + 1;
-        return '$_baseUrl/nove-de-julho/slides/slide_${page.toString().padLeft(2, '0')}_01_1920x1080.jpeg';
-      });
+      const files = [
+        'slide_01_01_1315x740.png', 'slide_02_01_819x464.jpeg', 'slide_05_01_1920x1080.jpeg',
+        'slide_06_01_1755x1015.jpeg', 'slide_09_01_2004x940.png', 'slide_10_01_936x1082.jpeg',
+        'slide_12_01_1920x1080.jpeg', 'slide_14_01_789x1024.jpeg', 'slide_17_01_965x675.jpeg',
+        'slide_19_01_1887x1042.jpeg', 'slide_20_01_2426x1354.jpeg', 'slide_22_01_1423x968.jpeg',
+        'slide_23_01_581x836.jpeg', 'slide_27_01_814x1215.jpeg', 'slide_31_01_1474x1533.jpeg',
+        'slide_32_01_1960x1102.jpeg', 'slide_33_01_2665x1500.jpeg', 'slide_34_01_1682x946.jpeg',
+        'slide_35_01_2665x1500.jpeg', 'slide_36_01_1743x980.jpeg', 'slide_37_01_1960x1100.jpeg',
+        'slide_38_01_1960x1101.jpeg', 'slide_39_01_1392x1652.jpeg', 'slide_40_01_1590x1650.jpeg',
+      ];
+      return files.map((f) => '$_baseUrl/nove-de-julho/slides/$f').toList();
     }
     return [];
   }
