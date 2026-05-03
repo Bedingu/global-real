@@ -28,6 +28,25 @@ class _DevelopmentDetailPageState extends State<DevelopmentDetailPage> {
   static const _border = Color(0xFF1F2A44);
   static const _gold = Color(0xFFFFC107);
 
+  // Slides das apresentações por empreendimento
+  static const _baseUrl = 'https://pcbwbndrnnqptxdbrqnm.supabase.co/storage/v1/object/public/development-images';
+
+  List<String> _getPresentationSlides(String devName) {
+    if (devName.contains('Senior Living')) {
+      return List.generate(53, (i) {
+        final page = i + 1;
+        return '$_baseUrl/senior-living/slides/slide_${page.toString().padLeft(2, '0')}_01_1920x1080.jpeg';
+      });
+    }
+    if (devName.contains('Nove de Julho')) {
+      return List.generate(42, (i) {
+        final page = i + 1;
+        return '$_baseUrl/nove-de-julho/slides/slide_${page.toString().padLeft(2, '0')}_01_1920x1080.jpeg';
+      });
+    }
+    return [];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -268,6 +287,9 @@ class _DevelopmentDetailPageState extends State<DevelopmentDetailPage> {
                   const SizedBox(height: 20),
                 ],
 
+                // ── APRESENTAÇÃO COMPLETA (slides do PDF) ──
+                ..._buildPresentationSection(dev),
+
                 // ── CTAs ──
                 const SizedBox(height: 8),
                 SizedBox(
@@ -312,6 +334,54 @@ class _DevelopmentDetailPageState extends State<DevelopmentDetailPage> {
         ),
       ],
     );
+  }
+
+  List<Widget> _buildPresentationSection(Development dev) {
+    final slides = _getPresentationSlides(dev.name);
+    if (slides.isEmpty) return [];
+
+    return [
+      _sectionTitle('Apresentação Completa'),
+      const SizedBox(height: 8),
+      Text(
+        'Material exclusivo do empreendimento',
+        style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 12),
+      ),
+      const SizedBox(height: 12),
+      ...slides.asMap().entries.map((entry) {
+        final index = entry.key;
+        final url = entry.value;
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => FullscreenGallery(images: slides, initialIndex: index),
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                url,
+                width: double.infinity,
+                fit: BoxFit.fitWidth,
+                loadingBuilder: (_, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
+                    height: 200,
+                    color: _card,
+                    child: const Center(child: CircularProgressIndicator(color: _gold, strokeWidth: 2)),
+                  );
+                },
+                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+              ),
+            ),
+          ),
+        );
+      }),
+      const SizedBox(height: 20),
+    ];
   }
 
   Widget _sectionTitle(String title) {
