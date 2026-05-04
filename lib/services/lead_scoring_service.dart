@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Tipos de evento para Lead Scoring
@@ -74,13 +75,18 @@ class LeadScoringService {
 
   /// Buscar histórico de interações de um lead
   static Future<List<Map<String, dynamic>>> fetchInteractions(String leadId) async {
-    final data = await _supabase
-        .from('lead_interactions')
-        .select()
-        .eq('lead_id', leadId)
-        .order('created_at', ascending: false)
-        .limit(50);
-    return List<Map<String, dynamic>>.from(data);
+    try {
+      final data = await _supabase
+          .from('lead_interactions')
+          .select()
+          .eq('lead_id', leadId)
+          .order('created_at', ascending: false)
+          .limit(50);
+      return List<Map<String, dynamic>>.from(data);
+    } catch (e) {
+      debugPrint('❌ Erro ao buscar interações do lead: $e');
+      return [];
+    }
   }
 
   /// Buscar resumo de pontuação por tipo de evento

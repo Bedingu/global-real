@@ -310,5 +310,26 @@
   "str_price": "价格",
   "str_monthly_rev": "月收入",
   "str_payback_years": "回本期",
-  "str_years": "年"
+  "str_years": "年",
+
+  "investor_banner_title": "成为投资合伙人",
+  "investor_banner_subtitle": "最低投资20万雷亚尔起",
+  "premium_banner_title": "提升您的销售",
+  "premium_banner_subtitle": "订阅并访问CRM、潜在客户和独家模拟",
+  "search_hint": "搜索楼盘、城市或地址",
+  "filters_title": "筛选",
+  "apply_filters": "应用筛选",
+  "invest_button": "投资",
+  "no_developments_found": "未找到楼盘",
+  "error_loading_developments": "加载楼盘时出错",
+  "loading_developments": "正在加载楼盘",
+  "proximity_label": "距离",
+  "developments_label": "楼盘",
+  "show_password": "显示密码",
+  "hide_password": "隐藏密码",
+  "password_min_8": "密码至少需要8个字符",
+  "password_needs_uppercase": "至少包含一个大写字母",
+  "password_needs_number": "至少包含一个数字",
+  "confirm_password": "确认密码",
+  "passwords_dont_match": "密码不匹配"
 }

@@ -156,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                             _obscurePassword ? Icons.visibility_off : Icons.visibility,
                             color: Colors.white54,
                           ),
+                          tooltip: _obscurePassword ? 'Mostrar senha' : 'Ocultar senha',
                           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                         ),
                       ),

@@ -1763,6 +1763,126 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'anos'**
   String get str_years;
+
+  /// No description provided for @investor_banner_title.
+  ///
+  /// In pt, this message translates to:
+  /// **'Seja Sócio Investidor'**
+  String get investor_banner_title;
+
+  /// No description provided for @investor_banner_subtitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aportes a partir de R\$ 200 mil'**
+  String get investor_banner_subtitle;
+
+  /// No description provided for @premium_banner_title.
+  ///
+  /// In pt, this message translates to:
+  /// **'Turbine suas vendas'**
+  String get premium_banner_title;
+
+  /// No description provided for @premium_banner_subtitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Assine e acesse CRM, leads e simulações exclusivas'**
+  String get premium_banner_subtitle;
+
+  /// No description provided for @search_hint.
+  ///
+  /// In pt, this message translates to:
+  /// **'Buscar empreendimento, cidade ou endereço'**
+  String get search_hint;
+
+  /// No description provided for @filters_title.
+  ///
+  /// In pt, this message translates to:
+  /// **'Filtros'**
+  String get filters_title;
+
+  /// No description provided for @apply_filters.
+  ///
+  /// In pt, this message translates to:
+  /// **'Aplicar Filtros'**
+  String get apply_filters;
+
+  /// No description provided for @invest_button.
+  ///
+  /// In pt, this message translates to:
+  /// **'Investir'**
+  String get invest_button;
+
+  /// No description provided for @no_developments_found.
+  ///
+  /// In pt, this message translates to:
+  /// **'Nenhum empreendimento encontrado'**
+  String get no_developments_found;
+
+  /// No description provided for @error_loading_developments.
+  ///
+  /// In pt, this message translates to:
+  /// **'Erro ao carregar empreendimentos'**
+  String get error_loading_developments;
+
+  /// No description provided for @loading_developments.
+  ///
+  /// In pt, this message translates to:
+  /// **'Carregando empreendimentos'**
+  String get loading_developments;
+
+  /// No description provided for @proximity_label.
+  ///
+  /// In pt, this message translates to:
+  /// **'Proximidade'**
+  String get proximity_label;
+
+  /// No description provided for @developments_label.
+  ///
+  /// In pt, this message translates to:
+  /// **'Empreendimentos'**
+  String get developments_label;
+
+  /// No description provided for @show_password.
+  ///
+  /// In pt, this message translates to:
+  /// **'Mostrar senha'**
+  String get show_password;
+
+  /// No description provided for @hide_password.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ocultar senha'**
+  String get hide_password;
+
+  /// No description provided for @password_min_8.
+  ///
+  /// In pt, this message translates to:
+  /// **'A senha deve ter pelo menos 8 caracteres'**
+  String get password_min_8;
+
+  /// No description provided for @password_needs_uppercase.
+  ///
+  /// In pt, this message translates to:
+  /// **'Inclua pelo menos uma letra maiúscula'**
+  String get password_needs_uppercase;
+
+  /// No description provided for @password_needs_number.
+  ///
+  /// In pt, this message translates to:
+  /// **'Inclua pelo menos um número'**
+  String get password_needs_number;
+
+  /// No description provided for @confirm_password.
+  ///
+  /// In pt, this message translates to:
+  /// **'Confirmar senha'**
+  String get confirm_password;
+
+  /// No description provided for @passwords_dont_match.
+  ///
+  /// In pt, this message translates to:
+  /// **'As senhas não coincidem'**
+  String get passwords_dont_match;
 }
 
 class _AppLocalizationsDelegate

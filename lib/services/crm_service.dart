@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'auth_service.dart';
+import '../helpers/retry_helper.dart';
 
 class CrmDashboardData {
   final int activitiesDueToday;
@@ -43,9 +45,11 @@ class CrmService {
   static final _supabase = Supabase.instance.client;
 
   static Future<CrmDashboardData> fetchDashboard() async {
+    try {
     final userId = AuthService.currentUserId();
     if (userId == null) return CrmDashboardData();
 
+    return await withRetry(() async {
     final now = DateTime.now();
     final todayStr = now.toIso8601String().substring(0, 10);
 
@@ -111,5 +115,10 @@ class CrmService {
       keysWithdrawn: keysWithdrawn,
       keysLate: keysLate,
     );
+    }, maxAttempts: 2);
+    } catch (e) {
+      debugPrint('❌ Erro ao carregar dashboard CRM: $e');
+      return CrmDashboardData();
+    }
   }
 }

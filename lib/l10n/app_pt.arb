@@ -310,5 +310,26 @@
   "str_price": "Preço",
   "str_monthly_rev": "Receita/mês",
   "str_payback_years": "Payback",
-  "str_years": "anos"
+  "str_years": "anos",
+
+  "investor_banner_title": "Seja Sócio Investidor",
+  "investor_banner_subtitle": "Aportes a partir de R$ 200 mil",
+  "premium_banner_title": "Turbine suas vendas",
+  "premium_banner_subtitle": "Assine e acesse CRM, leads e simulações exclusivas",
+  "search_hint": "Buscar empreendimento, cidade ou endereço",
+  "filters_title": "Filtros",
+  "apply_filters": "Aplicar Filtros",
+  "invest_button": "Investir",
+  "no_developments_found": "Nenhum empreendimento encontrado",
+  "error_loading_developments": "Erro ao carregar empreendimentos",
+  "loading_developments": "Carregando empreendimentos",
+  "proximity_label": "Proximidade",
+  "developments_label": "Empreendimentos",
+  "show_password": "Mostrar senha",
+  "hide_password": "Ocultar senha",
+  "password_min_8": "A senha deve ter pelo menos 8 caracteres",
+  "password_needs_uppercase": "Inclua pelo menos uma letra maiúscula",
+  "password_needs_number": "Inclua pelo menos um número",
+  "confirm_password": "Confirmar senha",
+  "passwords_dont_match": "As senhas não coincidem"
 }

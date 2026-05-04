@@ -3,10 +3,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../services/payment_service.dart';
 
 class SubscriptionButtons extends StatelessWidget {
-  /// Stripe Price IDs — substitua pelos seus IDs reais
-  static const String monthlyPriceId = "price_xxx"; // TODO: substituir pelo price ID mensal real
-  static const String annualPriceId = "price_yyy"; // TODO: substituir pelo price ID anual real
-
   const SubscriptionButtons({super.key});
 
   void _handleCheckout(BuildContext context, String priceId) async {
@@ -41,12 +37,12 @@ class SubscriptionButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
-          onPressed: () => _handleCheckout(context, monthlyPriceId),
+          onPressed: () => _handleCheckout(context, PaymentService.monthlyPriceId),
           child: const Text("Assinar Mensal"),
         ),
         const SizedBox(height: 12),
         ElevatedButton(
-          onPressed: () => _handleCheckout(context, annualPriceId),
+          onPressed: () => _handleCheckout(context, PaymentService.annualPriceId),
           child: const Text("Assinar Anual"),
         ),
       ],

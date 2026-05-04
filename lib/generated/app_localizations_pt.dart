@@ -870,4 +870,66 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get str_years => 'anos';
+
+  @override
+  String get investor_banner_title => 'Seja Sócio Investidor';
+
+  @override
+  String get investor_banner_subtitle => 'Aportes a partir de R\$ 200 mil';
+
+  @override
+  String get premium_banner_title => 'Turbine suas vendas';
+
+  @override
+  String get premium_banner_subtitle =>
+      'Assine e acesse CRM, leads e simulações exclusivas';
+
+  @override
+  String get search_hint => 'Buscar empreendimento, cidade ou endereço';
+
+  @override
+  String get filters_title => 'Filtros';
+
+  @override
+  String get apply_filters => 'Aplicar Filtros';
+
+  @override
+  String get invest_button => 'Investir';
+
+  @override
+  String get no_developments_found => 'Nenhum empreendimento encontrado';
+
+  @override
+  String get error_loading_developments => 'Erro ao carregar empreendimentos';
+
+  @override
+  String get loading_developments => 'Carregando empreendimentos';
+
+  @override
+  String get proximity_label => 'Proximidade';
+
+  @override
+  String get developments_label => 'Empreendimentos';
+
+  @override
+  String get show_password => 'Mostrar senha';
+
+  @override
+  String get hide_password => 'Ocultar senha';
+
+  @override
+  String get password_min_8 => 'A senha deve ter pelo menos 8 caracteres';
+
+  @override
+  String get password_needs_uppercase =>
+      'Inclua pelo menos uma letra maiúscula';
+
+  @override
+  String get password_needs_number => 'Inclua pelo menos um número';
+
+  @override
+  String get confirm_password => 'Confirmar senha';
+
+  @override
+  String get passwords_dont_match => 'As senhas não coincidem';
 }

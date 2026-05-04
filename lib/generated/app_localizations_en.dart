@@ -869,4 +869,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get str_years => 'years';
+
+  @override
+  String get investor_banner_title => 'Become an Investor Partner';
+
+  @override
+  String get investor_banner_subtitle => 'Investments starting at R\$ 200k';
+
+  @override
+  String get premium_banner_title => 'Boost your sales';
+
+  @override
+  String get premium_banner_subtitle =>
+      'Subscribe and access CRM, leads and exclusive simulations';
+
+  @override
+  String get search_hint => 'Search development, city or address';
+
+  @override
+  String get filters_title => 'Filters';
+
+  @override
+  String get apply_filters => 'Apply Filters';
+
+  @override
+  String get invest_button => 'Invest';
+
+  @override
+  String get no_developments_found => 'No developments found';
+
+  @override
+  String get error_loading_developments => 'Error loading developments';
+
+  @override
+  String get loading_developments => 'Loading developments';
+
+  @override
+  String get proximity_label => 'Proximity';
+
+  @override
+  String get developments_label => 'Developments';
+
+  @override
+  String get show_password => 'Show password';
+
+  @override
+  String get hide_password => 'Hide password';
+
+  @override
+  String get password_min_8 => 'Password must be at least 8 characters';
+
+  @override
+  String get password_needs_uppercase =>
+      'Include at least one uppercase letter';
+
+  @override
+  String get password_needs_number => 'Include at least one number';
+
+  @override
+  String get confirm_password => 'Confirm password';
+
+  @override
+  String get passwords_dont_match => 'Passwords don\'t match';
 }

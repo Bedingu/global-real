@@ -48,14 +48,18 @@ class AuthService {
     final user = _supabase.auth.currentUser;
     if (user == null) return false;
 
-    final data = await _supabase
-        .from('profiles')
-        .select('is_premium, subscription_status')
-        .eq('id', user.id)
-        .single();
+    try {
+      final data = await _supabase
+          .from('profiles')
+          .select('is_premium, subscription_status')
+          .eq('id', user.id)
+          .single();
 
-    return data['is_premium'] == true &&
-        data['subscription_status'] == 'active';
+      return data['is_premium'] == true &&
+          data['subscription_status'] == 'active';
+    } catch (_) {
+      return false;
+    }
   }
 
   // =============================
@@ -65,8 +69,8 @@ class AuthService {
   static String? _cachedRole;
 
   /// Buscar role do usuário atual
-  static Future<String> getUserRole() async {
-    if (_cachedRole != null) return _cachedRole!;
+  static Future<String> getUserRole({bool forceRefresh = false}) async {
+    if (_cachedRole != null && !forceRefresh) return _cachedRole!;
 
     final user = _supabase.auth.currentUser;
     if (user == null) return 'user';
@@ -82,6 +86,12 @@ class AuthService {
       _cachedRole = 'user';
     }
     return _cachedRole!;
+  }
+
+  /// Forçar atualização do cache de role
+  static Future<void> refreshRole() async {
+    _cachedRole = null;
+    await getUserRole(forceRefresh: true);
   }
 
   static bool get isMaster => _cachedRole == 'master';

@@ -310,5 +310,26 @@
   "str_price": "Precio",
   "str_monthly_rev": "Ingreso/mes",
   "str_payback_years": "Payback",
-  "str_years": "años"
+  "str_years": "años",
+
+  "investor_banner_title": "Sea Socio Inversor",
+  "investor_banner_subtitle": "Aportes a partir de R$ 200 mil",
+  "premium_banner_title": "Impulse sus ventas",
+  "premium_banner_subtitle": "Suscríbase y acceda a CRM, leads y simulaciones exclusivas",
+  "search_hint": "Buscar emprendimiento, ciudad o dirección",
+  "filters_title": "Filtros",
+  "apply_filters": "Aplicar Filtros",
+  "invest_button": "Invertir",
+  "no_developments_found": "Ningún emprendimiento encontrado",
+  "error_loading_developments": "Error al cargar emprendimientos",
+  "loading_developments": "Cargando emprendimientos",
+  "proximity_label": "Proximidad",
+  "developments_label": "Emprendimientos",
+  "show_password": "Mostrar contraseña",
+  "hide_password": "Ocultar contraseña",
+  "password_min_8": "La contraseña debe tener al menos 8 caracteres",
+  "password_needs_uppercase": "Incluya al menos una letra mayúscula",
+  "password_needs_number": "Incluya al menos un número",
+  "confirm_password": "Confirmar contraseña",
+  "passwords_dont_match": "Las contraseñas no coinciden"
 }

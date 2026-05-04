@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'theme.dart';
 import 'pages/public_home_page.dart';
@@ -29,11 +30,20 @@ Future<void> main() async {
 
   // Wrap toda inicialização em try/catch para nunca crashar na abertura
   try {
-    // 0) Inicializar Firebase (push notifications)
+    // 0) Inicializar Firebase (push notifications + crashlytics)
     if (!kIsWeb) {
       try {
         await Firebase.initializeApp();
         debugPrint('✅ Firebase inicializado');
+
+        // Crashlytics: capturar erros Flutter
+        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+        // Crashlytics: capturar erros assíncronos
+        PlatformDispatcher.instance.onError = (error, stack) {
+          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+          return true;
+        };
       } catch (e) {
         debugPrint('⚠️ Erro ao inicializar Firebase: $e');
       }
@@ -46,15 +56,12 @@ Future<void> main() async {
       debugPrint("⚠️ Erro ao carregar .env: $e");
     }
 
-    // 2) Ler variáveis com fallback hardcoded
-    var supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
-    var supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+    // 2) Ler variáveis de ambiente (sem fallback hardcoded)
+    final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
+    final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
 
-    if (supabaseUrl.isEmpty) {
-      supabaseUrl = 'https://pcbwbndrnnqptxdbrqnm.supabase.co';
-    }
-    if (supabaseAnonKey.isEmpty) {
-      supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjYndibmRybm5xcHR4ZGJycW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxNTU1MjAsImV4cCI6MjA4MTczMTUyMH0.Sw5hgfkUHbLyAcTUwltrb_AH3Jg17m-LCcC_Ou6QtbE';
+    if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
+      debugPrint('❌ SUPABASE_URL ou SUPABASE_ANON_KEY não configurados no .env');
     }
 
     // 3) Inicializar Supabase
@@ -122,13 +129,20 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale('pt');
 
+  /// Chave global do navigator pra deep linking via push notifications
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
   void _changeLanguage(Locale locale) {
     setState(() => _locale = locale);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Conectar navigator key ao push notification service
+    PushNotificationService.navigatorKey = navigatorKey;
+
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Global Real',
       theme: AppTheme.lightTheme,
@@ -150,9 +164,9 @@ class _MyAppState extends State<MyApp> {
           case '/excluir-conta':
             return MaterialPageRoute(builder: (_) => const DeleteAccountPage());
           case '/dashboard':
-            return MaterialPageRoute(builder: (_) => const DashboardPage());
+            return MaterialPageRoute(builder: (_) => _authGuard(const DashboardPage()));
           case '/leads':
-            return MaterialPageRoute(builder: (_) => const LeadsPage());
+            return MaterialPageRoute(builder: (_) => _authGuard(const LeadsPage()));
           default:
             return MaterialPageRoute(
               builder: (_) => FutureBuilder<bool>(

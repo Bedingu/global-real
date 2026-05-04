@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,6 +13,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 class PushNotificationService {
   static final _supabase = Supabase.instance.client;
+
+  /// Chave do navigator — deve ser setada pelo MyApp
+  static GlobalKey<NavigatorState>? navigatorKey;
 
   /// Inicializa o serviço de push notifications.
   static Future<void> initialize() async {
@@ -48,14 +52,47 @@ class PushNotificationService {
         });
 
         // Handler quando app é aberto via notificação
-        FirebaseMessaging.onMessageOpenedApp.listen((message) {
-          debugPrint('📩 Opened app: ${message.data}');
-        });
+        FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
+
+        // Verificar se o app foi aberto por uma notificação (cold start)
+        final initialMessage = await messaging.getInitialMessage();
+        if (initialMessage != null) {
+          // Delay pra garantir que o navigator está pronto
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _handleNotificationTap(initialMessage);
+          });
+        }
       } else {
         debugPrint('⚠️ Push notifications não autorizadas');
       }
     } catch (e) {
       debugPrint('⚠️ Erro ao inicializar push notifications: $e');
+    }
+  }
+
+  /// Navega pra tela correta baseado nos dados da notificação.
+  ///
+  /// Dados esperados no payload da notificação:
+  /// - `route`: rota pra navegar (ex: "/leads", "/dashboard")
+  /// - `lead_id`: ID do lead pra abrir o chat
+  /// - `development_id`: ID do empreendimento pra abrir detalhes
+  static void _handleNotificationTap(RemoteMessage message) {
+    final data = message.data;
+    final route = data['route'] as String?;
+
+    debugPrint('📩 Deep link: $data');
+
+    final navigator = navigatorKey?.currentState;
+    if (navigator == null) {
+      debugPrint('⚠️ Navigator não disponível pra deep link');
+      return;
+    }
+
+    if (route != null && route.isNotEmpty) {
+      navigator.pushNamed(route);
+    } else {
+      // Fallback: abre o dashboard
+      navigator.pushNamed('/dashboard');
     }
   }
 

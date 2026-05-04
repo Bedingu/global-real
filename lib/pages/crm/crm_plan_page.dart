@@ -271,8 +271,8 @@ class _CrmPlanPageState extends State<CrmPlanPage> {
 
   void _subscribe(String planType) {
     final priceId = planType == 'annual'
-        ? "price_1SqeRLIHf8Ey84xrDd51z4UA"
-        : "price_xxx"; // TODO: substituir pelo price ID mensal real
+        ? PaymentService.annualPriceId
+        : PaymentService.monthlyPriceId;
     PaymentService.startCheckout(priceId);
   }
 

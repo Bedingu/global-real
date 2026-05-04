@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../models/development.dart';
@@ -12,8 +13,11 @@ class DevelopmentService {
       String search,
       MarketFilter marketFilter,
       ProximityFilter proximityFilter,
-      MarketHub hub,
-      ) async {
+      MarketHub hub, {
+      int limit = 50,
+      int offset = 0,
+      }) async {
+    try {
     final query = _supabase.from('developments').select('''
       id,
       empreendimentos,
@@ -164,12 +168,17 @@ class DevelopmentService {
       query.lte('até', marketFilter.maxPrice!.toString());
     }
 
-    // EXECUTE
+    // EXECUTE (com paginação)
+    query.range(offset, offset + limit - 1);
     final data = await query;
 
     return (data as List)
         .map((json) => Development.fromJson(json))
         .toList();
+    } catch (e) {
+      debugPrint('❌ Erro ao buscar empreendimentos: $e');
+      rethrow;
+    }
   }
 
   // =========================
@@ -179,6 +188,7 @@ class DevelopmentService {
       String id, {
         required MarketHub hub,
       }) async {
+    try {
     final query = _supabase
         .from('developments')
         .select()
@@ -187,5 +197,9 @@ class DevelopmentService {
 
     final response = await query.single();
     return Development.fromJson(response);
+    } catch (e) {
+      debugPrint('❌ Erro ao buscar empreendimento por ID: $e');
+      rethrow;
+    }
   }
 }

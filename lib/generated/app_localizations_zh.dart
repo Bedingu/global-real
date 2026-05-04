@@ -849,4 +849,64 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get str_years => '年';
+
+  @override
+  String get investor_banner_title => '成为投资合伙人';
+
+  @override
+  String get investor_banner_subtitle => '最低投资20万雷亚尔起';
+
+  @override
+  String get premium_banner_title => '提升您的销售';
+
+  @override
+  String get premium_banner_subtitle => '订阅并访问CRM、潜在客户和独家模拟';
+
+  @override
+  String get search_hint => '搜索楼盘、城市或地址';
+
+  @override
+  String get filters_title => '筛选';
+
+  @override
+  String get apply_filters => '应用筛选';
+
+  @override
+  String get invest_button => '投资';
+
+  @override
+  String get no_developments_found => '未找到楼盘';
+
+  @override
+  String get error_loading_developments => '加载楼盘时出错';
+
+  @override
+  String get loading_developments => '正在加载楼盘';
+
+  @override
+  String get proximity_label => '距离';
+
+  @override
+  String get developments_label => '楼盘';
+
+  @override
+  String get show_password => '显示密码';
+
+  @override
+  String get hide_password => '隐藏密码';
+
+  @override
+  String get password_min_8 => '密码至少需要8个字符';
+
+  @override
+  String get password_needs_uppercase => '至少包含一个大写字母';
+
+  @override
+  String get password_needs_number => '至少包含一个数字';
+
+  @override
+  String get confirm_password => '确认密码';
+
+  @override
+  String get passwords_dont_match => '密码不匹配';
 }

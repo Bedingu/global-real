@@ -45,8 +45,8 @@ class _LeadsPageState extends State<LeadsPage> {
       builder: (_) => PaywallModal(
         onSubscribe: (planType) {
           final priceId = planType == 'annual'
-              ? "price_1SqeRLIHf8Ey84xrDd51z4UA"
-              : "price_xxx";
+              ? PaymentService.annualPriceId
+              : PaymentService.monthlyPriceId;
           PaymentService.startCheckout(priceId);
         },
       ),

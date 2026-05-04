@@ -310,5 +310,26 @@
   "str_price": "Price",
   "str_monthly_rev": "Revenue/mo",
   "str_payback_years": "Payback",
-  "str_years": "years"
+  "str_years": "years",
+
+  "investor_banner_title": "Become an Investor Partner",
+  "investor_banner_subtitle": "Investments starting at R$ 200k",
+  "premium_banner_title": "Boost your sales",
+  "premium_banner_subtitle": "Subscribe and access CRM, leads and exclusive simulations",
+  "search_hint": "Search development, city or address",
+  "filters_title": "Filters",
+  "apply_filters": "Apply Filters",
+  "invest_button": "Invest",
+  "no_developments_found": "No developments found",
+  "error_loading_developments": "Error loading developments",
+  "loading_developments": "Loading developments",
+  "proximity_label": "Proximity",
+  "developments_label": "Developments",
+  "show_password": "Show password",
+  "hide_password": "Hide password",
+  "password_min_8": "Password must be at least 8 characters",
+  "password_needs_uppercase": "Include at least one uppercase letter",
+  "password_needs_number": "Include at least one number",
+  "confirm_password": "Confirm password",
+  "passwords_dont_match": "Passwords don't match"
 }

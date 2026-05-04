@@ -163,18 +163,19 @@ class _SignupPageState extends State<SignupPage> {
               icon: Icons.lock_outline,
               suffixIcon: IconButton(
                 icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility, color: Colors.white54),
+                tooltip: _obscurePassword ? 'Mostrar senha' : 'Ocultar senha',
                 onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
               ),
             ),
             validator: (value) {
               if (value == null || value.isEmpty) return t.password_required;
-              if (value.length < 6) return t.password_short;
+              if (value.length < 8) return 'A senha deve ter pelo menos 8 caracteres';
+              if (!RegExp(r'[A-Z]').hasMatch(value)) return 'Inclua pelo menos uma letra maiúscula';
+              if (!RegExp(r'[0-9]').hasMatch(value)) return 'Inclua pelo menos um número';
               return null;
             },
           ),
           const SizedBox(height: 16),
-
-          // Confirmar senha
           TextFormField(
             controller: _confirmPasswordController,
             obscureText: _obscureConfirm,
@@ -184,6 +185,7 @@ class _SignupPageState extends State<SignupPage> {
               icon: Icons.lock_outline,
               suffixIcon: IconButton(
                 icon: Icon(_obscureConfirm ? Icons.visibility_off : Icons.visibility, color: Colors.white54),
+                tooltip: _obscureConfirm ? 'Mostrar senha' : 'Ocultar senha',
                 onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
               ),
             ),

@@ -1,10 +1,20 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PaymentService {
+  static String get _functionUrl =>
+      dotenv.env['STRIPE_FUNCTION_URL'] ?? '';
+
+  static String get annualPriceId =>
+      dotenv.env['STRIPE_PRICE_ANNUAL'] ?? '';
+
+  static String get monthlyPriceId =>
+      dotenv.env['STRIPE_PRICE_MONTHLY'] ?? '';
+
   static Future<void> startCheckout(String priceId) async {
     final supabase = Supabase.instance.client;
     final user = supabase.auth.currentUser;
@@ -14,11 +24,13 @@ class PaymentService {
       throw Exception("Usuário não logado");
     }
 
+    if (_functionUrl.isEmpty) {
+      throw Exception("STRIPE_FUNCTION_URL não configurada no .env");
+    }
+
     final accessToken = session.accessToken;
 
-    final uri = Uri.parse(
-      'https://pcbwbndrnnqptxdbrqnm.functions.supabase.co/create-checkout-session',
-    );
+    final uri = Uri.parse(_functionUrl);
 
     final response = await http.post(
       uri,

@@ -34,6 +34,9 @@ import '../../widgets/all_filters/all_filters_button.dart';
 import '../../widgets/all_filters/all_filters_panel.dart';
 import '../../widgets/subscription_buttons.dart';
 import '../../widgets/paywall/paywall_modal.dart';
+import '../../widgets/dashboard/investor_banner.dart';
+import '../../widgets/dashboard/premium_banner.dart';
+import '../../widgets/dashboard/development_grid.dart';
 
 // HELPERS
 import '../../helpers/default_filters.dart';
@@ -163,8 +166,8 @@ class _DashboardPageState extends State<DashboardPage> {
       builder: (_) => PaywallModal(
         onSubscribe: (planType) {
           final priceId = planType == 'annual'
-              ? "price_1SqeRLIHf8Ey84xrDd51z4UA"
-              : "price_xxx"; // TODO: substituir pelo price ID mensal real
+              ? PaymentService.annualPriceId
+              : PaymentService.monthlyPriceId;
           PaymentService.startCheckout(priceId);
         },
       ),
@@ -364,7 +367,7 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Icon(Icons.tune, size: 16),
                 SizedBox(width: 6),
-                Text('Filtros', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+                Text(t.filters_title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
               ],
             ),
           ),
@@ -392,7 +395,7 @@ class _DashboardPageState extends State<DashboardPage> {
               children: [
                 Icon(Icons.trending_up, size: 16, color: Colors.white),
                 SizedBox(width: 6),
-                Text('Investir', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
+                Text(t.invest_button, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
               ],
             ),
           ),
@@ -427,17 +430,17 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text('Filtros', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(t.filters_title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 20),
             // Empreendimentos
-            _mobileFilterTile('Empreendimentos', Icons.apartment_outlined, _openMarketFilter),
+            _mobileFilterTile(t.developments_label, Icons.apartment_outlined, _openMarketFilter),
             _mobileFilterTile(t.filter_capacity, Icons.people_outline, _openCapacityFilter),
             _mobileFilterTile(t.budget_title, Icons.attach_money, _openBudgetModal),
             _mobileFilterTile(t.amenities_title, Icons.pool_outlined, _openAmenitiesModal),
             _mobileFilterTile(t.filter_property_type, Icons.apartment_outlined, _openPropertyTypeModal),
             _mobileFilterTile(t.filter_delivery_date, Icons.calendar_month_outlined, _openDeliveryDateModal),
             _mobileFilterTile(t.filter_price_range, Icons.price_change_outlined, _openPriceRangeModal),
-            _mobileFilterTile('Proximidade', Icons.near_me_outlined, () {
+            _mobileFilterTile(t.proximity_label, Icons.near_me_outlined, () {
               Navigator.pop(ctx);
               // TODO: open proximity filter
             }),
@@ -451,7 +454,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   backgroundColor: const Color(0xFF232845),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: const Text('Aplicar Filtros', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                child: Text(t.apply_filters, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
               ),
             ),
           ],
@@ -595,12 +598,13 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget _buildSearch() {
+    final t = AppLocalizations.of(context)!;
     return TextField(
       onChanged: (v) =>
           setState(() => _searchQuery = v),
       decoration: InputDecoration(
         hintText:
-        'Buscar empreendimento, cidade ou endereço',
+        t.search_hint,
         prefixIcon: const Icon(Icons.search),
         filled: true,
         fillColor: Colors.white,

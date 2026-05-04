@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/chat_message.dart';
 import '../models/market_lead.dart';
+import '../helpers/retry_helper.dart';
 import 'auth_service.dart';
 import 'lead_scoring_service.dart';
 
@@ -10,12 +12,19 @@ class ChatService {
   /// Buscar todos os leads ordenados por score da IA
   /// Master vê todos, assessor vê só os dele (RLS cuida disso)
   static Future<List<MarketLead>> fetchLeads({String? market}) async {
-    var query = _supabase.from('market_leads').select();
-    if (market != null) {
-      query = query.eq('market', market);
+    try {
+      return await withRetry(() async {
+        var query = _supabase.from('market_leads').select();
+        if (market != null) {
+          query = query.eq('market', market);
+        }
+        final data = await query.order('ai_score', ascending: false);
+        return (data as List).map((j) => MarketLead.fromJson(j)).toList();
+      }, maxAttempts: 2);
+    } catch (e) {
+      debugPrint('❌ Erro ao buscar leads: $e');
+      return [];
     }
-    final data = await query.order('ai_score', ascending: false);
-    return (data as List).map((j) => MarketLead.fromJson(j)).toList();
   }
 
   /// Atribuir lead a um assessor
@@ -37,25 +46,35 @@ class ChatService {
 
   /// Buscar mensagens de um lead
   static Future<List<ChatMessage>> fetchMessages(String leadId) async {
-    final data = await _supabase
-        .from('chat_messages')
-        .select()
-        .eq('lead_id', leadId)
-        .order('created_at', ascending: true);
-    return (data as List).map((j) => ChatMessage.fromJson(j)).toList();
+    try {
+      final data = await _supabase
+          .from('chat_messages')
+          .select()
+          .eq('lead_id', leadId)
+          .order('created_at', ascending: true);
+      return (data as List).map((j) => ChatMessage.fromJson(j)).toList();
+    } catch (e) {
+      debugPrint('❌ Erro ao buscar mensagens: $e');
+      return [];
+    }
   }
 
   /// Enviar mensagem como assessor
   static Future<void> sendMessage(String leadId, String message) async {
-    final userId = AuthService.currentUserId() ?? 'unknown';
-    await _supabase.from('chat_messages').insert({
-      'lead_id': leadId,
-      'sender_type': 'advisor',
-      'sender_id': userId,
-      'message': message,
-    });
-    // Registrar interação para scoring
-    await LeadScoringService.trackEvent(leadId, LeadEvent.advisorContacted);
+    try {
+      final userId = AuthService.currentUserId() ?? 'unknown';
+      await _supabase.from('chat_messages').insert({
+        'lead_id': leadId,
+        'sender_type': 'advisor',
+        'sender_id': userId,
+        'message': message,
+      });
+      // Registrar interação para scoring
+      await LeadScoringService.trackEvent(leadId, LeadEvent.advisorContacted);
+    } catch (e) {
+      debugPrint('❌ Erro ao enviar mensagem: $e');
+      rethrow;
+    }
   }
 
   /// Atualizar status do lead
