@@ -44,7 +44,7 @@ class DevelopmentGrid extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Semantics(
-            label: 'Erro ao carregar empreendimentos. Tente novamente.',
+            label: 'Erro ao carregar empreendimentos',
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -62,18 +62,12 @@ class DevelopmentGrid extends StatelessWidget {
         }
 
         if (!snapshot.hasData) {
-          return const Semantics(
-            label: 'Carregando empreendimentos',
-            child: Center(child: CircularProgressIndicator()),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         final developments = snapshot.data!;
         if (developments.isEmpty) {
-          return const Semantics(
-            label: 'Nenhum empreendimento encontrado',
-            child: Text('Nenhum empreendimento encontrado'),
-          );
+          return const Text('Nenhum empreendimento encontrado');
         }
 
         return GridView.builder(

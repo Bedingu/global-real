@@ -362,11 +362,11 @@ class _DashboardPageState extends State<DashboardPage> {
               borderRadius: BorderRadius.circular(_filterRadius),
               border: Border.all(color: _filterBorder),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.tune, size: 16),
-                SizedBox(width: 6),
+                const Icon(Icons.tune, size: 16),
+                const SizedBox(width: 6),
                 Text(t.filters_title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
               ],
             ),
@@ -390,11 +390,11 @@ class _DashboardPageState extends State<DashboardPage> {
               color: const Color(0xFF232845),
               borderRadius: BorderRadius.circular(_filterRadius),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.trending_up, size: 16, color: Colors.white),
-                SizedBox(width: 6),
+                const Icon(Icons.trending_up, size: 16, color: Colors.white),
+                const SizedBox(width: 6),
                 Text(t.invest_button, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
               ],
             ),

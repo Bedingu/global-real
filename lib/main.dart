@@ -136,6 +136,22 @@ class _MyAppState extends State<MyApp> {
     setState(() => _locale = locale);
   }
 
+  /// Protege rotas que exigem autenticação
+  Widget _authGuard(Widget page) {
+    return FutureBuilder<bool>(
+      future: AuthService.isLoggedIn(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (snapshot.data == true) return page;
+        return const LoginPage();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Conectar navigator key ao push notification service
