@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'theme.dart';
 import 'pages/public_home_page.dart';
@@ -30,20 +29,11 @@ Future<void> main() async {
 
   // Wrap toda inicialização em try/catch para nunca crashar na abertura
   try {
-    // 0) Inicializar Firebase (push notifications + crashlytics)
+    // 0) Inicializar Firebase (push notifications)
     if (!kIsWeb) {
       try {
         await Firebase.initializeApp();
         debugPrint('✅ Firebase inicializado');
-
-        // Crashlytics: capturar erros Flutter
-        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-
-        // Crashlytics: capturar erros assíncronos
-        PlatformDispatcher.instance.onError = (error, stack) {
-          FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-          return true;
-        };
       } catch (e) {
         debugPrint('⚠️ Erro ao inicializar Firebase: $e');
       }

@@ -2,7 +2,7 @@ name: global_real
 description: "Global Real - Investimentos Imobiliários"
 publish_to: 'none'
 
-version: 1.5.2+28
+version: 1.5.2+29
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -41,10 +41,9 @@ dependencies:
   flutter_native_splash: ^2.4.7
   qr_flutter: ^4.1.0
 
-  # Firebase (Push Notifications + Crash Reporting)
+  # Firebase (Push Notifications)
   firebase_core: ^3.12.1
   firebase_messaging: ^15.2.4
-  firebase_crashlytics: ^4.3.2
 
 dev_dependencies:
   flutter_test:
