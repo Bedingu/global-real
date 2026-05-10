@@ -10,15 +10,19 @@ import FirebaseMessaging
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    // 1) Registrar plugins primeiro
+    GeneratedPluginRegistrant.register(with: self)
+    
+    // 2) Firebase
     FirebaseApp.configure()
+    
+    // 3) Google Maps
     GMSServices.provideAPIKey("AIzaSyAfkTMK6054qNC78q6p-UBv3BF8ig9EmVQ")
     
-    // Push notifications
+    // 4) Push notifications
     UNUserNotificationCenter.current().delegate = self
     application.registerForRemoteNotifications()
     
-    let result = super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    GeneratedPluginRegistrant.register(with: self)
-    return result
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
