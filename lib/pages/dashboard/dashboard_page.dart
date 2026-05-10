@@ -48,7 +48,7 @@ class DashboardPage extends StatefulWidget {
   State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _DashboardPageState extends State<DashboardPage> with SingleTickerProviderStateMixin {
   // 🔓 DEV MODE — mude para true apenas durante desenvolvimento local
   // TODO: voltar para false antes de publicar na loja
   static const bool kDevBypassPremium = false;
@@ -62,6 +62,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
   bool _isPremiumUser = false;
   RealtimeChannel? _premiumChannel;
+
+  // Tab controller para Empreendimentos / Investimentos
+  late TabController _tabController;
 
   final Map<String, bool> selectedAmenities = {
     "parking": false,
@@ -85,6 +88,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
     _loadFavorites();
     _loadPremiumStatus();
     _listenPremiumRealtime();
@@ -92,6 +96,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void dispose() {
+    _tabController.dispose();
     _premiumChannel?.unsubscribe();
     _capexCtrl.dispose();
     _priceM2Ctrl.dispose();
@@ -218,105 +223,510 @@ class _DashboardPageState extends State<DashboardPage> {
           )
         ],
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(24),
+      body: Column(
         children: [
-          // 🔹 Botão Seja Sócio Investidor
+          // 🔹 Banners (Sócio Investidor + Premium)
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivatePage()));
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF232845), Color(0xFF2C3366)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.handshake_outlined, color: Colors.white, size: 28),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Seja Sócio Investidor',
-                            style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            'Aportes a partir de R\$ 200 mil',
-                            style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12),
-                          ),
-                        ],
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+            child: Column(
+              children: [
+                // 🔹 Botão Seja Sócio Investidor
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivatePage()));
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF232845), Color(0xFF2C3366)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                    const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 16),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // 🔹 Widget Assinatura Premium (para não-premium)
-          if (!_isPremiumUser && !kDevBypassPremium)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: GestureDetector(
-                onTap: _openPaywall,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF2A1F00), Color(0xFF1A1500)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.handshake_outlined, color: Colors.white, size: 28),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Seja Sócio Investidor',
+                                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                'Aportes a partir de R\$ 200 mil',
+                                style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.arrow_forward_ios, color: Colors.white54, size: 16),
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: const Color(0xFFFFC107).withValues(alpha: 0.3)),
                   ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.workspace_premium, color: Color(0xFFFFC107), size: 28),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+                // 🔹 Widget Assinatura Premium (para não-premium)
+                if (!_isPremiumUser && !kDevBypassPremium)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: GestureDetector(
+                      onTap: _openPaywall,
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF2A1F00), Color(0xFF1A1500)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: const Color(0xFFFFC107).withValues(alpha: 0.3)),
+                        ),
+                        child: Row(
                           children: [
-                            const Text(
-                              'Turbine suas vendas',
-                              style: TextStyle(color: Color(0xFFFFC107), fontSize: 15, fontWeight: FontWeight.w700),
+                            const Icon(Icons.workspace_premium, color: Color(0xFFFFC107), size: 28),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Turbine suas vendas',
+                                    style: TextStyle(color: Color(0xFFFFC107), fontSize: 15, fontWeight: FontWeight.w700),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    'Assine e acesse CRM, leads e simulações exclusivas',
+                                    style: TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 12),
+                                  ),
+                                ],
+                              ),
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Assine e acesse CRM, leads e simulações exclusivas',
-                              style: TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 12),
-                            ),
+                            const Icon(Icons.arrow_forward_ios, color: Color(0xFFFFC107), size: 16),
                           ],
                         ),
                       ),
-                      const Icon(Icons.arrow_forward_ios, color: Color(0xFFFFC107), size: 16),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // 🔹 Tab Bar: Empreendimentos | Investimentos
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 24),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: TabBar(
+              controller: _tabController,
+              indicator: BoxDecoration(
+                color: const Color(0xFF232845),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelColor: Colors.white,
+              unselectedLabelColor: const Color(0xFF232845),
+              labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+              unselectedLabelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+              dividerHeight: 0,
+              padding: const EdgeInsets.all(3),
+              tabs: const [
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.apartment, size: 16),
+                      SizedBox(width: 6),
+                      Text('Empreendimentos'),
+                    ],
+                  ),
+                ),
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.trending_up, size: 16),
+                      SizedBox(width: 6),
+                      Text('Investimentos'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // 🔹 Tab Content
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // === ABA 1: EMPREENDIMENTOS ===
+                _buildEmpreendimentosTab(),
+                // === ABA 2: INVESTIMENTOS (FREE) ===
+                _buildInvestimentosTab(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // =============================
+  // TAB: EMPREENDIMENTOS
+  // =============================
+
+  Widget _buildEmpreendimentosTab() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      children: [
+        _buildSearch(),
+        const SizedBox(height: 12),
+        _buildFilterRowResponsive(context),
+        const SizedBox(height: 24),
+        _buildResults(),
+      ],
+    );
+  }
+
+  // =============================
+  // TAB: INVESTIMENTOS (FREE)
+  // =============================
+
+  Widget _buildInvestimentosTab() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      children: [
+        const SizedBox(height: 8),
+        // Gráfico comparativo
+        _buildInvestmentComparisonChart(),
+        const SizedBox(height: 20),
+        // Cards dos investimentos
+        ..._investmentPreviews.map((inv) => Padding(
+          padding: const EdgeInsets.only(bottom: 14),
+          child: _buildInvestmentFreeCard(inv),
+        )),
+        const SizedBox(height: 16),
+        // CTA para análise completa (premium)
+        _buildInvestmentCta(),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildInvestmentComparisonChart() {
+    const maxPrice = 30000.0;
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.bar_chart, color: Color(0xFF232845), size: 18),
+              SizedBox(width: 8),
+              Text(
+                'R\$/m² — Compra vs Saída',
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF232845)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Row(
+            children: [
+              _chartLegend(const Color(0xFF3B82F6), 'Entrada'),
+              const SizedBox(width: 12),
+              _chartLegend(const Color(0xFF22C55E), 'Saída estimada'),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ..._investmentPreviews.map((inv) => Padding(
+            padding: const EdgeInsets.only(bottom: 14),
+            child: _chartBarRow(inv, maxPrice),
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget _chartLegend(Color color, String label) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 8, height: 8, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(width: 4),
+        Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+      ],
+    );
+  }
+
+  Widget _chartBarRow(_InvPreview inv, double maxPrice) {
+    final entryFraction = inv.priceM2Entry / maxPrice;
+    final exitFraction = inv.priceM2Exit / maxPrice;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(inv.shortName, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF374151))),
+        const SizedBox(height: 4),
+        Row(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Container(height: 10, decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(3))),
+                  FractionallySizedBox(
+                    widthFactor: entryFraction,
+                    child: Container(height: 10, decoration: BoxDecoration(color: const Color(0xFF3B82F6), borderRadius: BorderRadius.circular(3))),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            SizedBox(width: 50, child: Text('R\$ ${_fmtK(inv.priceM2Entry)}', style: const TextStyle(fontSize: 9, color: Color(0xFF3B82F6), fontWeight: FontWeight.w600))),
+          ],
+        ),
+        const SizedBox(height: 3),
+        Row(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  Container(height: 10, decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(3))),
+                  FractionallySizedBox(
+                    widthFactor: exitFraction,
+                    child: Container(height: 10, decoration: BoxDecoration(color: const Color(0xFF22C55E), borderRadius: BorderRadius.circular(3))),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            SizedBox(width: 50, child: Text('R\$ ${_fmtK(inv.priceM2Exit)}', style: const TextStyle(fontSize: 9, color: Color(0xFF22C55E), fontWeight: FontWeight.w600))),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInvestmentFreeCard(_InvPreview inv) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              Container(
+                width: 36, height: 36,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF232845).withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(Icons.apartment, color: Color(0xFF232845), size: 18),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(inv.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
+                    Text(inv.location, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          // Métricas
+          Row(
+            children: [
+              _invMetricChip('ROI', '${inv.roi}%', const Color(0xFF22C55E)),
+              const SizedBox(width: 8),
+              _invMetricChip('IRR', '${inv.irr}%', const Color(0xFF3B82F6)),
+              const SizedBox(width: 8),
+              _invMetricChip('Prazo', '${inv.prazoMeses}m', const Color(0xFFF59E0B)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          // Aporte e Renda
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Aporte', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                      Text('R\$ ${_fmtCurrency(inv.aporte)}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
                     ],
                   ),
                 ),
               ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Renda', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                      Text('${inv.renda}% a.m.', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          // Barra de valorização
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Valorização R\$/m²', style: TextStyle(fontSize: 10, color: Colors.grey)),
+              Text('+${((inv.priceM2Exit - inv.priceM2Entry) / inv.priceM2Entry * 100).toStringAsFixed(0)}%',
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
+            ],
+          ),
+          const SizedBox(height: 4),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(3),
+            child: LinearProgressIndicator(
+              value: ((inv.priceM2Exit - inv.priceM2Entry) / inv.priceM2Entry / 1.2).clamp(0.0, 1.0),
+              minHeight: 5,
+              backgroundColor: Colors.grey.shade100,
+              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF22C55E)),
             ),
-          _buildSearch(),
-          const SizedBox(height: 12),
-          _buildFilterRowResponsive(context),
-          const SizedBox(height: 24),
-          _buildResults(),
+          ),
         ],
       ),
     );
+  }
+
+  Widget _invMetricChip(String label, String value, Color color) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          children: [
+            Text(value, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14)),
+            const SizedBox(height: 2),
+            Text(label, style: const TextStyle(color: Colors.grey, fontSize: 9)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInvestmentCta() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [const Color(0xFFFFC107).withValues(alpha: 0.08), Colors.white],
+        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFFFC107).withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        children: [
+          const Icon(Icons.lock_outline, color: Color(0xFFFFC107), size: 28),
+          const SizedBox(height: 10),
+          const Text(
+            'Análise Completa',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF111827)),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Fluxo de caixa, curva de vendas, VPL, payback e projeções detalhadas.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12, color: Colors.grey, height: 1.4),
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                if (!_isPremiumUser && !kDevBypassPremium) {
+                  _openPaywall();
+                  return;
+                }
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const PrivatePage()));
+              },
+              icon: const Icon(Icons.trending_up, size: 16),
+              label: const Text('Desbloquear', style: TextStyle(fontWeight: FontWeight.w700)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF232845),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _fmtK(double value) {
+    if (value >= 1000) return '${(value / 1000).toStringAsFixed(1)}k';
+    return value.toStringAsFixed(0);
+  }
+
+  String _fmtCurrency(double value) {
+    if (value >= 1000000) {
+      final m = value / 1000000;
+      return '${m.toStringAsFixed(m == m.roundToDouble() ? 0 : 1)} mi';
+    }
+    if (value >= 1000) return '${(value / 1000).toStringAsFixed(0)} mil';
+    return value.toStringAsFixed(0);
   }
 
   // =============================
@@ -1134,3 +1544,81 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 }
+
+// ═══ Dados de investimento para a aba free ═══
+class _InvPreview {
+  final String name;
+  final String shortName;
+  final String location;
+  final double aporte;
+  final double priceM2Entry;
+  final double priceM2Exit;
+  final double roi;
+  final double irr;
+  final int prazoMeses;
+  final double renda;
+
+  const _InvPreview({
+    required this.name,
+    required this.shortName,
+    required this.location,
+    required this.aporte,
+    required this.priceM2Entry,
+    required this.priceM2Exit,
+    required this.roi,
+    required this.irr,
+    required this.prazoMeses,
+    required this.renda,
+  });
+}
+
+const _investmentPreviews = [
+  _InvPreview(
+    name: 'Vitacon Al Barros 886',
+    shortName: 'Al Barros 886',
+    location: 'Alameda Barros, São Paulo',
+    aporte: 1200000,
+    priceM2Entry: 11900,
+    priceM2Exit: 24000,
+    roi: 93.7,
+    irr: 26.4,
+    prazoMeses: 36,
+    renda: 0.8,
+  ),
+  _InvPreview(
+    name: 'Vitacon Venâncio 943',
+    shortName: 'Venâncio 943',
+    location: 'Rua Venâncio Aires, São Paulo',
+    aporte: 1000000,
+    priceM2Entry: 12614,
+    priceM2Exit: 20000,
+    roi: 52.3,
+    irr: 15.8,
+    prazoMeses: 36,
+    renda: 1.0,
+  ),
+  _InvPreview(
+    name: 'Vitacon Higienópolis',
+    shortName: 'Higienópolis',
+    location: 'Higienópolis, São Paulo',
+    aporte: 1000000,
+    priceM2Entry: 16900,
+    priceM2Exit: 30000,
+    roi: 70.5,
+    irr: 21.3,
+    prazoMeses: 36,
+    renda: 1.0,
+  ),
+  _InvPreview(
+    name: 'Vitacon Nove de Julho',
+    shortName: 'Nove de Julho',
+    location: 'Av. Nove de Julho, São Paulo',
+    aporte: 1000000,
+    priceM2Entry: 12614,
+    priceM2Exit: 20000,
+    roi: 52.3,
+    irr: 15.8,
+    prazoMeses: 36,
+    renda: 1.0,
+  ),
+];
