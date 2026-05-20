@@ -388,37 +388,35 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   // =============================
 
   Widget _buildEmpreendimentosTab() {
+    // Filtrar empreendimentos pela busca
+    final filtered = _searchQuery.isEmpty
+        ? _empreendimentoCards
+        : _empreendimentoCards.where((emp) {
+            final q = _searchQuery.toLowerCase();
+            return emp.name.toLowerCase().contains(q) ||
+                emp.location.toLowerCase().contains(q) ||
+                emp.type.toLowerCase().contains(q);
+          }).toList();
+
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       children: [
-        // 🔹 Cards dos materiais de venda (PDFs)
         const SizedBox(height: 8),
-        const Text(
-          'Materiais de Venda',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
-        ),
-        const SizedBox(height: 4),
-        const Text(
-          'Acesse as apresentações completas dos empreendimentos',
-          style: TextStyle(fontSize: 12, color: Colors.grey),
-        ),
-        const SizedBox(height: 14),
-        ..._empreendimentoCards.map((emp) => Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+        _buildSearch(),
+        const SizedBox(height: 16),
+        // Cards dos empreendimentos
+        ...filtered.map((emp) => Padding(
+          padding: const EdgeInsets.only(bottom: 14),
           child: _buildEmpreendimentoCard(emp),
         )),
+        if (filtered.isEmpty)
+          const Padding(
+            padding: EdgeInsets.only(top: 40),
+            child: Center(
+              child: Text('Nenhum empreendimento encontrado', style: TextStyle(color: Colors.grey)),
+            ),
+          ),
         const SizedBox(height: 24),
-        // 🔹 Grid de empreendimentos (busca + filtros)
-        const Text(
-          'Buscar Empreendimentos',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
-        ),
-        const SizedBox(height: 12),
-        _buildSearch(),
-        const SizedBox(height: 12),
-        _buildFilterRowResponsive(context),
-        const SizedBox(height: 24),
-        _buildResults(),
       ],
     );
   }
@@ -439,64 +437,125 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           ],
         ),
         clipBehavior: Clip.antiAlias,
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Imagem
-            SizedBox(
-              width: 120,
-              height: 100,
-              child: Image.network(
-                emp.coverImageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  color: Colors.grey.shade200,
-                  child: const Center(child: Icon(Icons.apartment, color: Colors.grey)),
+            // Imagem de capa
+            Stack(
+              children: [
+                Image.network(
+                  emp.coverImageUrl,
+                  height: 160,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    height: 160,
+                    color: Colors.grey.shade200,
+                    child: const Center(child: Icon(Icons.apartment, color: Colors.grey, size: 40)),
+                  ),
                 ),
-              ),
-            ),
-            // Info
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      emp.name,
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                // Badge tipo
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF232845).withValues(alpha: 0.85),
+                      borderRadius: BorderRadius.circular(6),
                     ),
-                    const SizedBox(height: 3),
-                    Text(
-                      emp.location,
-                      style: const TextStyle(fontSize: 11, color: Colors.grey),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    child: Text(
+                      emp.type,
+                      style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
                     ),
-                    const SizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF232845).withValues(alpha: 0.06),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.picture_as_pdf, size: 12, color: Color(0xFF232845)),
-                          SizedBox(width: 4),
-                          Text('Ver Material', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF232845))),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+                // Badge slides
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.6),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.photo_library, color: Colors.white, size: 12),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${emp.galleryImageUrls.length}',
+                          style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 12),
-              child: Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+            // Informações
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    emp.name,
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, size: 12, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          emp.location,
+                          style: const TextStyle(fontSize: 11, color: Colors.grey),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  // Métricas
+                  Row(
+                    children: [
+                      _empMetric(Icons.straighten, emp.area),
+                      const SizedBox(width: 12),
+                      _empMetric(Icons.home_work, '${emp.units} un.'),
+                      if (emp.rentability != null) ...[
+                        const SizedBox(width: 12),
+                        _empMetric(Icons.trending_up, emp.rentability!),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  // Botão ver material
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF232845).withValues(alpha: 0.05),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.photo_library_outlined, size: 14, color: Color(0xFF232845)),
+                        SizedBox(width: 6),
+                        Text(
+                          'Ver Apresentação Completa',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF232845)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -504,8 +563,18 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     );
   }
 
+  Widget _empMetric(IconData icon, String value) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 13, color: const Color(0xFF232845)),
+        const SizedBox(width: 4),
+        Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF374151))),
+      ],
+    );
+  }
+
   void _openPdfViewer(_EmpreendimentoData emp) {
-    // Abre a galeria de imagens do empreendimento
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -1825,12 +1894,20 @@ const _investmentPreviews = [
 class _EmpreendimentoData {
   final String name;
   final String location;
+  final String type;
+  final String area;
+  final int units;
+  final String? rentability;
   final String coverImageUrl;
   final List<String> galleryImageUrls;
 
   const _EmpreendimentoData({
     required this.name,
     required this.location,
+    required this.type,
+    required this.area,
+    required this.units,
+    this.rentability,
     required this.coverImageUrl,
     required this.galleryImageUrls,
   });
@@ -1839,7 +1916,11 @@ class _EmpreendimentoData {
 const _empreendimentoCards = [
   _EmpreendimentoData(
     name: 'Vitacon Alto Pinheiros',
-    location: 'Alto de Pinheiros, São Paulo',
+    location: 'R. Tonelero, 1213 - Alto de Pinheiros, SP',
+    type: 'Studio HMP',
+    area: '24m²',
+    units: 0,
+    rentability: '11% a.a.',
     coverImageUrl: '$_supabaseStorage/alto-pinheiros/page04_img02_845x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/alto-pinheiros/page04_img02_845x598.jpeg',
@@ -1857,7 +1938,10 @@ const _empreendimentoCards = [
   ),
   _EmpreendimentoData(
     name: 'Vitacon Bela Cintra',
-    location: 'Consolação, São Paulo',
+    location: 'R. Bela Cintra - Jardins, SP',
+    type: 'Studios',
+    area: '25 a 76m²',
+    units: 92,
     coverImageUrl: '$_supabaseStorage/bela-cintra/page05_img01_845x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/bela-cintra/page05_img01_845x598.jpeg',
@@ -1881,7 +1965,10 @@ const _empreendimentoCards = [
   ),
   _EmpreendimentoData(
     name: 'Vitacon Domingos de Morais',
-    location: 'Vila Mariana, São Paulo',
+    location: 'Vila Mariana, SP',
+    type: 'Studios HIS/HMP',
+    area: 'Studios',
+    units: 233,
     coverImageUrl: '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
@@ -1901,7 +1988,10 @@ const _empreendimentoCards = [
   ),
   _EmpreendimentoData(
     name: 'Vitacon João Moura',
-    location: 'Pinheiros, São Paulo',
+    location: 'R. João Moura - Pinheiros, SP',
+    type: 'Studios e 1 Dorm',
+    area: '20 a 81m²',
+    units: 260,
     coverImageUrl: '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
@@ -1923,7 +2013,10 @@ const _empreendimentoCards = [
   ),
   _EmpreendimentoData(
     name: 'Vitacon Perdizes',
-    location: 'Perdizes, São Paulo',
+    location: 'Perdizes, SP',
+    type: 'Studios HIS/HMP',
+    area: '18 a 60m²',
+    units: 372,
     coverImageUrl: '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',
@@ -1948,7 +2041,10 @@ const _empreendimentoCards = [
   ),
   _EmpreendimentoData(
     name: 'Vitacon Pinheiros',
-    location: 'Pinheiros, São Paulo',
+    location: 'Pinheiros, SP',
+    type: 'Studios HIS/HMP',
+    area: '19 a 37m²',
+    units: 435,
     coverImageUrl: '$_supabaseStorage/pinheiros/page05_img01_1923x1082.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/pinheiros/page05_img01_1923x1082.jpeg',
