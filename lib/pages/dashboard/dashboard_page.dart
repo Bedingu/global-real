@@ -391,6 +391,29 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       children: [
+        // 🔹 Cards dos materiais de venda (PDFs)
+        const SizedBox(height: 8),
+        const Text(
+          'Materiais de Venda',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Acesse as apresentações completas dos empreendimentos',
+          style: TextStyle(fontSize: 12, color: Colors.grey),
+        ),
+        const SizedBox(height: 14),
+        ..._empreendimentoCards.map((emp) => Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: _buildEmpreendimentoCard(emp),
+        )),
+        const SizedBox(height: 24),
+        // 🔹 Grid de empreendimentos (busca + filtros)
+        const Text(
+          'Buscar Empreendimentos',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
+        ),
+        const SizedBox(height: 12),
         _buildSearch(),
         const SizedBox(height: 12),
         _buildFilterRowResponsive(context),
@@ -400,28 +423,173 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     );
   }
 
+  Widget _buildEmpreendimentoCard(_EmpreendimentoData emp) {
+    return GestureDetector(
+      onTap: () => _openPdfViewer(emp),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Row(
+          children: [
+            // Imagem
+            SizedBox(
+              width: 120,
+              height: 100,
+              child: Image.network(
+                emp.coverImageUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  color: Colors.grey.shade200,
+                  child: const Center(child: Icon(Icons.apartment, color: Colors.grey)),
+                ),
+              ),
+            ),
+            // Info
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      emp.name,
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      emp.location,
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF232845).withValues(alpha: 0.06),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.picture_as_pdf, size: 12, color: Color(0xFF232845)),
+                          SizedBox(width: 4),
+                          Text('Ver Material', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF232845))),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 12),
+              child: Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openPdfViewer(_EmpreendimentoData emp) {
+    // Abre a galeria de imagens do empreendimento
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => _EmpreendimentoGalleryPage(empreendimento: emp),
+      ),
+    );
+  }
+
   // =============================
   // TAB: INVESTIMENTOS (FREE)
   // =============================
 
+  /// Busca imagens dos empreendimentos de investimento no Supabase
+  Future<Map<String, String>> _fetchInvestmentImages() async {
+    try {
+      final data = await Supabase.instance.client
+          .from('developments')
+          .select('empreendimentos, images')
+          .or('empreendimentos.ilike.%Barros%,empreendimentos.ilike.%Venâncio%,empreendimentos.ilike.%Higienópolis%,empreendimentos.ilike.%Nove de Julho%');
+
+      final Map<String, String> imageMap = {};
+      for (final row in data) {
+        final name = row['empreendimentos'] as String? ?? '';
+        final images = row['images'] as List<dynamic>? ?? [];
+        if (images.isNotEmpty) {
+          imageMap[name] = images.first.toString();
+        }
+      }
+      return imageMap;
+    } catch (_) {
+      return {};
+    }
+  }
+
   Widget _buildInvestimentosTab() {
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      children: [
-        const SizedBox(height: 8),
-        // Gráfico comparativo
-        _buildInvestmentComparisonChart(),
-        const SizedBox(height: 20),
-        // Cards dos investimentos
-        ..._investmentPreviews.map((inv) => Padding(
-          padding: const EdgeInsets.only(bottom: 14),
-          child: _buildInvestmentFreeCard(inv),
-        )),
-        const SizedBox(height: 16),
-        // CTA para análise completa (premium)
-        _buildInvestmentCta(),
-        const SizedBox(height: 24),
-      ],
+    return FutureBuilder<Map<String, String>>(
+      future: _fetchInvestmentImages(),
+      builder: (context, snapshot) {
+        final imageMap = snapshot.data ?? {};
+
+        return ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          children: [
+            const SizedBox(height: 8),
+            // Gráfico comparativo
+            _buildInvestmentComparisonChart(),
+            const SizedBox(height: 20),
+            // Cards dos investimentos com imagens
+            ..._investmentPreviews.map((inv) {
+              // Match image by partial name
+              String? imageUrl;
+              for (final entry in imageMap.entries) {
+                if (entry.key.contains('Barros') && inv.name.contains('Barros')) {
+                  imageUrl = entry.value;
+                  break;
+                }
+                if (entry.key.contains('Venâncio') && inv.name.contains('Venâncio')) {
+                  imageUrl = entry.value;
+                  break;
+                }
+                if (entry.key.contains('Higienópolis') && inv.name.contains('Higienópolis')) {
+                  imageUrl = entry.value;
+                  break;
+                }
+                if (entry.key.contains('Nove de Julho') && inv.name.contains('Nove de Julho')) {
+                  imageUrl = entry.value;
+                  break;
+                }
+              }
+              // Fallback: use Supabase storage known images
+              imageUrl ??= inv.fallbackImageUrl;
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: _buildInvestmentFreeCard(inv, imageUrl: imageUrl),
+              );
+            }),
+            const SizedBox(height: 16),
+            // CTA para análise completa (premium)
+            _buildInvestmentCta(),
+            const SizedBox(height: 24),
+          ],
+        );
+      },
     );
   }
 
@@ -531,9 +699,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     );
   }
 
-  Widget _buildInvestmentFreeCard(_InvPreview inv) {
+  Widget _buildInvestmentFreeCard(_InvPreview inv, {String? imageUrl}) {
     return Container(
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -545,100 +712,122 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           ),
         ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
-          Row(
-            children: [
-              Container(
-                width: 36, height: 36,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF232845).withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(Icons.apartment, color: Color(0xFF232845), size: 18),
+          // Imagem do empreendimento
+          if (imageUrl != null)
+            Image.network(
+              imageUrl,
+              height: 140,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(
+                height: 140,
+                color: Colors.grey.shade200,
+                child: const Center(child: Icon(Icons.apartment, color: Colors.grey, size: 32)),
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header
+                Row(
                   children: [
-                    Text(inv.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
-                    Text(inv.location, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                    Container(
+                      width: 36, height: 36,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF232845).withValues(alpha: 0.08),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.apartment, color: Color(0xFF232845), size: 18),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(inv.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
+                          Text(inv.location, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          // Métricas
-          Row(
-            children: [
-              _invMetricChip('ROI', '${inv.roi}%', const Color(0xFF22C55E)),
-              const SizedBox(width: 8),
-              _invMetricChip('IRR', '${inv.irr}%', const Color(0xFF3B82F6)),
-              const SizedBox(width: 8),
-              _invMetricChip('Prazo', '${inv.prazoMeses}m', const Color(0xFFF59E0B)),
-            ],
-          ),
-          const SizedBox(height: 12),
-          // Aporte e Renda
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Aporte', style: TextStyle(fontSize: 10, color: Colors.grey)),
-                      Text('R\$ ${_fmtCurrency(inv.aporte)}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
-                    ],
+                const SizedBox(height: 14),
+                // Métricas
+                Row(
+                  children: [
+                    _invMetricChip('ROI', '${inv.roi}%', const Color(0xFF22C55E)),
+                    const SizedBox(width: 8),
+                    _invMetricChip('IRR', '${inv.irr}%', const Color(0xFF3B82F6)),
+                    const SizedBox(width: 8),
+                    _invMetricChip('Prazo', '${inv.prazoMeses}m', const Color(0xFFF59E0B)),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                // Aporte e Renda
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Aporte', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                            Text('R\$ ${_fmtCurrency(inv.aporte)}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Renda', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                            Text('${inv.renda}% a.m.', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                // Barra de valorização
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Valorização R\$/m²', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                    Text('+${((inv.priceM2Exit - inv.priceM2Entry) / inv.priceM2Entry * 100).toStringAsFixed(0)}%',
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: LinearProgressIndicator(
+                    value: ((inv.priceM2Exit - inv.priceM2Entry) / inv.priceM2Entry / 1.2).clamp(0.0, 1.0),
+                    minHeight: 5,
+                    backgroundColor: Colors.grey.shade100,
+                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF22C55E)),
                   ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Renda', style: TextStyle(fontSize: 10, color: Colors.grey)),
-                      Text('${inv.renda}% a.m.', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          // Barra de valorização
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Valorização R\$/m²', style: TextStyle(fontSize: 10, color: Colors.grey)),
-              Text('+${((inv.priceM2Exit - inv.priceM2Entry) / inv.priceM2Entry * 100).toStringAsFixed(0)}%',
-                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
-            ],
-          ),
-          const SizedBox(height: 4),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(3),
-            child: LinearProgressIndicator(
-              value: ((inv.priceM2Exit - inv.priceM2Entry) / inv.priceM2Entry / 1.2).clamp(0.0, 1.0),
-              minHeight: 5,
-              backgroundColor: Colors.grey.shade100,
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF22C55E)),
+              ],
             ),
           ),
         ],
@@ -1557,6 +1746,7 @@ class _InvPreview {
   final double irr;
   final int prazoMeses;
   final double renda;
+  final String fallbackImageUrl;
 
   const _InvPreview({
     required this.name,
@@ -1569,8 +1759,11 @@ class _InvPreview {
     required this.irr,
     required this.prazoMeses,
     required this.renda,
+    required this.fallbackImageUrl,
   });
 }
+
+const _supabaseStorage = 'https://pcbwbndrnnqptxdbrqnm.supabase.co/storage/v1/object/public/development-images';
 
 const _investmentPreviews = [
   _InvPreview(
@@ -1584,6 +1777,7 @@ const _investmentPreviews = [
     irr: 26.4,
     prazoMeses: 36,
     renda: 0.8,
+    fallbackImageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
   ),
   _InvPreview(
     name: 'Vitacon Venâncio 943',
@@ -1596,6 +1790,7 @@ const _investmentPreviews = [
     irr: 15.8,
     prazoMeses: 36,
     renda: 1.0,
+    fallbackImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
   ),
   _InvPreview(
     name: 'Vitacon Higienópolis',
@@ -1608,6 +1803,7 @@ const _investmentPreviews = [
     irr: 21.3,
     prazoMeses: 36,
     renda: 1.0,
+    fallbackImageUrl: '$_supabaseStorage/senior-living/page39_img01_1280x720.jpeg',
   ),
   _InvPreview(
     name: 'Vitacon Nove de Julho',
@@ -1620,5 +1816,218 @@ const _investmentPreviews = [
     irr: 15.8,
     prazoMeses: 36,
     renda: 1.0,
+    fallbackImageUrl: '$_supabaseStorage/nove-de-julho/slides/slide_05_01_1920x1080.jpeg',
   ),
 ];
+
+
+// ═══ Dados dos empreendimentos (PDFs / materiais de venda) ═══
+class _EmpreendimentoData {
+  final String name;
+  final String location;
+  final String coverImageUrl;
+  final List<String> galleryImageUrls;
+
+  const _EmpreendimentoData({
+    required this.name,
+    required this.location,
+    required this.coverImageUrl,
+    required this.galleryImageUrls,
+  });
+}
+
+const _empreendimentoCards = [
+  _EmpreendimentoData(
+    name: 'Vitacon Alto Pinheiros',
+    location: 'Alto de Pinheiros, São Paulo',
+    coverImageUrl: '$_supabaseStorage/alto-pinheiros/page04_img02_845x598.jpeg',
+    galleryImageUrls: [
+      '$_supabaseStorage/alto-pinheiros/page04_img02_845x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page10_img01_1071x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page11_img01_1087x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page13_img01_1106x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page14_img01_1087x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page15_img01_1173x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page16_img01_1087x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page17_img01_1111x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page18_img01_1086x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page21_img01_1034x598.jpeg',
+      '$_supabaseStorage/alto-pinheiros/page22_img01_1035x598.jpeg',
+    ],
+  ),
+  _EmpreendimentoData(
+    name: 'Vitacon Bela Cintra',
+    location: 'Consolação, São Paulo',
+    coverImageUrl: '$_supabaseStorage/bela-cintra/page05_img01_845x598.jpeg',
+    galleryImageUrls: [
+      '$_supabaseStorage/bela-cintra/page05_img01_845x598.jpeg',
+      '$_supabaseStorage/bela-cintra/page09_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page10_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page11_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page13_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page14_img01_1103x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page16_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page17_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page18_img02_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page19_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page22_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page23_img01_1158x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page24_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page28_img01_1096x598.jpeg',
+      '$_supabaseStorage/bela-cintra/page30_img01_1096x598.jpeg',
+      '$_supabaseStorage/bela-cintra/page32_img01_1096x599.jpeg',
+      '$_supabaseStorage/bela-cintra/page33_img01_1096x599.jpeg',
+    ],
+  ),
+  _EmpreendimentoData(
+    name: 'Vitacon Domingos de Morais',
+    location: 'Vila Mariana, São Paulo',
+    coverImageUrl: '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
+    galleryImageUrls: [
+      '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
+      '$_supabaseStorage/domingos-morais/page09_img01_1619x943.jpeg',
+      '$_supabaseStorage/domingos-morais/page13_img01_2863x2027.jpeg',
+      '$_supabaseStorage/domingos-morais/page17_img01_2614x1850.jpeg',
+      '$_supabaseStorage/domingos-morais/page18_img01_3676x2602.jpeg',
+      '$_supabaseStorage/domingos-morais/page22_img01_3762x2669.jpeg',
+      '$_supabaseStorage/domingos-morais/page39_img01_3793x2471.jpeg',
+      '$_supabaseStorage/domingos-morais/page40_img01_3517x2489.jpeg',
+      '$_supabaseStorage/domingos-morais/page44_img01_3517x2490.jpeg',
+      '$_supabaseStorage/domingos-morais/page48_img01_3088x2000.jpeg',
+      '$_supabaseStorage/domingos-morais/page62_img01_3607x2343.jpeg',
+      '$_supabaseStorage/domingos-morais/page72_img01_3772x2457.jpeg',
+      '$_supabaseStorage/domingos-morais/page78_img01_5051x3576.jpeg',
+    ],
+  ),
+  _EmpreendimentoData(
+    name: 'Vitacon João Moura',
+    location: 'Pinheiros, São Paulo',
+    coverImageUrl: '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
+    galleryImageUrls: [
+      '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page04_img01_1920x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page05_img01_1922x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page13_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page17_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page18_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page19_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page20_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page22_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page23_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page24_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page25_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page26_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page27_img01_1923x1083.jpeg',
+      '$_supabaseStorage/joao-moura/page28_img01_1923x1083.jpeg',
+    ],
+  ),
+  _EmpreendimentoData(
+    name: 'Vitacon Perdizes',
+    location: 'Perdizes, São Paulo',
+    coverImageUrl: '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',
+    galleryImageUrls: [
+      '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',
+      '$_supabaseStorage/perdizes/page07_img01_754x598.jpeg',
+      '$_supabaseStorage/perdizes/page08_img01_1059x596.jpeg',
+      '$_supabaseStorage/perdizes/page14_img01_1064x598.jpeg',
+      '$_supabaseStorage/perdizes/page15_img01_1027x598.jpeg',
+      '$_supabaseStorage/perdizes/page17_img01_1101x598.jpeg',
+      '$_supabaseStorage/perdizes/page19_img01_1027x598.jpeg',
+      '$_supabaseStorage/perdizes/page20_img01_1027x598.jpeg',
+      '$_supabaseStorage/perdizes/page21_img01_1101x598.jpeg',
+      '$_supabaseStorage/perdizes/page22_img01_1096x598.jpeg',
+      '$_supabaseStorage/perdizes/page23_img01_1072x598.jpeg',
+      '$_supabaseStorage/perdizes/page24_img01_1063x598.jpeg',
+      '$_supabaseStorage/perdizes/page25_img01_1066x598.jpeg',
+      '$_supabaseStorage/perdizes/page27_img01_1096x598.jpeg',
+      '$_supabaseStorage/perdizes/page28_img01_1068x598.jpeg',
+      '$_supabaseStorage/perdizes/page29_img01_1096x598.jpeg',
+      '$_supabaseStorage/perdizes/page30_img01_1096x598.jpeg',
+      '$_supabaseStorage/perdizes/page31_img01_1096x598.jpeg',
+    ],
+  ),
+  _EmpreendimentoData(
+    name: 'Vitacon Pinheiros',
+    location: 'Pinheiros, São Paulo',
+    coverImageUrl: '$_supabaseStorage/pinheiros/page05_img01_1923x1082.jpeg',
+    galleryImageUrls: [
+      '$_supabaseStorage/pinheiros/page05_img01_1923x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page06_img01_1920x1080.jpeg',
+      '$_supabaseStorage/pinheiros/page08_img01_1923x1083.jpeg',
+      '$_supabaseStorage/pinheiros/page16_img01_1921x1081.jpeg',
+      '$_supabaseStorage/pinheiros/page17_img01_1921x1081.jpeg',
+      '$_supabaseStorage/pinheiros/page18_img01_1922x1083.jpeg',
+      '$_supabaseStorage/pinheiros/page19_img01_1922x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page22_img01_1922x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page23_img01_1922x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page25_img01_1921x1083.jpeg',
+      '$_supabaseStorage/pinheiros/page26_img01_1922x1081.jpeg',
+      '$_supabaseStorage/pinheiros/page27_img01_1922x1083.jpeg',
+      '$_supabaseStorage/pinheiros/page28_img01_1922x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page31_img01_1921x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page34_img01_1923x1082.jpeg',
+      '$_supabaseStorage/pinheiros/page35_img01_1921x1083.jpeg',
+      '$_supabaseStorage/pinheiros/page36_img01_1922x1083.jpeg',
+      '$_supabaseStorage/pinheiros/page37_img01_1922x1082.jpeg',
+    ],
+  ),
+];
+
+// ═══ Página de galeria do empreendimento ═══
+class _EmpreendimentoGalleryPage extends StatelessWidget {
+  final _EmpreendimentoData empreendimento;
+
+  const _EmpreendimentoGalleryPage({required this.empreendimento});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF232845),
+        title: Text(
+          empreendimento.name,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+      ),
+      body: PageView.builder(
+        itemCount: empreendimento.galleryImageUrls.length,
+        itemBuilder: (context, index) {
+          return InteractiveViewer(
+            minScale: 0.5,
+            maxScale: 4.0,
+            child: Center(
+              child: Image.network(
+                empreendimento.galleryImageUrls[index],
+                fit: BoxFit.contain,
+                loadingBuilder: (_, child, progress) {
+                  if (progress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: progress.expectedTotalBytes != null
+                          ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes!
+                          : null,
+                      color: const Color(0xFFFFC107),
+                    ),
+                  );
+                },
+                errorBuilder: (_, __, ___) => const Center(
+                  child: Icon(Icons.broken_image, color: Colors.white38, size: 48),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+      bottomNavigationBar: Container(
+        color: const Color(0xFF111C2E),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+        child: Text(
+          'Deslize para navegar • ${empreendimento.galleryImageUrls.length} slides',
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white54, fontSize: 12),
+        ),
+      ),
+    );
+  }
+}
