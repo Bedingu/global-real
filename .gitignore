@@ -50,3 +50,16 @@ app.*.map.json
 android/key.properties
 *.jks
 .vercel
+
+# Heavy media files (videos, large PDFs) - stored locally only
+Empreendimentos/Alto de Pinheiros/*.mp4
+Empreendimentos/Alto de Pinheiros/*.pdf
+Empreendimentos/Bela Cintra/*.mp4
+Empreendimentos/Bela Cintra/*.pdf
+Empreendimentos/**/*.mp4
+Empreendimentos/**/*.pdf
+*.mp4
+extract_pdf_images.py
+extract_pdf_text.py
+extract_pdf_sales.py
+upload_to_supabase.py

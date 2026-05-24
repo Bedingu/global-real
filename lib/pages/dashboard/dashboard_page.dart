@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // FLUTTER
 import '../../theme.dart';
+import '../empreendimento/empreendimento_detail_page.dart';
 import '../../generated/app_localizations.dart';
 
 // MODELS
@@ -260,7 +262,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Aportes a partir de R\$ 200 mil',
+                                'Aportes a partir de R\$ 800 mil',
                                 style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12),
                               ),
                             ],
@@ -542,14 +544,18 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                       color: const Color(0xFF232845).withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.photo_library_outlined, size: 14, color: Color(0xFF232845)),
-                        SizedBox(width: 6),
+                        Icon(
+                          emp.tourUrl != null ? Icons.view_in_ar : Icons.photo_library_outlined,
+                          size: 14,
+                          color: const Color(0xFF232845),
+                        ),
+                        const SizedBox(width: 6),
                         Text(
-                          'Ver Apresentação Completa',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF232845)),
+                          emp.tourUrl != null ? 'Tour Virtual' : 'Ver Apresentação',
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF232845)),
                         ),
                       ],
                     ),
@@ -574,11 +580,31 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     );
   }
 
-  void _openPdfViewer(_EmpreendimentoData emp) {
+  void _openPdfViewer(_EmpreendimentoData emp) async {
+    // Abre a página de detalhe do empreendimento
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => _EmpreendimentoGalleryPage(empreendimento: emp),
+        builder: (_) => EmpreendimentoDetailPage(
+          empreendimento: EmpreendimentoDetail(
+            name: emp.name,
+            location: emp.location,
+            type: emp.type,
+            area: emp.area,
+            priceFrom: emp.priceFrom ?? '',
+            totalUnits: emp.units,
+            availableUnits: emp.availableUnits ?? 0,
+            rentability: emp.rentability,
+            deliveryDate: emp.deliveryDate,
+            coverImageUrl: emp.coverImageUrl,
+            galleryImageUrls: emp.galleryImageUrls,
+            tourUrl: emp.tourUrl,
+            linktreeUrl: emp.linktreeUrl,
+            salesTableUrl: emp.salesTableUrl,
+            videoUrls: emp.videoUrls ?? const [],
+            highlights: emp.highlights ?? const [],
+          ),
+        ),
       ),
     );
   }
@@ -1898,6 +1924,14 @@ class _EmpreendimentoData {
   final String area;
   final int units;
   final String? rentability;
+  final String? tourUrl;
+  final String? linktreeUrl;
+  final String? salesTableUrl;
+  final String? priceFrom;
+  final int? availableUnits;
+  final String? deliveryDate;
+  final List<String>? videoUrls;
+  final List<String>? highlights;
   final String coverImageUrl;
   final List<String> galleryImageUrls;
 
@@ -1908,6 +1942,14 @@ class _EmpreendimentoData {
     required this.area,
     required this.units,
     this.rentability,
+    this.tourUrl,
+    this.linktreeUrl,
+    this.salesTableUrl,
+    this.priceFrom,
+    this.availableUnits,
+    this.deliveryDate,
+    this.videoUrls,
+    this.highlights,
     required this.coverImageUrl,
     required this.galleryImageUrls,
   });
@@ -1918,10 +1960,23 @@ const _empreendimentoCards = [
     name: 'Vitacon Alto Pinheiros',
     location: 'R. Tonelero, 1213 - Alto de Pinheiros, SP',
     type: 'Studio HMP',
-    area: '24m²',
-    units: 0,
+    area: '18 a 28m²',
+    units: 106,
+    availableUnits: 5,
     rentability: '11% a.a.',
-    coverImageUrl: '$_supabaseStorage/alto-pinheiros/page04_img02_845x598.jpeg',
+    priceFrom: 'R\$ 337 mil',
+    deliveryDate: '2027',
+    tourUrl: 'https://skylineip.s3.sa-east-1.amazonaws.com/Tour+Virtual/Vitacon/TONELERO/index.htm',
+    linktreeUrl: 'https://linktr.ee/VitaconAltodePinheiros',
+    highlights: [
+      'A poucos passos da futura Estação Cerro Corá - Linha 2 Verde',
+      'Fácil acesso às Marginais Pinheiros e Tietê',
+      'Próximo ao Parque Villa-Lobos e Shopping Bourbon',
+      'Parceria Housi — ocupação e rendimento acima da média',
+      'Rentabilidade projetada de até 11% a.a.',
+      '95% vendido — últimas unidades',
+    ],
+    coverImageUrl: '$_supabaseStorage/alto-pinheiros/page13_img01_1106x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/alto-pinheiros/page04_img02_845x598.jpeg',
       '$_supabaseStorage/alto-pinheiros/page10_img01_1071x598.jpeg',
@@ -1939,9 +1994,22 @@ const _empreendimentoCards = [
   _EmpreendimentoData(
     name: 'Vitacon Bela Cintra',
     location: 'R. Bela Cintra - Jardins, SP',
-    type: 'Studios',
+    type: 'Studios e Loft Duplex',
     area: '25 a 76m²',
     units: 92,
+    availableUnits: 69,
+    priceFrom: 'R\$ 964 mil',
+    deliveryDate: '2027',
+    tourUrl: 'https://skylineip.s3.sa-east-1.amazonaws.com/Tour+Virtual/Vitacon/Housi+Bela+Cintra/index.htm',
+    linktreeUrl: 'https://linktr.ee/HousiBelaCintra',
+    highlights: [
+      'Localização premium: Jardins, entre a Av. Paulista e a Oscar Freire',
+      'Próximo ao MASP, Itaú Cultural e Japan House',
+      'Estações Paulista e Consolação a poucos minutos',
+      'Torre única com 92 unidades — alto padrão',
+      'Studios inteligentes e Loft Duplex de 56m²',
+      'Curadoria de marcas e serviços exclusivos',
+    ],
     coverImageUrl: '$_supabaseStorage/bela-cintra/page05_img01_845x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/bela-cintra/page05_img01_845x598.jpeg',
@@ -1969,6 +2037,7 @@ const _empreendimentoCards = [
     type: 'Studios HIS/HMP',
     area: 'Studios',
     units: 233,
+    tourUrl: 'https://tour.ultratour.com.br/Vitacon/domingos+de+morais/index.htm',
     coverImageUrl: '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
@@ -1992,6 +2061,7 @@ const _empreendimentoCards = [
     type: 'Studios e 1 Dorm',
     area: '20 a 81m²',
     units: 260,
+    tourUrl: 'https://portalcorretor.vitacon.com.br/admin/properties/59',
     coverImageUrl: '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
@@ -2017,6 +2087,7 @@ const _empreendimentoCards = [
     type: 'Studios HIS/HMP',
     area: '18 a 60m²',
     units: 372,
+    tourUrl: 'https://skylineip.s3.sa-east-1.amazonaws.com/Tour+Virtual/Vitacon/PERDIZES+II/index.htm',
     coverImageUrl: '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',

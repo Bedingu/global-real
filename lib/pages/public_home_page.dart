@@ -375,8 +375,10 @@ class _PublicHomePageState extends State<PublicHomePage> {
                 const SizedBox(height: 32),
 
                 // CTA
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.center,
                   children: [
                     ElevatedButton.icon(
                       onPressed: _navigateSignup,
@@ -389,7 +391,6 @@ class _PublicHomePageState extends State<PublicHomePage> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                     ),
-                    const SizedBox(width: 12),
                     OutlinedButton.icon(
                       onPressed: () => _openWhatsApp(),
                       icon: const Icon(Icons.chat, size: 18),
