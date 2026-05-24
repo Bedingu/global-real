@@ -10,7 +10,7 @@
 ;;;;;;;;;;;;;;;;;;;2 meses antes ;4,066666667;;8;31/12/2029;36;1;99%;5,2%;; *MKT + Gestão ;5,0%;5,0%;;Taxa;15,2%;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Período;Descrição;Previsão de fluxo;Venda Bruta;Venda Líquida*;INCC acumulado;Venda Bruta Corrigida;Venda Líquida Corrigida;(=) Movimento;Venda Líq. Corrigida Padrão;(=) Movimento Padrão;;;;;;;;;;;;;Distribuição recebimento;;;;;Correção INCC;6,0%;6,0%;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (=);(=);Totalizador;100%;2.420.168;2.065.807;;2.723.680;2.324.879;1.163.279;2.324.879;1.163.279;1.124.879;;;;;;;;;;;;40%;10%;50%;100%;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-na;jun-26;Aporte;na; -   ; -   ;0,0%;0;0;(1.200.000);0;(1.200.000);(1.200.000);;;;;;;preíodo;mês;Curva de vendas;Vendas acumulada; vendas estimada;ATO;PARCELAS;FINANCIAMENTO;Curva repasse;Distribuição fluxo acumulado;Distribuição fluxo mês;Simulador vendas;Var.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+na;jun-26;Aporte;na; -   ; -   ;0   ,0%;0;0;(1.200.000);0;(1.200.000);(1.200.000);;;;;;;preíodo;mês;Curva de vendas;Vendas acumulada; vendas estimada;ATO;PARCELAS;FINANCIAMENTO;Curva repasse;Distribuição fluxo acumulado;Distribuição fluxo mês;Simulador vendas;Var.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 na;jul-26;Antecipação;na; -   ; -   ;0,0%;0;0;9.600;0;9.600;0;;;;;;;1;31/03/2027;22,0%;22,0%;22,0%;40%;0,3%;;40,3%;8,9%;8,7%;8,7%;0,0%;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 na;ago-26;Antecipação;na; -   ; -   ;0,0%;0;0;9.600;0;9.600;0;;;;;;;2;30/04/2027;6,0%;28,0%;6,0%;40%;0,3%;;40,3%;11,3%;2,7%;2,7%;0,0%;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 na;set-26;Antecipação;na; -   ; -   ;0,0%;0;0;9.600;0;9.600;0;;;;;;;3;31/05/2027;5,0%;33,0%;5,0%;40%;0,3%;;40,3%;13,3%;1,1%;1,1%;0,0%;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
