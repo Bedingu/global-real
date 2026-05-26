@@ -2088,6 +2088,15 @@ const _empreendimentoCards = [
     area: '18 a 60m²',
     units: 372,
     tourUrl: 'https://skylineip.s3.sa-east-1.amazonaws.com/Tour+Virtual/Vitacon/PERDIZES+II/index.htm',
+    linktreeUrl: 'https://linktr.ee/VitaconPerdizes',
+    highlights: [
+      'A poucos passos do Allianz Parque',
+      'Coleção Vitacon 2025 — Work, Wellness, Club e Tech',
+      'Studios de 18 a 60m² com pé-direito duplo',
+      '372 unidades — torre única',
+      'Parceria Housi — alta ocupação e rendimento',
+      'Região consolidada com infraestrutura completa',
+    ],
     coverImageUrl: '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/perdizes/page05_img01_845x598.jpeg',

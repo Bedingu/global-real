@@ -777,9 +777,9 @@ class _PublicHomePageState extends State<PublicHomePage> {
   // ═══════════════════════════════════════
   Widget _buildNumbers(AppLocalizations t, bool isWide, double contentWidth) {
     final stats = [
-      _StatData('5K+', 'Usuários cadastrados'),
-      _StatData('18%', 'Média de Valorização'),
-      _StatData('R\$ 12M', 'Distribuídos aos investidores'),
+      _StatData('5K+', 'Usuários\ncadastrados'),
+      _StatData('18%', 'Média de\nValorização'),
+      _StatData('R\$ 12M', 'Distribuídos\naos investidores'),
     ];
 
     return Container(
@@ -789,15 +789,20 @@ class _PublicHomePageState extends State<PublicHomePage> {
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: contentWidth),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: stats.map((s) => Column(
-                children: [
-                  Text(s.value, style: const TextStyle(color: _gold, fontSize: 36, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 6),
-                  Text(s.label, style: const TextStyle(color: Colors.white54, fontSize: 13)),
-                ],
+              children: stats.map((s) => Expanded(
+                child: Column(
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(s.value, style: const TextStyle(color: _gold, fontSize: 32, fontWeight: FontWeight.bold)),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(s.label, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white54, fontSize: 11)),
+                  ],
+                ),
               )).toList(),
             ),
           ),
