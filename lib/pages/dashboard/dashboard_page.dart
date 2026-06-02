@@ -645,9 +645,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           padding: const EdgeInsets.symmetric(horizontal: 24),
           children: [
             const SizedBox(height: 8),
-            // Gráfico comparativo
-            _buildInvestmentComparisonChart(),
-            const SizedBox(height: 20),
             // Cards dos investimentos com imagens
             ..._investmentPreviews.map((inv) {
               // Match image by partial name
@@ -675,7 +672,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 14),
-                child: _buildInvestmentFreeCard(inv, imageUrl: imageUrl),
+                child: GestureDetector(
+                  onTap: () => _openPaywall(),
+                  child: _buildInvestmentFreeCard(inv, imageUrl: imageUrl),
+                ),
               );
             }),
             const SizedBox(height: 16),
@@ -2052,7 +2052,6 @@ const _empreendimentoCards = [
       '$_supabaseStorage/domingos-morais/page48_img01_3088x2000.jpeg',
       '$_supabaseStorage/domingos-morais/page62_img01_3607x2343.jpeg',
       '$_supabaseStorage/domingos-morais/page72_img01_3772x2457.jpeg',
-      '$_supabaseStorage/domingos-morais/page78_img01_5051x3576.jpeg',
     ],
   ),
   _EmpreendimentoData(
