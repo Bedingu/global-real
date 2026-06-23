@@ -90,7 +90,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _loadFavorites();
     _loadPremiumStatus();
     _listenPremiumRealtime();
@@ -363,6 +363,16 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     ],
                   ),
                 ),
+                Tab(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.home_outlined, size: 16),
+                      SizedBox(width: 6),
+                      Text('Meus Imóveis'),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -377,6 +387,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                 _buildEmpreendimentosTab(),
                 // === ABA 2: INVESTIMENTOS (FREE) ===
                 _buildInvestimentosTab(),
+                // === ABA 3: MEUS IMÓVEIS (PREMIUM) ===
+                _buildMeusImoveisTab(),
               ],
             ),
           ),
@@ -705,6 +717,271 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             videoUrls: emp.videoUrls ?? const [],
             highlights: emp.highlights ?? const [],
           ),
+        ),
+      ),
+    );
+  }
+
+  // =============================
+  // TAB: MEUS IMÓVEIS (PREMIUM)
+  // =============================
+
+  Widget _buildMeusImoveisTab() {
+    // Se não for premium, mostra paywall
+    if (!_isPremiumUser && !kDevBypassPremium) {
+      return _buildMeusImoveisPaywall();
+    }
+    return _buildMeusImoveisContent();
+  }
+
+  Widget _buildMeusImoveisPaywall() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFC107).withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.lock_outline, color: Color(0xFFFFC107), size: 36),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Meus Imóveis',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF111827)),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Gerencie seus imóveis, acompanhe repasses mensais e rentabilidade em tempo real.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Colors.grey, height: 1.5),
+            ),
+            const SizedBox(height: 32),
+            // Features list
+            ..._meusImoveisFeatures.map((f) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Row(
+                children: [
+                  Icon(f.icon, size: 18, color: const Color(0xFF22C55E)),
+                  const SizedBox(width: 12),
+                  Expanded(child: Text(f.label, style: const TextStyle(fontSize: 13, color: Color(0xFF374151)))),
+                ],
+              ),
+            )),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _openPaywall,
+                icon: const Icon(Icons.workspace_premium, size: 18),
+                label: const Text('Desbloquear Acesso', style: TextStyle(fontWeight: FontWeight.w700)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF232845),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMeusImoveisContent() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      children: [
+        const SizedBox(height: 8),
+        // Resumo
+        _buildMeusImoveisResumo(),
+        const SizedBox(height: 20),
+        // Cards dos imóveis (mock)
+        ..._mockImoveis.map((imovel) => Padding(
+          padding: const EdgeInsets.only(bottom: 14),
+          child: _buildImovelCard(imovel),
+        )),
+        const SizedBox(height: 16),
+        // Botão adicionar
+        _buildAdicionarImovelBtn(),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildMeusImoveisResumo() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Text('${_mockImoveis.length}', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF232845))),
+                const Text('Imóveis', style: TextStyle(fontSize: 11, color: Colors.grey)),
+              ],
+            ),
+          ),
+          Container(width: 1, height: 40, color: Colors.grey.shade200),
+          Expanded(
+            child: Column(
+              children: [
+                const Text('R\$ 4.200', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF22C55E))),
+                const Text('Renda/mês', style: TextStyle(fontSize: 11, color: Colors.grey)),
+              ],
+            ),
+          ),
+          Container(width: 1, height: 40, color: Colors.grey.shade200),
+          const Expanded(
+            child: Column(
+              children: [
+                Text('12%', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFFF59E0B))),
+                Text('Yield a.a.', style: TextStyle(fontSize: 11, color: Colors.grey)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildImovelCard(_MockImovel imovel) {
+    final statusColor = switch (imovel.status) {
+      'alugado' => const Color(0xFF22C55E),
+      'em_obra' => const Color(0xFFF59E0B),
+      'vago' => const Color(0xFFEF4444),
+      _ => Colors.grey,
+    };
+    final statusLabel = switch (imovel.status) {
+      'alugado' => '● Alugado',
+      'em_obra' => '● Em obra',
+      'vago' => '● Vago',
+      _ => '● —',
+    };
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              Container(
+                width: 40, height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF232845).withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Icon(Icons.apartment, color: Color(0xFF232845), size: 20),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(imovel.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
+                    Text(imovel.location, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: statusColor.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(statusLabel, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          // Métricas
+          Row(
+            children: [
+              _imovelMetric('Área', imovel.area),
+              const SizedBox(width: 16),
+              _imovelMetric('Aluguel', imovel.aluguel),
+              const SizedBox(width: 16),
+              _imovelMetric(imovel.status == 'em_obra' ? 'Entrega' : 'Repasse', imovel.proximoRepasse),
+            ],
+          ),
+          if (imovel.valorizacao != null) ...[
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Valorização desde a compra', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                Text(imovel.valorizacao!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF22C55E))),
+              ],
+            ),
+            const SizedBox(height: 4),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(3),
+              child: LinearProgressIndicator(
+                value: 0.6,
+                minHeight: 5,
+                backgroundColor: Colors.grey.shade100,
+                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF22C55E)),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _imovelMetric(String label, String value) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
+          Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAdicionarImovelBtn() {
+    return GestureDetector(
+      onTap: () {
+        // TODO: implementar formulário de adicionar imóvel
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300, style: BorderStyle.solid),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add_circle_outline, size: 18, color: Colors.grey),
+            SizedBox(width: 8),
+            Text('Adicionar Imóvel', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey)),
+          ],
         ),
       ),
     );
@@ -2341,3 +2618,62 @@ class _EmpreendimentoGalleryPage extends StatelessWidget {
     );
   }
 }
+
+
+// ═══ Dados mock para aba "Meus Imóveis" ═══
+class _MockImovel {
+  final String name;
+  final String location;
+  final String area;
+  final String status; // 'alugado', 'em_obra', 'vago'
+  final String aluguel;
+  final String proximoRepasse;
+  final String? valorizacao;
+
+  const _MockImovel({
+    required this.name,
+    required this.location,
+    required this.area,
+    required this.status,
+    required this.aluguel,
+    required this.proximoRepasse,
+    this.valorizacao,
+  });
+}
+
+const _mockImoveis = [
+  _MockImovel(
+    name: 'Studio 24m² - Alto Pinheiros',
+    location: 'R. Tonelero, 1213 - Alto de Pinheiros',
+    area: '24m²',
+    status: 'alugado',
+    aluguel: 'R\$ 2.100',
+    proximoRepasse: '12/jul',
+    valorizacao: '+18%',
+  ),
+  _MockImovel(
+    name: 'Studio 28m² - Bela Cintra',
+    location: 'R. Bela Cintra - Jardins',
+    area: '28m²',
+    status: 'em_obra',
+    aluguel: '—',
+    proximoRepasse: 'Dez/2027',
+    valorizacao: '+12%',
+  ),
+];
+
+// ═══ Features da aba Meus Imóveis (paywall) ═══
+class _MeusImoveisFeature {
+  final IconData icon;
+  final String label;
+  const _MeusImoveisFeature(this.icon, this.label);
+}
+
+const _meusImoveisFeatures = [
+  _MeusImoveisFeature(Icons.dashboard_outlined, 'Dashboard de rentabilidade em tempo real'),
+  _MeusImoveisFeature(Icons.payments_outlined, 'Acompanhe repasses mensais'),
+  _MeusImoveisFeature(Icons.trending_up, 'Valorização acumulada do imóvel'),
+  _MeusImoveisFeature(Icons.description_outlined, 'Contratos e documentos digitais'),
+  _MeusImoveisFeature(Icons.build_outlined, 'Chamados de manutenção'),
+  _MeusImoveisFeature(Icons.notifications_outlined, 'Alertas de vencimento e repasse'),
+];
