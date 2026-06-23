@@ -404,6 +404,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       padding: const EdgeInsets.symmetric(horizontal: 24),
       children: [
         const SizedBox(height: 8),
+        // 🔹 Timeline de status
+        _buildStatusTimeline(),
+        const SizedBox(height: 16),
         _buildSearch(),
         const SizedBox(height: 16),
         // Cards dos empreendimentos
@@ -419,6 +422,104 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             ),
           ),
         const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildStatusTimeline() {
+    // Group empreendimentos by status
+    final launching = _empreendimentoCards.where((e) => e.status == _EmpStatus.launching).toList();
+    final selling = _empreendimentoCards.where((e) => e.status == _EmpStatus.selling).toList();
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.timeline, size: 16, color: Color(0xFF232845)),
+              SizedBox(width: 6),
+              Text('Status dos Empreendimentos', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF111827))),
+            ],
+          ),
+          const SizedBox(height: 14),
+          // Em Lançamento
+          if (launching.isNotEmpty) ...[
+            _statusGroup(
+              icon: Icons.rocket_launch,
+              label: 'Em Lançamento',
+              color: const Color(0xFFF59E0B),
+              empreendimentos: launching,
+            ),
+            if (selling.isNotEmpty) const SizedBox(height: 12),
+          ],
+          // Em Vendas
+          if (selling.isNotEmpty)
+            _statusGroup(
+              icon: Icons.storefront,
+              label: 'Em Vendas',
+              color: const Color(0xFF22C55E),
+              empreendimentos: selling,
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusGroup({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required List<_EmpreendimentoData> empreendimentos,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: 8),
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 4),
+            Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: empreendimentos.map((emp) {
+            final shortName = emp.name.replaceAll('Vitacon ', '');
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: color.withValues(alpha: 0.2)),
+              ),
+              child: Text(
+                shortName,
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: color),
+              ),
+            );
+          }).toList(),
+        ),
       ],
     );
   }
@@ -1917,12 +2018,15 @@ const _investmentPreviews = [
 
 
 // ═══ Dados dos empreendimentos (PDFs / materiais de venda) ═══
+enum _EmpStatus { preLaunch, launching, selling, delivered }
+
 class _EmpreendimentoData {
   final String name;
   final String location;
   final String type;
   final String area;
   final int units;
+  final _EmpStatus status;
   final String? rentability;
   final String? tourUrl;
   final String? linktreeUrl;
@@ -1941,6 +2045,7 @@ class _EmpreendimentoData {
     required this.type,
     required this.area,
     required this.units,
+    this.status = _EmpStatus.selling,
     this.rentability,
     this.tourUrl,
     this.linktreeUrl,
@@ -1962,6 +2067,7 @@ const _empreendimentoCards = [
     type: 'Studio HMP',
     area: '18 a 28m²',
     units: 106,
+    status: _EmpStatus.selling,
     availableUnits: 5,
     rentability: '11% a.a.',
     priceFrom: 'R\$ 337 mil',
@@ -1997,6 +2103,7 @@ const _empreendimentoCards = [
     type: 'Studios e Loft Duplex',
     area: '25 a 76m²',
     units: 92,
+    status: _EmpStatus.selling,
     availableUnits: 69,
     priceFrom: 'R\$ 964 mil',
     deliveryDate: '2027',
@@ -2037,7 +2144,16 @@ const _empreendimentoCards = [
     type: 'Studios HIS/HMP',
     area: 'Studios',
     units: 233,
+    status: _EmpStatus.launching,
     tourUrl: 'https://tour.ultratour.com.br/Vitacon/domingos+de+morais/index.htm',
+    highlights: [
+      '1º Vitacon com apoio de IA Design de São Paulo',
+      'A poucos minutos do Parque Ibirapuera e Av. Paulista',
+      'Estações Santa Cruz e Chácara Klabin a poucos passos',
+      'Coleção Vitacon 2025 — Work, Wellness, Club e Tech',
+      '15 min do Aeroporto de Congonhas',
+      'Vila Mariana: qualidade de vida, segurança e infraestrutura completa',
+    ],
     coverImageUrl: '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/domingos-morais/page02_img01_3517x2490.jpeg',
@@ -2060,7 +2176,16 @@ const _empreendimentoCards = [
     type: 'Studios e 1 Dorm',
     area: '20 a 81m²',
     units: 260,
+    status: _EmpStatus.selling,
     tourUrl: 'https://portalcorretor.vitacon.com.br/admin/properties/59',
+    highlights: [
+      'Pinheiros de verdade — cidade na porta, performance máxima',
+      'Housi AppSpace — shopping de serviços integrado ao prédio',
+      'Demanda constante e valorização garantida na região',
+      'Serviços exclusivos e espaços integrados de alto nível',
+      'Próximo à Rua Oscar Freire e estação Vila Madalena',
+      'Média de valorização acima do mercado em Pinheiros',
+    ],
     coverImageUrl: '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/joao-moura/page02_img01_1923x1083.jpeg',
@@ -2086,6 +2211,7 @@ const _empreendimentoCards = [
     type: 'Studios HIS/HMP',
     area: '18 a 60m²',
     units: 372,
+    status: _EmpStatus.launching,
     tourUrl: 'https://skylineip.s3.sa-east-1.amazonaws.com/Tour+Virtual/Vitacon/PERDIZES+II/index.htm',
     linktreeUrl: 'https://linktr.ee/VitaconPerdizes',
     highlights: [
@@ -2124,6 +2250,15 @@ const _empreendimentoCards = [
     type: 'Studios HIS/HMP',
     area: '19 a 37m²',
     units: 435,
+    status: _EmpStatus.launching,
+    highlights: [
+      'Ao lado da Oscar Freire — sinônimo de exclusividade',
+      'Alta valorização e rentabilidade comprovada na região',
+      'Estações Vila Madalena e Oscar Freire próximas',
+      'Grande oferta de bares, restaurantes e serviços',
+      'Coleção Vitacon 2025 — Work, Wellness, Club e Tech',
+      '435 unidades — maior empreendimento do portfólio',
+    ],
     coverImageUrl: '$_supabaseStorage/pinheiros/page05_img01_1923x1082.jpeg',
     galleryImageUrls: [
       '$_supabaseStorage/pinheiros/page05_img01_1923x1082.jpeg',
