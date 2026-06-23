@@ -338,41 +338,14 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
               indicatorSize: TabBarIndicatorSize.tab,
               labelColor: Colors.white,
               unselectedLabelColor: const Color(0xFF232845),
-              labelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-              unselectedLabelStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+              labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+              unselectedLabelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
               dividerHeight: 0,
               padding: const EdgeInsets.all(3),
               tabs: const [
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.apartment, size: 16),
-                      SizedBox(width: 6),
-                      Text('Empreendimentos'),
-                    ],
-                  ),
-                ),
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.trending_up, size: 16),
-                      SizedBox(width: 6),
-                      Text('Investimentos'),
-                    ],
-                  ),
-                ),
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.home_outlined, size: 16),
-                      SizedBox(width: 6),
-                      Text('Meus Imóveis'),
-                    ],
-                  ),
-                ),
+                Tab(child: Text('Empreendimentos')),
+                Tab(child: Text('Investimentos')),
+                Tab(child: Text('Meus Imóveis')),
               ],
             ),
           ),
