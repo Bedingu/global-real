@@ -80,4 +80,17 @@ final List<PrivateCase> privateCases = [
       discountRateMonthly: 0.01,
     ),
   ),
+  PrivateCase(
+    name: "Vitacon João Ramalho",
+    input: PrivateSimulationInput(
+      initialInvestment: 1000000,
+      monthlyRevenue: 0,
+      monthlyCosts: 0,
+      exitValue: 1750000,
+      durationMonths: 36,
+      revenueGrowthRateMonthly: 0,
+      costGrowthRateMonthly: 0,
+      discountRateMonthly: 0.01,
+    ),
+  ),
 ];

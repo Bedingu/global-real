@@ -21,6 +21,11 @@ import 'crm_rentals_invoices_page.dart';
 import 'crm_rentals_transfers_page.dart';
 import 'crm_rentals_analysis_page.dart';
 import 'crm_rentals_billing_page.dart';
+import 'crm_sales_page.dart';
+import 'crm_reports_page.dart';
+import 'crm_integrations_page.dart';
+import 'crm_mysite_page.dart';
+import 'crm_system_page.dart';
 
 class CrmDashboardPage extends StatefulWidget {
   const CrmDashboardPage({super.key});
@@ -203,10 +208,16 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmPortalsPage()));
                       } else if (i == 11) {
                         setState(() => _isRentalsExpanded = !_isRentalsExpanded);
+                      } else if (i == 12) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmSalesPage()));
+                      } else if (i == 13) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmReportsPage()));
+                      } else if (i == 14) {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmIntegrationsPage()));
                       } else if (i == 15) {
-                        setState(() => _isMySiteExpanded = !_isMySiteExpanded);
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmMySitePage()));
                       } else if (i == 16) {
-                        setState(() => _isSystemExpanded = !_isSystemExpanded);
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmSystemPage()));
                       } else {
                         setState(() => _selectedIndex = i);
                       }
@@ -399,6 +410,9 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Banner de eventos/mentoria
+            _eventBanner(),
+            const SizedBox(height: 16),
             // Row 1: Atividades + Aluguéis + Propostas
             LayoutBuilder(
               builder: (context, constraints) {
@@ -448,6 +462,29 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     _contractsCard(d),
                     const SizedBox(height: 16),
                     _keysCard(d),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            // Row 3: Exclusividades + Aniversários
+            LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth > 900) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: _exclusivitiesCard()),
+                      const SizedBox(width: 16),
+                      Expanded(child: _birthdaysCard()),
+                    ],
+                  );
+                }
+                return Column(
+                  children: [
+                    _exclusivitiesCard(),
+                    const SizedBox(height: 16),
+                    _birthdaysCard(),
                   ],
                 );
               },
@@ -622,6 +659,83 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
           const SizedBox(height: 8),
           _listRow('${d.keysLate} atrasadas', Colors.red),
         ],
+      ),
+    );
+  }
+
+  // ==================== NOVOS CARDS ====================
+
+  Widget _eventBanner() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [Color(0xFF232845), Color(0xFF2C3366)]),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.event, color: Colors.white, size: 24),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Mentoria CRM Avançado', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                const SizedBox(height: 4),
+                Text(
+                  'Aprenda a aplicar personalizações avançadas nos módulos do sistema para adaptar a ferramenta às necessidades da sua imobiliária.',
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 11, height: 1.4),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white,
+              side: const BorderSide(color: Colors.white24),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Participar', style: TextStyle(fontSize: 11)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _exclusivitiesCard() {
+    return _sectionCard(
+      icon: Icons.star_outline,
+      title: 'Exclusividades disponíveis',
+      actionLabel: 'Ver todas',
+      child: Column(
+        children: [
+          _listRow('0 atualizadas', Colors.green),
+          const SizedBox(height: 8),
+          _listRow('0 vencendo', Colors.orange),
+          const SizedBox(height: 8),
+          _listRow('0 vencidas', Colors.red),
+        ],
+      ),
+    );
+  }
+
+  Widget _birthdaysCard() {
+    return _sectionCard(
+      icon: Icons.cake_outlined,
+      title: 'Aniversários',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Icon(Icons.info_outline, size: 16, color: Colors.grey[400]),
+            const SizedBox(width: 8),
+            Text('Nenhum aniversário nos próximos dias', style: TextStyle(fontSize: 12, color: Colors.grey[500])),
+          ],
+        ),
       ),
     );
   }

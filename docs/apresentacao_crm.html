@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Real CRM — Apresentação</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0B1220; color: #fff; }
+        .slide { min-height: 100vh; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-bottom: 1px solid #1F2A44; }
+        .slide-content { max-width: 1000px; width: 100%; }
+        h1 { font-size: 42px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; }
+        h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+        h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+        .subtitle { color: #9CA3AF; font-size: 18px; line-height: 1.6; margin-bottom: 32px; }
+        .gold { color: #FFC107; }
+        .green { color: #22C55E; }
+        .blue { color: #3B82F6; }
+        .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 24px; background: rgba(255,193,7,0.12); color: #FFC107; border: 1px solid rgba(255,193,7,0.3); }
+        .card { background: #111C2E; border: 1px solid #1F2A44; border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+        .metric { text-align: center; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid #1F2A44; }
+        .metric-value { font-size: 28px; font-weight: 800; color: #FFC107; }
+        .metric-label { font-size: 11px; color: #6B7280; margin-top: 4px; }
+        .sidebar-demo { display: flex; gap: 0; border-radius: 12px; overflow: hidden; border: 1px solid #1F2A44; }
+        .sidebar { width: 200px; background: #232845; padding: 16px 0; }
+        .sidebar-item { padding: 10px 20px; font-size: 13px; color: #ffffffaa; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .sidebar-item.active { background: rgba(255,255,255,0.1); color: #fff; font-weight: 600; }
+        .sidebar-item:hover { background: rgba(255,255,255,0.05); }
+        .content-area { flex: 1; background: #F4F4F4; padding: 24px; min-height: 400px; color: #111; }
+        .dashboard-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .dash-card { background: #fff; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .dash-card h4 { font-size: 13px; font-weight: 700; color: #232845; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .dash-card .row { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 0; color: #555; }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 12px 0; border-bottom: 1px solid #1F2A44; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+        .feature-list li::before { content: '✅'; }
+        .banner { background: linear-gradient(135deg, #232845, #2C3366); border-radius: 10px; padding: 14px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .banner .icon { font-size: 20px; }
+        .banner .text { font-size: 12px; color: #ffffffcc; }
+        .banner .title { font-size: 14px; font-weight: 700; color: #fff; }
+        @media (max-width: 768px) { .card-grid, .dashboard-cards { grid-template-columns: 1fr; } .sidebar-demo { flex-direction: column; } .sidebar { width: 100%; } }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: CAPA -->
+<div class="slide">
+    <div class="slide-content" style="text-align: center;">
+        <span class="badge">CRM IMOBILIÁRIO</span>
+        <h1>Global Real <span class="gold">CRM</span></h1>
+        <p class="subtitle">Sistema completo de gestão imobiliária para imobiliárias e corretores.<br>Vendas, locação, leads, oportunidades e muito mais — tudo em um só lugar.</p>
+        <div class="card-grid">
+            <div class="metric"><div class="metric-value">14</div><div class="metric-label">Módulos completos</div></div>
+            <div class="metric"><div class="metric-value">40+</div><div class="metric-label">Páginas implementadas</div></div>
+            <div class="metric"><div class="metric-value">∞</div><div class="metric-label">Customizável por cliente</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 2: DASHBOARD INICIO -->
+<div class="slide">
+    <div class="slide-content">
+        <span class="badge">PÁGINA INICIAL</span>
+        <h2>Dashboard — Visão Geral</h2>
+        <p class="subtitle">Tudo que o gestor precisa ver num só lugar. Métricas em tempo real, alertas e ações rápidas.</p>
+        <div class="sidebar-demo">
+            <div class="sidebar">
+                <div class="sidebar-item active">🏠 Início</div>
+                <div class="sidebar-item">🏢 Imóveis</div>
+                <div class="sidebar-item">🏘️ Condomínios</div>
+                <div class="sidebar-item">🔑 Chaves</div>
+                <div class="sidebar-item">📋 Propostas</div>
+                <div class="sidebar-item">👥 Leads</div>
+                <div class="sidebar-item">🎯 Roletas</div>
+                <div class="sidebar-item">👤 Pessoas</div>
+                <div class="sidebar-item">📈 Oportunidades</div>
+                <div class="sidebar-item">📅 Atividades</div>
+                <div class="sidebar-item">🌐 Portais</div>
+                <div class="sidebar-item">🏠 Aluguéis ▾</div>
+                <div class="sidebar-item">💰 Vendas</div>
+                <div class="sidebar-item">📊 Relatórios</div>
+                <div class="sidebar-item">🔗 Integrações</div>
+                <div class="sidebar-item">🌍 Meu Site</div>
+                <div class="sidebar-item">⚙️ Sistema</div>
+            </div>
+            <div class="content-area">
+                <div class="banner">
+                    <span class="icon">📅</span>
+                    <div><div class="title">Mentoria CRM Avançado</div><div class="text">Personalizações avançadas para adaptar à sua imobiliária.</div></div>
+                </div>
+                <div class="dashboard-cards">
+                    <div class="dash-card">
+                        <h4>📋 Atividades</h4>
+                        <div class="row"><span>Atrasadas</span><span style="color:#EF4444">0</span></div>
+                        <div class="row"><span>Agendadas hoje</span><span>0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>🏠 Aluguéis</h4>
+                        <div class="row"><span>Faturas atrasadas</span><span>0</span></div>
+                        <div class="row"><span>Boletos 7 dias</span><span>0</span></div>
+                        <div class="row"><span>Repasses pendentes</span><span>0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>📄 Propostas</h4>
+                        <div class="row"><span>Ativas</span><span>0</span></div>
+                        <div class="row"><span>Vencem hoje</span><span>0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>🏢 Imóveis</h4>
+                        <div class="row"><span>Total</span><span>0</span></div>
+                        <div class="row"><span>Em aprovação</span><span>0</span></div>
+                        <div class="row"><span>Atualizados</span><span>0</span></div>
+                        <div class="row"><span>Expirando</span><span style="color:#F59E0B">0</span></div>
+                        <div class="row"><span>Desatualizados</span><span style="color:#EF4444">0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>📑 Contratos</h4>
+                        <div class="row"><span>Em aviso prévio</span><span>0</span></div>
+                        <div class="row"><span>Garantias vencendo</span><span>0</span></div>
+                        <div class="row"><span>Para reajustar</span><span>0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>🔑 Chaves</h4>
+                        <div class="row"><span>Retiradas</span><span>0</span></div>
+                        <div class="row"><span>Atrasadas</span><span style="color:#EF4444">0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>⭐ Exclusividades</h4>
+                        <div class="row"><span>Atualizadas</span><span style="color:#22C55E">0</span></div>
+                        <div class="row"><span>Vencendo</span><span style="color:#F59E0B">0</span></div>
+                        <div class="row"><span>Vencidas</span><span style="color:#EF4444">0</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <h4>🎂 Aniversários</h4>
+                        <div class="row"><span>Nenhum nos próximos dias</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: MÓDULOS -->
+<div class="slide">
+    <div class="slide-content">
+        <span class="badge">MÓDULOS</span>
+        <h2>Todas as seções do CRM</h2>
+        <p class="subtitle">14 módulos completos cobrindo todo o ciclo imobiliário — da captação à entrega de chaves.</p>
+        <div class="card-grid">
+            <div class="card"><h3>🏢 Imóveis</h3><p style="color:#9CA3AF;font-size:13px">Cadastro, filtros avançados (30+), views lista/grid/mapa, ordenação, aprovação.</p></div>
+            <div class="card"><h3>🏘️ Condomínios</h3><p style="color:#9CA3AF;font-size:13px">Incorporadora, construtora, estágio (na planta/construção/pronto), etiquetas.</p></div>
+            <div class="card"><h3>🔑 Chaves</h3><p style="color:#9CA3AF;font-size:13px">Controle de retirada, status, previsão de entrega, agência responsável.</p></div>
+            <div class="card"><h3>📋 Propostas</h3><p style="color:#9CA3AF;font-size:13px">Tabela de propostas ativas, vencimento, filtros e ordenação.</p></div>
+            <div class="card"><h3>👥 Leads</h3><p style="color:#9CA3AF;font-size:13px">Captação multicanal, scoring automático, filtros por origem/campanha/status.</p></div>
+            <div class="card"><h3>🎯 Roleta de Leads</h3><p style="color:#9CA3AF;font-size:13px">Distribuição automática round-robin por equipe, prioridade e filtros.</p></div>
+            <div class="card"><h3>👤 Pessoas</h3><p style="color:#9CA3AF;font-size:13px">Base de contatos PF/PJ com vínculo, estado civil, tags e ordenação.</p></div>
+            <div class="card"><h3>📈 Oportunidades</h3><p style="color:#9CA3AF;font-size:13px">Kanban/lista, funil de vendas, temperatura, responsável, estágio.</p></div>
+            <div class="card"><h3>📅 Atividades</h3><p style="color:#9CA3AF;font-size:13px">Calendário semanal, tipos (ligar, email, reunião, visita), filtros por responsável.</p></div>
+            <div class="card"><h3>🏠 Aluguéis</h3><p style="color:#9CA3AF;font-size:13px">5 sub-módulos: Contratos, Faturas, Repasses, Análises, Régua de cobrança.</p></div>
+            <div class="card"><h3>💰 Vendas</h3><p style="color:#9CA3AF;font-size:13px">Contratos de venda com stepper (4 etapas), etiquetas, honorários, anexos.</p></div>
+            <div class="card"><h3>📊 Relatórios</h3><p style="color:#9CA3AF;font-size:13px">10 relatórios: imóveis, agenciamentos, oportunidades ganhas/perdidas/conversão.</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4: VENDAS -->
+<div class="slide">
+    <div class="slide-content">
+        <span class="badge">VENDAS</span>
+        <h2>Módulo de Vendas</h2>
+        <p class="subtitle">Controle completo de contratos de venda com fluxo guiado em 4 etapas.</p>
+        <div class="card">
+            <h3>Novo Contrato — 4 Steps</h3>
+            <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
+                <div style="flex:1;min-width:200px;padding:16px;background:#232845;border-radius:10px;text-align:center;">
+                    <div style="font-size:24px;">📄</div>
+                    <div style="font-size:13px;font-weight:600;margin-top:8px;">1. Contrato</div>
+                    <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Imóvel, código, data, valor, etiquetas, observações</div>
+                </div>
+                <div style="flex:1;min-width:200px;padding:16px;background:#232845;border-radius:10px;text-align:center;">
+                    <div style="font-size:24px;">👥</div>
+                    <div style="font-size:13px;font-weight:600;margin-top:8px;">2. Pessoas</div>
+                    <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Vendedores, intermediador, compradores (%)</div>
+                </div>
+                <div style="flex:1;min-width:200px;padding:16px;background:#232845;border-radius:10px;text-align:center;">
+                    <div style="font-size:24px;">💰</div>
+                    <div style="font-size:13px;font-weight:600;margin-top:8px;">3. Honorários</div>
+                    <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Bruto, tipo de relação, pessoa, % e valor</div>
+                </div>
+                <div style="flex:1;min-width:200px;padding:16px;background:#232845;border-radius:10px;text-align:center;">
+                    <div style="font-size:24px;">📎</div>
+                    <div style="font-size:13px;font-weight:600;margin-top:8px;">4. Anexos</div>
+                    <div style="font-size:11px;color:#9CA3AF;margin-top:4px;">Contrato de negociação e intermediação</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: INTEGRAÇÕES + SISTEMA -->
+<div class="slide">
+    <div class="slide-content">
+        <span class="badge">INFRAESTRUTURA</span>
+        <h2>Integrações e Sistema</h2>
+        <p class="subtitle">Conecte com as principais plataformas e configure cada detalhe da operação.</p>
+        <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="card">
+                <h3>🔗 Integrações</h3>
+                <ul class="feature-list">
+                    <li>Facebook Leads Ads</li>
+                    <li>RD Station</li>
+                    <li>Zapier</li>
+                    <li>WhatsApp Business</li>
+                    <li>Google Ads</li>
+                    <li>Chaves API customizadas</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>⚙️ Sistema</h3>
+                <ul class="feature-list">
+                    <li>Configurações (10 steps)</li>
+                    <li>Etiquetas e origens (102)</li>
+                    <li>Feriados nacionais/municipais</li>
+                    <li>Usuários e grupos (7 permissões)</li>
+                    <li>Modelos de documento</li>
+                    <li>Importador XML (VRSync)</li>
+                    <li>Webhooks configuráveis</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6: MEU SITE -->
+<div class="slide">
+    <div class="slide-content">
+        <span class="badge">MEU SITE</span>
+        <h2>Site da Imobiliária</h2>
+        <p class="subtitle">Configure o site da imobiliária direto pelo CRM — SEO, banners, blog, redes sociais e termos.</p>
+        <div class="card">
+            <h3>Configurações em 9 etapas:</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;">
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">1. SEO</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">2. Visibilidade</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">3. Área do cliente</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">4. Texto institucional</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">5. Banners</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">6. Títulos</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">7. Redes sociais</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">8. Termos de uso</div>
+                <div style="padding:12px;background:#1F2A44;border-radius:8px;text-align:center;font-size:12px;">9. Política privacidade</div>
+            </div>
+            <div style="margin-top:16px;display:flex;gap:12px;">
+                <div style="padding:10px 16px;background:#FFC10720;border:1px solid #FFC10750;border-radius:8px;font-size:12px;color:#FFC107;">+ Blog</div>
+                <div style="padding:10px 16px;background:#FFC10720;border:1px solid #FFC10750;border-radius:8px;font-size:12px;color:#FFC107;">+ Páginas</div>
+                <div style="padding:10px 16px;background:#FFC10720;border:1px solid #FFC10750;border-radius:8px;font-size:12px;color:#FFC107;">+ Depoimentos</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7: WHITE LABEL -->
+<div class="slide">
+    <div class="slide-content" style="text-align:center;">
+        <span class="badge">WHITE LABEL</span>
+        <h2>Pronto para <span class="gold">personalizar</span></h2>
+        <p class="subtitle">O mesmo CRM, com a marca da sua imobiliária. Cores, logo, domínio e dados completamente isolados.</p>
+        <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="card" style="text-align:center;">
+                <div style="font-size:32px;margin-bottom:12px;">🎨</div>
+                <h3>Sua marca</h3>
+                <p style="color:#9CA3AF;font-size:12px;">Logo, cores, favicon e identidade visual customizáveis</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div style="font-size:32px;margin-bottom:12px;">🌐</div>
+                <h3>Seu domínio</h3>
+                <p style="color:#9CA3AF;font-size:12px;">crm.suaimobiliaria.com.br com SSL incluso</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <div style="font-size:32px;margin-bottom:12px;">🔒</div>
+                <h3>Dados isolados</h3>
+                <p style="color:#9CA3AF;font-size:12px;">Cada cliente com seus dados completamente separados</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: CONTATO -->
+<div class="slide">
+    <div class="slide-content" style="text-align:center;">
+        <span class="badge">PRÓXIMOS PASSOS</span>
+        <h2>Quer ver funcionando?</h2>
+        <p class="subtitle">Acesse o demo online ou entre em contato para uma apresentação personalizada.</p>
+        <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+            <a href="https://globalreal-app.web.app" target="_blank" style="display:inline-block;padding:16px 32px;background:#FFC107;color:#000;font-weight:700;font-size:16px;border-radius:10px;text-decoration:none;">Acessar Demo</a>
+            <a href="https://wa.me/5511996701990" target="_blank" style="display:inline-block;padding:16px 32px;border:1px solid #fff3;color:#fff;font-weight:600;font-size:16px;border-radius:10px;text-decoration:none;">WhatsApp</a>
+        </div>
+        <p style="color:#6B7280;margin-top:40px;font-size:13px;">Global Real Estate — CRM Imobiliário — 2026</p>
+    </div>
+</div>
+
+</body>
+</html>

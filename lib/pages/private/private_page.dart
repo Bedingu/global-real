@@ -14,7 +14,6 @@ import '../../widgets/development/development_card.dart';
 import '../../models/private/stock_item.dart';
 import '../../services/private/stock_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'fraction_page.dart';
 import 'widgets/IPO_page.dart';
 import 'str_analytics_page.dart';
 import '../admin/admin_videos_page.dart';
@@ -22,7 +21,6 @@ import '../admin/admin_videos_page.dart';
 enum PrivateInvestmentType {
   education,
   privateInvestments,
-  realEstateFraction,
   launches,
   stock,
   ipo,
@@ -96,7 +94,6 @@ class _PrivatePageState extends State<PrivatePage> {
     final content = switch (_selectedType) {
       PrivateInvestmentType.education => _buildEducationView(t),
       PrivateInvestmentType.privateInvestments => _buildPrivateContent(t),
-      PrivateInvestmentType.realEstateFraction => const FractionPage(),
       PrivateInvestmentType.launches => _buildLaunchesView(t),
       PrivateInvestmentType.stock => _buildStockView(t),
       PrivateInvestmentType.ipo => const IPOPage(),
@@ -211,13 +208,6 @@ class _PrivatePageState extends State<PrivatePage> {
                     selected: _selectedType == PrivateInvestmentType.privateInvestments,
                     onTap: () => setState(
                         () => _selectedType = PrivateInvestmentType.privateInvestments),
-                  ),
-                  _sidebarItem(
-                    icon: Icons.pie_chart_outline,
-                    label: t.private_type_fraction,
-                    selected: _selectedType == PrivateInvestmentType.realEstateFraction,
-                    onTap: () => setState(
-                        () => _selectedType = PrivateInvestmentType.realEstateFraction),
                   ),
                   _sidebarItem(
                     icon: Icons.rocket_launch_outlined,

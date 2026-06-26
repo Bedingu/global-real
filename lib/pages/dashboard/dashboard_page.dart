@@ -195,6 +195,14 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
         title: Text(t.dashboard_title),
         actions: [
           IconButton(
+            icon: const Icon(Icons.dashboard_outlined),
+            tooltip: 'CRM',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CrmDashboardPage()),
+            ),
+          ),
+          IconButton(
             icon: const Icon(Icons.people_outline),
             tooltip: 'Leads',
             onPressed: () => Navigator.push(

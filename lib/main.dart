@@ -46,25 +46,27 @@ Future<void> main() async {
       debugPrint("⚠️ Erro ao carregar .env: $e");
     }
 
-    // 2) Ler variáveis de ambiente (sem fallback hardcoded)
-    final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? '';
-    final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? '';
+    // 2) Ler variáveis de ambiente (com fallback pra web)
+    final supabaseUrl = dotenv.env['SUPABASE_URL']?.isNotEmpty == true
+        ? dotenv.env['SUPABASE_URL']!
+        : 'https://pcbwbndrnnqptxdbrqnm.supabase.co';
+    final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY']?.isNotEmpty == true
+        ? dotenv.env['SUPABASE_ANON_KEY']!
+        : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBjYndibmRybm5xcHR4ZGJycW5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYxNTU1MjAsImV4cCI6MjA4MTczMTUyMH0.Sw5hgfkUHbLyAcTUwltrb_AH3Jg17m-LCcC_Ou6QtbE';
 
     if (supabaseUrl.isEmpty || supabaseAnonKey.isEmpty) {
       debugPrint('❌ SUPABASE_URL ou SUPABASE_ANON_KEY não configurados no .env');
     }
 
     // 3) Inicializar Supabase
-    if (supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty) {
-      try {
-        await Supabase.initialize(
-          url: supabaseUrl,
-          anonKey: supabaseAnonKey,
-        );
-        debugPrint("✅ Supabase inicializado: $supabaseUrl");
-      } catch (e) {
-        debugPrint("❌ Erro ao inicializar Supabase: $e");
-      }
+    try {
+      await Supabase.initialize(
+        url: supabaseUrl,
+        anonKey: supabaseAnonKey,
+      );
+      debugPrint("✅ Supabase inicializado: $supabaseUrl");
+    } catch (e) {
+      debugPrint("❌ Erro ao inicializar Supabase: $e");
     }
 
     // 4) Buscar câmbio inicial (opcional, com timeout)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../theme.dart';
+import 'crm_new_lead_page.dart';
 
 class CrmLeadsPage extends StatefulWidget {
   const CrmLeadsPage({super.key});
@@ -74,7 +75,10 @@ class _CrmLeadsPageState extends State<CrmLeadsPage> {
               const Text('LEADS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
               const Spacer(),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  await Navigator.push(context, MaterialPageRoute(builder: (_) => const CrmNewLeadPage()));
+                  _load();
+                },
                 icon: const Icon(Icons.add, size: 18),
                 label: const Text('Novo Lead'),
                 style: ElevatedButton.styleFrom(
