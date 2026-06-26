@@ -14,7 +14,6 @@ import '../../widgets/development/development_card.dart';
 import '../../models/private/stock_item.dart';
 import '../../services/private/stock_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'widgets/IPO_page.dart';
 import 'str_analytics_page.dart';
 import '../admin/admin_videos_page.dart';
 
@@ -23,7 +22,6 @@ enum PrivateInvestmentType {
   privateInvestments,
   launches,
   stock,
-  ipo,
   catalog,
   calculator,
   strAnalytics,
@@ -96,7 +94,6 @@ class _PrivatePageState extends State<PrivatePage> {
       PrivateInvestmentType.privateInvestments => _buildPrivateContent(t),
       PrivateInvestmentType.launches => _buildLaunchesView(t),
       PrivateInvestmentType.stock => _buildStockView(t),
-      PrivateInvestmentType.ipo => const IPOPage(),
       PrivateInvestmentType.catalog => _buildCatalogView(t),
       PrivateInvestmentType.calculator => _buildCalculatorView(t),
       PrivateInvestmentType.strAnalytics => const STRAnalyticsPage(),
@@ -222,13 +219,6 @@ class _PrivatePageState extends State<PrivatePage> {
                     selected: _selectedType == PrivateInvestmentType.stock,
                     onTap: () => setState(
                         () => _selectedType = PrivateInvestmentType.stock),
-                  ),
-                  _sidebarItem(
-                    icon: Icons.trending_up,
-                    label: t.private_ipo,
-                    selected: _selectedType == PrivateInvestmentType.ipo,
-                    onTap: () => setState(
-                        () => _selectedType = PrivateInvestmentType.ipo),
                   ),
 
                   const Padding(
