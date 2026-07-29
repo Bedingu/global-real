@@ -13,7 +13,6 @@ import 'pages/cancel_page.dart';
 import 'pages/login_page.dart';
 import 'pages/delete_account_page.dart';
 import 'pages/leads/leads_page.dart';
-import 'pages/crm/crm_dashboard_page.dart';
 import 'generated/app_localizations.dart';
 
 import 'services/auth_service.dart';
@@ -36,6 +35,17 @@ Future<void> main() async {
         debugPrint('✅ Firebase inicializado');
       } catch (e) {
         debugPrint('⚠️ Erro ao inicializar Firebase: $e');
+      }
+
+      // Pedir permissão de push IMEDIATAMENTE após Firebase
+      try {
+        final messaging = FirebaseMessaging.instance;
+        final settings = await messaging.requestPermission(
+          alert: true, badge: true, sound: true,
+        );
+        debugPrint('📱 Push permission: ${settings.authorizationStatus}');
+      } catch (e) {
+        debugPrint('⚠️ Erro ao pedir permissão push: $e');
       }
     }
 
@@ -99,8 +109,17 @@ Future<void> main() async {
     if (!kIsWeb) {
       try {
         await PushNotificationService.initialize();
+        debugPrint('✅ Push notifications inicializadas');
       } catch (e) {
         debugPrint("⚠️ Erro ao inicializar push: $e");
+        // Tentar pedir permissão mesmo se Firebase falhou
+        try {
+          final messaging = FirebaseMessaging.instance;
+          await messaging.requestPermission(alert: true, badge: true, sound: true);
+          debugPrint('✅ Permissão de push solicitada (fallback)');
+        } catch (e2) {
+          debugPrint("⚠️ Fallback push também falhou: $e2");
+        }
       }
     }
   } catch (e) {

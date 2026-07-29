@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baixar Global Real</title>
+  <script>
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('iphone') || ua.includes('ipad')) {
+      window.location.href = 'https://testflight.apple.com/join/q6yTntfy';
+    } else if (ua.includes('android')) {
+      window.location.href = 'https://play.google.com/store/apps/details?id=com.globalreal.app';
+    }
+  </script>
+  <style>
+    body { font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #0f1629; color: white; text-align: center; padding: 20px; }
+    .container { max-width: 400px; }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    p { color: rgba(255,255,255,0.6); margin-bottom: 32px; }
+    a { display: block; padding: 16px; margin: 10px 0; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 16px; }
+    .android { background: #ffc107; color: #1a1d33; }
+    .ios { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📱 Global Real</h1>
+    <p>Escolha sua plataforma para baixar o app</p>
+    <a href="https://play.google.com/store/apps/details?id=com.globalreal.app" class="android">▶️ Google Play (Android)</a>
+    <a href="https://testflight.apple.com/join/q6yTntfy" class="ios">🍎 TestFlight (iPhone)</a>
+  </div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 // FLUTTER
 import '../../theme.dart';
@@ -94,6 +95,25 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     _loadFavorites();
     _loadPremiumStatus();
     _listenPremiumRealtime();
+    _requestPushPermission();
+  }
+
+  /// Pedir permissão de push diretamente no dashboard
+  Future<void> _requestPushPermission() async {
+    try {
+      final messaging = FirebaseMessaging.instance;
+      final settings = await messaging.requestPermission(
+        alert: true, badge: true, sound: true,
+      );
+      debugPrint('🔔 Push permission: ${settings.authorizationStatus}');
+      if (settings.authorizationStatus == AuthorizationStatus.authorized ||
+          settings.authorizationStatus == AuthorizationStatus.provisional) {
+        final token = await messaging.getToken();
+        debugPrint('📱 Push token: ${token?.substring(0, 20)}...');
+      }
+    } catch (e) {
+      debugPrint('⚠️ Push permission error: $e');
+    }
   }
 
   @override
