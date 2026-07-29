@@ -44,8 +44,8 @@ android {
         applicationId = "com.globalreal.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 6
-        versionName = "1.7.0"
+        versionCode = 9
+        versionName = "1.7.1"
     }
 
     buildTypes {
