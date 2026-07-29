@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "712132251153",
+    "project_id": "globalreal-app",
+    "storage_bucket": "globalreal-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712132251153:android:a7aa93887d54a40ab32bb0",
+        "android_client_info": {
+          "package_name": "com.globalreal.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz4Fs17tKwe5kYN95rX1sQ060mACZtzdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
