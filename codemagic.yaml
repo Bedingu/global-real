@@ -14,7 +14,13 @@ workflows:
     scripts:
       - name: Fetch signing files
         script: |
+          # A conta Apple ja tem um certificado de distribuicao, mas a chave
+          # privada dele nao esta na maquina de build. Fornecemos uma chave RSA
+          # (env var CERTIFICATE_PRIVATE_KEY) para o Codemagic buscar/criar o
+          # certificado. Resolve "Cannot save Signing Certificates without
+          # certificate private key".
           app-store-connect fetch-signing-files com.globalreal.app \
+            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
             --create --type IOS_APP_STORE --platform IOS
       - name: Set up keychain
         script: |
