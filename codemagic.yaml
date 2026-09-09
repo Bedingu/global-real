@@ -14,7 +14,11 @@ workflows:
     scripts:
       - name: Fetch signing files
         script: |
+          # Usa a chave privada RSA salva na env var CERTIFICATE_PRIVATE_KEY
+          # (configurada no painel do Codemagic). Com ela, o fetch busca o
+          # certificado de distribuicao correto ou cria um novo se necessario.
           app-store-connect fetch-signing-files com.globalreal.app \
+            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
             --create --type IOS_APP_STORE --platform IOS
       - name: Set up keychain
         script: |
