@@ -7,7 +7,7 @@ workflows:
       app_store_connect: Codemagic - Global_Real
     environment:
       flutter: stable
-      xcode: 16.4
+      xcode: latest
       vars:
         BUNDLE_ID: "com.globalreal.app"
         APP_STORE_APPLE_ID: 6761792961
