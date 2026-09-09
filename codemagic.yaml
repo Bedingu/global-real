@@ -6,6 +6,8 @@ workflows:
     integrations:
       app_store_connect: Codemagic - Global_Real
     environment:
+      groups:
+        - appstore_credentials
       flutter: stable
       xcode: 16.4
       vars:
