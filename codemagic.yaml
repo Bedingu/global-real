@@ -36,16 +36,6 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter pub get
-      - name: Patch PathProviderPlugin crash
-        script: |
-          echo "Removing PathProviderPlugin from GeneratedPluginRegistrant.m..."
-          REGISTRANT_FILE="ios/Runner/GeneratedPluginRegistrant.m"
-          if [ -f "$REGISTRANT_FILE" ]; then
-            sed -i '' '/path_provider_foundation/d' "$REGISTRANT_FILE"
-            sed -i '' '/PathProviderPlugin/d' "$REGISTRANT_FILE"
-            echo "Done. Contents:"
-            cat "$REGISTRANT_FILE"
-          fi
       - name: Build IPA
         script: |
           flutter build ipa --release \
