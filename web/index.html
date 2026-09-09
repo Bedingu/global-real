@@ -111,6 +111,22 @@
   
   
   
+  <!-- Mantém o service worker sempre atualizado: busca nova versão e recarrega
+       a página quando um novo worker assume. Evita ficar preso em cache antigo
+       ao revisar o preview (você e o cliente). -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (window.__reloadingForSW) return;
+        window.__reloadingForSW = true;
+        window.location.reload();
+      });
+      navigator.serviceWorker.getRegistrations().then(function (regs) {
+        regs.forEach(function (reg) { reg.update(); });
+      });
+    }
+  </script>
+
   <script src="flutter_bootstrap.js" async=""></script>
 
 <!-- Cookie Banner -->

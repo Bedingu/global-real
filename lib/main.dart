@@ -14,6 +14,7 @@ import 'pages/cancel_page.dart';
 import 'pages/login_page.dart';
 import 'pages/delete_account_page.dart';
 import 'pages/leads/leads_page.dart';
+import 'pages/hub_page.dart';
 import 'generated/app_localizations.dart';
 
 import 'services/auth_service.dart';
@@ -206,7 +207,7 @@ class _MyAppState extends State<MyApp> {
                     );
                   }
                   if (snapshot.data == true) {
-                    return const DashboardPage();
+                    return const HubPage();
                   }
                   return PublicHomePage(
                     onChangeLanguage: _changeLanguage,

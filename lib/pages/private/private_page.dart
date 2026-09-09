@@ -31,15 +31,21 @@ enum PrivateInvestmentType {
 }
 
 class PrivatePage extends StatefulWidget {
-  const PrivatePage({super.key});
+  /// Seção em que a página deve abrir. Se não informada, mantém o padrão
+  /// histórico (Investimentos Privados).
+  final PrivateInvestmentType initialType;
+
+  const PrivatePage({
+    super.key,
+    this.initialType = PrivateInvestmentType.privateInvestments,
+  });
 
   @override
   State<PrivatePage> createState() => _PrivatePageState();
 }
 
 class _PrivatePageState extends State<PrivatePage> {
-  PrivateInvestmentType _selectedType =
-      PrivateInvestmentType.privateInvestments;
+  late PrivateInvestmentType _selectedType = widget.initialType;
 
   late PrivateCase _selectedCase;
   late PrivateSimulationResult _result;

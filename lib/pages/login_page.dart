@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dashboard/dashboard_page.dart';
+import 'hub_page.dart';
 import '../generated/app_localizations.dart';
 import '../services/auth_service.dart';
 import 'signup_page.dart';
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const DashboardPage()),
+        MaterialPageRoute(builder: (_) => const HubPage()),
       );
     } on AuthException catch (e) {
       setState(() {

@@ -127,7 +127,9 @@ class _LeadsPageState extends State<LeadsPage> {
           ),
         ],
       ),
-      body: Column(
+      body: !_isPremium
+          ? _buildLeadsPaywall()
+          : Column(
         children: [
           // Filtro de mercado
           Padding(
@@ -158,6 +160,65 @@ class _LeadsPageState extends State<LeadsPage> {
                       ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLeadsPaywall() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFC107).withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.lock_outline, color: Color(0xFFFFC107), size: 36),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Leads Exclusivos',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF111827)),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Receba leads qualificados do Meta Ads direto no app, com scoring de IA e funil de vendas.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: Colors.grey, height: 1.5),
+            ),
+            const SizedBox(height: 24),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _PaywallFeature(icon: Icons.people, label: 'Leads captados do Instagram e Facebook'),
+                _PaywallFeature(icon: Icons.psychology, label: 'Lead Scoring com IA'),
+                _PaywallFeature(icon: Icons.view_kanban, label: 'Funil de vendas Kanban'),
+                _PaywallFeature(icon: Icons.chat, label: 'Chat integrado com lead'),
+                _PaywallFeature(icon: Icons.notifications_active, label: 'Push notification de novos leads'),
+              ],
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _openPaywall,
+                icon: const Icon(Icons.workspace_premium, size: 18),
+                label: const Text('Assinar e desbloquear', style: TextStyle(fontWeight: FontWeight.w700)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF232845),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -330,6 +391,27 @@ class _LeadsPageState extends State<LeadsPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+
+class _PaywallFeature extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _PaywallFeature({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: const Color(0xFF22C55E)),
+          const SizedBox(width: 12),
+          Expanded(child: Text(label, style: const TextStyle(fontSize: 13, color: Color(0xFF374151)))),
+        ],
       ),
     );
   }
