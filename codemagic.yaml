@@ -7,7 +7,7 @@ workflows:
       app_store_connect: Codemagic - Global_Real
     environment:
       groups:
-        - appstore_credentials
+        - appstore_credential
       flutter: stable
       xcode: latest
       vars:
@@ -17,7 +17,7 @@ workflows:
       - name: Fetch signing files
         script: |
           # Usa uma chave privada RSA fixa (env var CERTIFICATE_PRIVATE_KEY,
-          # grupo appstore_credentials). Na primeira execucao o Codemagic cria
+          # grupo appstore_credential). Na primeira execucao o Codemagic cria
           # o certificado de distribuicao com essa chave; nos builds seguintes
           # ele reencontra e REUSA o mesmo certificado (nao recria), evitando
           # estourar o limite de 3 certificados da Apple.
