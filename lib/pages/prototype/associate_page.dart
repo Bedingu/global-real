@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../dashboard/dashboard_page.dart';
 
 /// Fluxo "Seja um Corretor Associado".
 ///
@@ -137,6 +138,27 @@ class AssociatePage extends StatelessWidget {
                     child: Text(
                       'A conversa é obrigatória para se tornar associado.',
                       style: TextStyle(color: Colors.white38, fontSize: 12),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const DashboardPage()),
+                      ),
+                      icon: const Icon(Icons.trending_up, size: 20),
+                      label: const Text('Acessar Portfólio',
+                          style: TextStyle(fontWeight: FontWeight.w700)),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: _blue,
+                        side: BorderSide(color: _blue.withValues(alpha: 0.5)),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                   ),
                 ],
