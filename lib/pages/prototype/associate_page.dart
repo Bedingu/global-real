@@ -143,7 +143,7 @@ class AssociatePage extends StatelessWidget {
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton.icon(
+                    child: ElevatedButton.icon(
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -152,9 +152,9 @@ class AssociatePage extends StatelessWidget {
                       icon: const Icon(Icons.trending_up, size: 20),
                       label: const Text('Acessar Portfólio',
                           style: TextStyle(fontWeight: FontWeight.w700)),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: _blue,
-                        side: BorderSide(color: _blue.withValues(alpha: 0.5)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _blue,
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12)),
