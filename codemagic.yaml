@@ -16,13 +16,12 @@ workflows:
     scripts:
       - name: Fetch signing files
         script: |
-          # Usa uma chave privada RSA fixa (env var CERTIFICATE_PRIVATE_KEY,
-          # grupo appstore_credential). Na primeira execucao o Codemagic cria
-          # o certificado de distribuicao com essa chave; nos builds seguintes
-          # ele reencontra e REUSA o mesmo certificado (nao recria), evitando
-          # estourar o limite de 3 certificados da Apple.
+          # A chave privada RSA e fornecida em base64 (env var
+          # CERTIFICATE_PRIVATE_KEY, grupo appstore_credential) para evitar
+          # quebras de linha ao colar no painel. Aqui decodificamos para PEM.
+          echo "$CERTIFICATE_PRIVATE_KEY" | base64 --decode > /tmp/cert_key.pem
           app-store-connect fetch-signing-files com.globalreal.app \
-            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
+            --certificate-key=@file:/tmp/cert_key.pem \
             --create --type IOS_APP_STORE --platform IOS
       - name: Set up keychain
         script: |
