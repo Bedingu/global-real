@@ -6,6 +6,8 @@ workflows:
     integrations:
       app_store_connect: Codemagic - Global_Real
     environment:
+      groups:
+        - appstore_credentials
       flutter: stable
       xcode: latest
       vars:
@@ -14,14 +16,13 @@ workflows:
     scripts:
       - name: Fetch signing files
         script: |
-          # Gera uma chave privada RSA nova na propria maquina de build e a
-          # usa para criar/salvar o certificado de distribuicao. Assim nao
-          # dependemos de uma env var manual (CERTIFICATE_PRIVATE_KEY), que a
-          # UI do Codemagic exigia colocar num grupo. Resolve o erro
-          # "Cannot save Signing Certificates without certificate private key".
-          ssh-keygen -t rsa -b 2048 -m PEM -f /tmp/cert_key -q -N ""
+          # Usa uma chave privada RSA fixa (env var CERTIFICATE_PRIVATE_KEY,
+          # grupo appstore_credentials). Na primeira execucao o Codemagic cria
+          # o certificado de distribuicao com essa chave; nos builds seguintes
+          # ele reencontra e REUSA o mesmo certificado (nao recria), evitando
+          # estourar o limite de 3 certificados da Apple.
           app-store-connect fetch-signing-files com.globalreal.app \
-            --certificate-key=@file:/tmp/cert_key \
+            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY \
             --create --type IOS_APP_STORE --platform IOS
       - name: Set up keychain
         script: |
