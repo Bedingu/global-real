@@ -4,6 +4,7 @@ import '../services/auth_service.dart';
 import 'dashboard/dashboard_page.dart';
 import 'public_home_page.dart';
 import 'prototype/teaser_showcase_page.dart';
+import 'prototype/associate_page.dart';
 
 /// Tela de entrada pós-login.
 ///
@@ -128,27 +129,29 @@ class HubPage extends StatelessWidget {
     );
   }
 
-  // ── Card 2: Portfólio de Investimentos ────────────────
+  // ── Card 2: Seja um Corretor Associado ────────────────
+  // Associar-se é a porta de acesso ao portfólio (100+ empreendimentos e
+  // fundos). O portfólio real (dashboard) fica atrás desse processo.
   Widget _portfolioCard(BuildContext context) {
     return _choiceCard(
       context: context,
       accent: _blue,
-      icon: Icons.trending_up,
-      tag: 'Opere',
-      title: 'Portfólio de Investimentos',
+      icon: Icons.handshake_outlined,
+      tag: 'Associe-se',
+      title: 'Seja um Corretor Associado',
       description:
-          'Explore o portfólio da Global em São Paulo: empreendimentos, '
-          'rentabilidade e simulações para levar ao investidor.',
+          'Associe-se e tenha acesso ao portfólio da Global em São Paulo: '
+          '100+ empreendimentos e fundos para negociar de qualquer lugar do Brasil.',
       bullets: const [
-        'Catálogo de empreendimentos',
+        'Acesso ao portfólio completo',
         'Simulações de rentabilidade',
-        'Leads e funil de vendas',
+        'Videoconferência de qualificação',
       ],
-      cta: 'Ver portfólio',
+      cta: 'Quero ser associado',
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const DashboardPage()),
+          MaterialPageRoute(builder: (_) => const AssociatePage()),
         );
       },
     );
