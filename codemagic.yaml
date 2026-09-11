@@ -45,5 +45,7 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
-        beta_groups:
-          - Global Real Testers
+        # Sem beta_groups: "Global Real Testers" e um grupo INTERNO, que recebe
+        # a build automaticamente. Atribuir grupo interno via API falha
+        # ("Cannot add internal group to a build"). Para grupos externos,
+        # reintroduzir beta_groups com o nome do grupo externo.
