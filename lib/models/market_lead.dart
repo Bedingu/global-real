@@ -14,6 +14,8 @@ class MarketLead {
   final String? assignedTo;
   final List<Map<String, dynamic>> aiRecommendations;
   final DateTime createdAt;
+  final String source;
+  final String? metaLeadId;
 
   MarketLead({
     required this.id,
@@ -31,6 +33,8 @@ class MarketLead {
     this.assignedTo,
     this.aiRecommendations = const [],
     required this.createdAt,
+    this.source = 'manual',
+    this.metaLeadId,
   });
 
   factory MarketLead.fromJson(Map<String, dynamic> json) {
@@ -53,8 +57,13 @@ class MarketLead {
               (json['ai_recommendations'] as List).map((e) => Map<String, dynamic>.from(e)))
           : [],
       createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
+      source: json['source'] ?? 'manual',
+      metaLeadId: json['meta_lead_id'],
     );
   }
+
+  /// True se o lead veio de uma campanha do Meta (Facebook/Instagram Ads)
+  bool get isFromMeta => source == 'meta_lead_ads';
 
   String get statusLabel {
     switch (status) {

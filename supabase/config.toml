@@ -381,6 +381,17 @@ s3_access_key = "env(S3_ACCESS_KEY)"
 # Configures AWS_SECRET_ACCESS_KEY for S3 bucket
 s3_secret_key = "env(S3_SECRET_KEY)"
 
+# Webhook do Meta Lead Ads — precisa aceitar chamadas SEM JWT
+# (o Meta não envia header de Authorization; a segurança é o META_VERIFY_TOKEN)
+# Duas URLs (singular e plural): a plural é a que está configurada no painel do Meta.
+[functions.meta-lead-webhook]
+enabled = true
+verify_jwt = false
+
+[functions.meta-leads-webhook]
+enabled = true
+verify_jwt = false
+
 [functions.create-checkout-session]
 enabled = true
 verify_jwt = true

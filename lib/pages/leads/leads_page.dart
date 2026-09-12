@@ -263,6 +263,33 @@ class _LeadsPageState extends State<LeadsPage> {
                         '${lead.marketLabel} · ${lead.interest}',
                         style: TextStyle(color: Colors.grey[600], fontSize: 12),
                       ),
+                      if (lead.isFromMeta) ...[
+                        const SizedBox(height: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF0866FF), Color(0xFFE1306C)],
+                            ),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.campaign, size: 11, color: Colors.white),
+                              SizedBox(width: 4),
+                              Text(
+                                'Meta Ads',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
