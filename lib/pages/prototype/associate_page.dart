@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../dashboard/dashboard_page.dart';
+import '../../services/app_config_service.dart';
 
 /// Fluxo "Seja um Corretor Associado".
 ///
@@ -10,9 +11,9 @@ import '../dashboard/dashboard_page.dart';
 class AssociatePage extends StatelessWidget {
   const AssociatePage({super.key});
 
-  // Link real de agendamento do Leandro (Calendly/Cal.com). Enquanto vazio,
-  // o botão mostra um aviso de "agenda em configuração" em vez de abrir um
-  // link quebrado. Basta preencher com a URL para ativar o agendamento real.
+  // Fallback local do link de agendamento. O link "oficial" vem do Supabase
+  // (tabela app_config, chave 'associate_scheduling_url'), então dá para
+  // trocar sem recompilar o app. Se o Supabase não tiver valor, usa este.
   static const String _schedulingUrl = '';
 
   static const _bg = Color(0xFF0B1220);
@@ -20,11 +21,19 @@ class AssociatePage extends StatelessWidget {
   static const _border = Color(0xFF1F2A44);
   static const _gold = Color(0xFFFFC107);
   static const _blue = Color(0xFF3B82F6);
-  static const _green = Color(0xFF22C55E);
 
   Future<void> _openScheduling(BuildContext context) async {
+    // Busca o link no Supabase (editável sem recompilar); usa a constante
+    // local como fallback caso não haja valor configurado lá.
+    final schedulingUrl = await AppConfigService.getValue(
+      AppConfigService.keyAssociateSchedulingUrl,
+      fallback: _schedulingUrl,
+    );
+
+    if (!context.mounted) return;
+
     // Sem link configurado ainda: mostra aviso amigável em vez de link quebrado.
-    if (_schedulingUrl.isEmpty) {
+    if (schedulingUrl.isEmpty) {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -58,7 +67,7 @@ class AssociatePage extends StatelessWidget {
       return;
     }
 
-    final uri = Uri.parse(_schedulingUrl);
+    final uri = Uri.parse(schedulingUrl);
     final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!ok && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
