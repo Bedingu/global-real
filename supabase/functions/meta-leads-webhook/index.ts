@@ -10,6 +10,51 @@ const META_VERIFY_TOKEN = Deno.env.get("META_VERIFY_TOKEN") || "globalreal_meta_
 // Client compartilhado (usado pelo handler e pelo envio de push)
 const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
+// =============================
+// Mapeamento de páginas do Meta -> parceiro / mercado
+// Cada página que dispara leads (campanha cooperada) é associada a um
+// parceiro e a um mercado. Páginas não listadas caem no DEFAULT_PARTNER.
+// Para adicionar um novo parceiro, inclua o page_id aqui.
+// =============================
+// `tokenSecret` = nome do secret (Supabase) com o Page Access Token daquela
+// página. Cada parceiro tem seu próprio token, pois a Graph API só devolve os
+// dados do lead com o token da página que o gerou.
+interface PartnerConfig {
+  partner: string;
+  market: string;
+  tokenSecret: string;
+}
+
+const PAGE_PARTNER_MAP: Record<string, PartnerConfig> = {
+  // Página institucional da Global
+  "101085122316715": {
+    partner: "Global",
+    market: "sao_paulo",
+    tokenSecret: "META_PAGE_ACCESS_TOKEN",
+  },
+  // Parceiro Abner — UmQue (Studios e 1 Dorm, Londrina e São Paulo)
+  // TODO: preencher o page_id real da página "UmQue" e criar o secret
+  //       META_TOKEN_UMQUE com o Page Access Token dela.
+  // "PAGE_ID_UMQUE": {
+  //   partner: "UmQue",
+  //   market: "sao_paulo",
+  //   tokenSecret: "META_TOKEN_UMQUE",
+  // },
+};
+
+const DEFAULT_PARTNER: PartnerConfig = {
+  partner: "Global",
+  market: "sao_paulo",
+  tokenSecret: "META_PAGE_ACCESS_TOKEN",
+};
+
+function resolvePartner(pageId?: string): PartnerConfig {
+  if (pageId && PAGE_PARTNER_MAP[pageId]) {
+    return PAGE_PARTNER_MAP[pageId];
+  }
+  return DEFAULT_PARTNER;
+}
+
 serve(async (req: Request) => {
   // =============================
   // GET — Verificação do webhook (Meta envia GET pra validar)
@@ -51,12 +96,12 @@ serve(async (req: Request) => {
             const pageId = change.value?.page_id;
             const createdTime = change.value?.created_time;
 
-            // Buscar dados completos do lead via Graph API
-            const leadData = await fetchLeadData(leadgenId);
+            // Buscar dados completos do lead via Graph API (token da página certa)
+            const leadData = await fetchLeadData(leadgenId, pageId);
 
             if (leadData) {
               // Mapear campos do Meta pro formato da tabela market_leads
-              const lead = mapMetaLeadToMarketLead(leadData, formId, createdTime);
+              const lead = mapMetaLeadToMarketLead(leadData, formId, createdTime, pageId);
 
               // Evitar duplicar: se já existe lead com esse meta_lead_id, atualiza; senão insere.
               // (não usamos upsert onConflict porque o índice é parcial e o PostgREST não casa)
@@ -120,11 +165,14 @@ serve(async (req: Request) => {
 // =============================
 // Buscar dados do lead via Graph API
 // =============================
-async function fetchLeadData(leadgenId: string): Promise<any | null> {
-  const accessToken = Deno.env.get("META_PAGE_ACCESS_TOKEN");
+async function fetchLeadData(leadgenId: string, pageId?: string): Promise<any | null> {
+  // Escolhe o token da página que gerou o lead (multi-parceiro).
+  const { tokenSecret } = resolvePartner(pageId);
+  const accessToken =
+    Deno.env.get(tokenSecret) || Deno.env.get("META_PAGE_ACCESS_TOKEN");
 
   if (!accessToken) {
-    console.error("❌ META_PAGE_ACCESS_TOKEN não configurado");
+    console.error(`❌ Token não configurado (secret: ${tokenSecret})`);
     return null;
   }
 
@@ -148,12 +196,15 @@ async function fetchLeadData(leadgenId: string): Promise<any | null> {
 // =============================
 // Mapear campos do Meta → market_leads
 // =============================
-function mapMetaLeadToMarketLead(leadData: any, formId: string, createdTime: number) {
+function mapMetaLeadToMarketLead(leadData: any, formId: string, createdTime: number, pageId?: string) {
   // Extrair campos do formulário
   const fields: Record<string, string> = {};
   for (const field of leadData.field_data || []) {
     fields[field.name] = field.values?.[0] || "";
   }
+
+  // Descobrir de qual parceiro/mercado veio o lead (campanha cooperada)
+  const { partner, market } = resolvePartner(pageId);
 
   // Mapear interesse baseado na pergunta personalizada
   const interest = fields["oque_te_atrai_ao_investir_em_são_paulo?"] ||
@@ -165,7 +216,7 @@ function mapMetaLeadToMarketLead(leadData: any, formId: string, createdTime: num
   const budget = parseBudget(budgetStr);
 
   return {
-    market: "sao_paulo",
+    market: market,
     name: fields["full_name"] || fields["nome_completo"] || "",
     email: fields["email"] || "",
     phone: fields["phone_number"] || fields["telefone"] || "",
@@ -173,11 +224,12 @@ function mapMetaLeadToMarketLead(leadData: any, formId: string, createdTime: num
     interest: formatInterest(interest),
     budget: budget,
     status: "new",
-    notes: `Via Meta Lead Ads | Form: ${formId}`,
+    notes: `Via Meta Lead Ads | Parceiro: ${partner} | Form: ${formId}`,
     ai_score: 30, // Score inicial para leads do Meta
-    ai_summary: `Lead captado via anúncio Meta. Interesse: ${formatInterest(interest)}. Faixa: ${budgetStr}`,
+    ai_summary: `Lead captado via anúncio Meta (${partner}). Interesse: ${formatInterest(interest)}. Faixa: ${budgetStr}`,
     source: "meta_lead_ads",
     meta_lead_id: leadData.id || "",
+    partner: partner,
     created_at: createdTime
       ? new Date(createdTime * 1000).toISOString()
       : new Date().toISOString(),

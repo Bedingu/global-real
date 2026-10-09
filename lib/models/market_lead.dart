@@ -16,6 +16,7 @@ class MarketLead {
   final DateTime createdAt;
   final String source;
   final String? metaLeadId;
+  final String partner;
 
   MarketLead({
     required this.id,
@@ -35,6 +36,7 @@ class MarketLead {
     required this.createdAt,
     this.source = 'manual',
     this.metaLeadId,
+    this.partner = '',
   });
 
   factory MarketLead.fromJson(Map<String, dynamic> json) {
@@ -59,11 +61,16 @@ class MarketLead {
       createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
       source: json['source'] ?? 'manual',
       metaLeadId: json['meta_lead_id'],
+      partner: json['partner'] ?? '',
     );
   }
 
   /// True se o lead veio de uma campanha do Meta (Facebook/Instagram Ads)
   bool get isFromMeta => source == 'meta_lead_ads';
+
+  /// True se o lead veio de um parceiro/associado específico (campanha cooperada).
+  /// 'Global' e vazio são tratados como origem interna (sem badge de parceiro).
+  bool get hasPartner => partner.isNotEmpty && partner != 'Global';
 
   String get statusLabel {
     switch (status) {

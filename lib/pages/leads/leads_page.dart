@@ -263,31 +263,64 @@ class _LeadsPageState extends State<LeadsPage> {
                         '${lead.marketLabel} · ${lead.interest}',
                         style: TextStyle(color: Colors.grey[600], fontSize: 12),
                       ),
-                      if (lead.isFromMeta) ...[
+                      if (lead.isFromMeta || lead.hasPartner) ...[
                         const SizedBox(height: 6),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF0866FF), Color(0xFFE1306C)],
-                            ),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.campaign, size: 11, color: Colors.white),
-                              SizedBox(width: 4),
-                              Text(
-                                'Meta Ads',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w700,
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: [
+                            if (lead.isFromMeta)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF0866FF), Color(0xFFE1306C)],
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.campaign, size: 11, color: Colors.white),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Meta Ads',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            if (lead.hasPartner)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF6D28D9).withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: const Color(0xFF6D28D9).withValues(alpha: 0.4),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.handshake, size: 11, color: Color(0xFF6D28D9)),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      lead.partner,
+                                      style: const TextStyle(
+                                        color: Color(0xFF6D28D9),
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                          ],
                         ),
                       ],
                     ],
