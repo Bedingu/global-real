@@ -10,6 +10,7 @@ import '../helpers/revenue_calculator.dart';
 import '../helpers/hub_currency_helper.dart';
 import 'login_page.dart';
 import 'signup_page.dart';
+import 'prototype/teaser_showcase_page.dart';
 
 class PublicHomePage extends StatefulWidget {
   final void Function(Locale) onChangeLanguage;
@@ -53,6 +54,15 @@ class _PublicHomePageState extends State<PublicHomePage> {
 
   void _navigateSignup() {
     Navigator.push(context, MaterialPageRoute(builder: (_) => const SignupPage()));
+  }
+
+  // Abre a vitrine de prévias do Curso SEM exigir cadastro/login.
+  // (decisão de plataforma: a vitrine é navegável sem cadastro dentro do app)
+  void _navigateTeasers() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const TeaserShowcasePage()),
+    );
   }
 
   @override
@@ -209,7 +219,9 @@ class _PublicHomePageState extends State<PublicHomePage> {
           style: const TextStyle(fontSize: 16, color: Colors.white60, height: 1.5),
         ),
         const SizedBox(height: 32),
-        Row(
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
           children: [
             ElevatedButton.icon(
               onPressed: _navigateSignup,
@@ -222,7 +234,6 @@ class _PublicHomePageState extends State<PublicHomePage> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
-            const SizedBox(width: 12),
             OutlinedButton(
               onPressed: _navigateLogin,
               style: OutlinedButton.styleFrom(
@@ -234,6 +245,21 @@ class _PublicHomePageState extends State<PublicHomePage> {
               child: const Text('Acessar App', style: TextStyle(fontWeight: FontWeight.w600)),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        // Vitrine navegável sem cadastro: prévias do Curso/Academia
+        TextButton.icon(
+          onPressed: _navigateTeasers,
+          icon: const Icon(Icons.play_circle_outline, size: 20, color: _gold),
+          label: const Text(
+            'Ver prévias do Curso — sem cadastro',
+            style: TextStyle(
+              color: _gold,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          style: TextButton.styleFrom(padding: EdgeInsets.zero),
         ),
       ],
     );
