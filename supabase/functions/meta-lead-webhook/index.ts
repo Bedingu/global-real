@@ -26,11 +26,18 @@ interface PartnerConfig {
 }
 
 const PAGE_PARTNER_MAP: Record<string, PartnerConfig> = {
-  // Página institucional da Global
+  // Página institucional antiga da Global ("Global Real State")
   "101085122316715": {
     partner: "Global",
     market: "sao_paulo",
     tokenSecret: "META_PAGE_ACCESS_TOKEN",
+  },
+  // Página atual do Leandro ("Leandro Nascimento Investimento Imobiliário
+  // Estruturado") — onde as campanhas rodam agora. Mesmo parceiro: Global.
+  "1332301046632644": {
+    partner: "Global",
+    market: "sao_paulo",
+    tokenSecret: "META_TOKEN_LEANDRO",
   },
   // Parceiro Abner — UmQue (Studios e 1 Dorm, Londrina e São Paulo)
   // TODO: preencher o page_id real da página "UmQue" e criar o secret
