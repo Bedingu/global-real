@@ -3,6 +3,7 @@ import 'dashboard/dashboard_page.dart';
 import 'hub_page.dart';
 import '../generated/app_localizations.dart';
 import '../services/auth_service.dart';
+import '../services/push_notification_service.dart';
 import 'signup_page.dart';
 import '../theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -36,6 +37,10 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
+
+      // Registra o token de push agora que há usuário logado.
+      // (no boot do app o usuário ainda não estava autenticado)
+      await PushNotificationService.registerTokenForCurrentUser();
 
       if (!mounted) return;
 

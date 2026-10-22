@@ -114,4 +114,20 @@ class PushNotificationService {
       debugPrint('⚠️ Erro ao salvar push token: $e');
     }
   }
+
+  /// Registra o token do device para o usuário atual.
+  ///
+  /// Deve ser chamado APÓS o login — no boot do app o usuário ainda não está
+  /// autenticado, então `_saveToken` sai sem gravar. Chamar isto depois do
+  /// login garante que o token fique vinculado ao `user_id` correto.
+  static Future<void> registerTokenForCurrentUser() async {
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) {
+        await _saveToken(token);
+      }
+    } catch (e) {
+      debugPrint('⚠️ Erro ao registrar push token pós-login: $e');
+    }
+  }
 }

@@ -112,6 +112,12 @@ Future<void> main() async {
       try {
         await PushNotificationService.initialize();
         debugPrint('✅ Push notifications inicializadas');
+        // Se o app abriu com sessão já ativa (usuário logado de antes),
+        // registra o token agora — no initialize() o user pode já existir,
+        // mas garantimos aqui o vínculo token->user_id.
+        if (Supabase.instance.client.auth.currentSession != null) {
+          await PushNotificationService.registerTokenForCurrentUser();
+        }
       } catch (e) {
         debugPrint("⚠️ Erro ao inicializar push: $e");
         // Tentar pedir permissão mesmo se Firebase falhou
