@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import '../services/auth_service.dart';
+import '../services/push_notification_service.dart';
 import 'dashboard/dashboard_page.dart';
 import 'public_home_page.dart';
 import 'prototype/teaser_showcase_page.dart';
@@ -99,6 +101,7 @@ class HubPage extends StatelessWidget {
                         ),
                   const SizedBox(height: 28),
                   _skipToDashboard(context),
+                  if (!kIsWeb) _pushDiagnostic(context),
                 ],
               ),
             ),
@@ -278,6 +281,54 @@ class HubPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const TeaserShowcasePage()),
+    );
+  }
+
+  // Diagnóstico do registro de notificações: roda cada etapa e mostra o
+  // resultado (ou o erro real) numa caixa de diálogo.
+  Widget _pushDiagnostic(BuildContext context) {
+    return Center(
+      child: TextButton.icon(
+        onPressed: () async {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => const AlertDialog(
+              content: Row(
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(width: 16),
+                  Expanded(child: Text('Verificando notificações...')),
+                ],
+              ),
+            ),
+          );
+          final lines = await PushNotificationService.diagnose();
+          if (!context.mounted) return;
+          Navigator.pop(context); // fecha o loading
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Diagnóstico de notificações'),
+              content: SingleChildScrollView(
+                child: SelectableText(lines.join('\n\n')),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('Fechar'),
+                ),
+              ],
+            ),
+          );
+        },
+        icon: const Icon(Icons.notifications_active_outlined,
+            size: 16, color: Colors.white38),
+        label: const Text(
+          'Testar notificações',
+          style: TextStyle(color: Colors.white38, fontSize: 13),
+        ),
+      ),
     );
   }
 

@@ -115,6 +115,69 @@ class PushNotificationService {
     }
   }
 
+  /// Diagnóstico passo a passo do registro de push.
+  ///
+  /// Executa cada etapa (permissão, token APNs, token FCM, gravação no
+  /// Supabase) e devolve uma linha por etapa, incluindo o erro real quando
+  /// algo falha. Usado pelo botão de diagnóstico na tela inicial, já que os
+  /// erros normais só aparecem no console do aparelho.
+  static Future<List<String>> diagnose() async {
+    final out = <String>[];
+    final messaging = FirebaseMessaging.instance;
+    final isIOS = defaultTargetPlatform == TargetPlatform.iOS;
+
+    try {
+      final s = await messaging.getNotificationSettings();
+      out.add('1. Permissão de notificação: ${s.authorizationStatus.name}');
+    } catch (e) {
+      out.add('1. Permissão de notificação: ERRO $e');
+    }
+
+    final userId = _supabase.auth.currentUser?.id;
+    out.add('2. Usuário logado: ${userId == null ? 'NÃO' : 'sim'}');
+
+    if (isIOS) {
+      try {
+        String? apns;
+        for (var i = 0; i < 10 && apns == null; i++) {
+          apns = await messaging.getAPNSToken();
+          if (apns == null) await Future.delayed(const Duration(seconds: 1));
+        }
+        out.add('3. Token APNs (Apple): ${apns == null ? 'NÃO RECEBIDO' : 'ok'}');
+      } catch (e) {
+        out.add('3. Token APNs (Apple): ERRO $e');
+      }
+    }
+
+    String? token;
+    try {
+      token = await messaging.getToken();
+      out.add(token == null
+          ? '4. Token FCM (Firebase): NULO'
+          : '4. Token FCM (Firebase): ok (${token.substring(0, 12)}...)');
+    } catch (e) {
+      out.add('4. Token FCM (Firebase): ERRO $e');
+    }
+
+    if (token != null && userId != null) {
+      try {
+        await _supabase.from('push_tokens').upsert({
+          'user_id': userId,
+          'token': token,
+          'platform': isIOS ? 'ios' : 'android',
+          'updated_at': DateTime.now().toIso8601String(),
+        }, onConflict: 'user_id,token');
+        out.add('5. Gravação no Supabase: ok');
+      } catch (e) {
+        out.add('5. Gravação no Supabase: ERRO $e');
+      }
+    } else {
+      out.add('5. Gravação no Supabase: não tentada');
+    }
+
+    return out;
+  }
+
   /// Registra o token do device para o usuário atual.
   ///
   /// Deve ser chamado APÓS o login — no boot do app o usuário ainda não está
