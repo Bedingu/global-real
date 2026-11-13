@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conectar Facebook — Global Real</title>
+  <style>
+    :root { --bg:#0B1220; --card:#111C2E; --border:#1F2A44; --gold:#FFC107; --fb:#1877F2; --text:#E6E9EF; --muted:#9AA4B2; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      display:flex; min-height:100vh; align-items:center; justify-content:center; padding:24px; }
+    .card { max-width:480px; width:100%; background:var(--card); border:1px solid var(--border);
+      border-radius:16px; padding:32px; text-align:center; }
+    h1 { font-size:22px; margin:0 0 8px; }
+    p { color:var(--muted); line-height:1.6; font-size:14px; }
+    .perms { text-align:left; background:rgba(255,255,255,0.04); border:1px solid var(--border);
+      border-radius:10px; padding:16px; margin:20px 0; font-size:13px; color:var(--muted); }
+    .perms li { margin-bottom:6px; }
+    .btn { display:inline-flex; align-items:center; gap:10px; background:var(--fb); color:#fff;
+      border:none; border-radius:10px; padding:14px 28px; font-size:15px; font-weight:700;
+      text-decoration:none; cursor:pointer; margin-top:8px; }
+    .logo { height:40px; margin-bottom:16px; }
+    .note { font-size:12px; color:var(--muted); margin-top:20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 style="color:var(--gold)">Conectar sua Página do Facebook</h1>
+    <p>Autorize o app Global Real a receber os leads das suas campanhas de anúncios
+       diretamente no aplicativo, em tempo real.</p>
+
+    <div class="perms">
+      <strong>O que você vai autorizar:</strong>
+      <ul>
+        <li>Ler os leads dos seus anúncios (leads_retrieval)</li>
+        <li>Receber notificações de novos leads (pages_manage_metadata)</li>
+        <li>Ver a lista das suas páginas (pages_show_list)</li>
+        <li>Ler informações da página (pages_read_engagement)</li>
+      </ul>
+    </div>
+
+    <a id="connectBtn" class="btn" href="#">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.25h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+      Conectar com Facebook
+    </a>
+
+    <p class="note">Você entra com a sua conta do Facebook. O Global Real não vê sua senha —
+       a autorização é feita diretamente pelo Facebook.</p>
+  </div>
+
+  <script>
+    // App "Global Real Leads 2"
+    const APP_ID = "1624464932759283";
+    const REDIRECT_URI = "https://pcbwbndrnnqptxdbrqnm.supabase.co/functions/v1/meta-oauth-callback";
+    const SCOPES = [
+      "pages_manage_metadata",
+      "leads_retrieval",
+      "pages_show_list",
+      "pages_read_engagement"
+    ].join(",");
+
+    const authUrl =
+      "https://www.facebook.com/v19.0/dialog/oauth" +
+      "?client_id=" + APP_ID +
+      "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
+      "&scope=" + encodeURIComponent(SCOPES) +
+      "&response_type=code";
+
+    document.getElementById("connectBtn").setAttribute("href", authUrl);
+  </script>
+</body>
+</html>

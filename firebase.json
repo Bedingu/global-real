@@ -12,6 +12,10 @@
         "destination": "/privacidade.html"
       },
       {
+        "source": "/conectar-facebook.html",
+        "destination": "/conectar-facebook.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

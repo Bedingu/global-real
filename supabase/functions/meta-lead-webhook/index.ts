@@ -168,13 +168,29 @@ serve(async (req: Request) => {
 // Buscar dados do lead via Graph API
 // =============================
 async function fetchLeadData(leadgenId: string, pageId?: string): Promise<any | null> {
-  // Escolhe o token da página que gerou o lead (multi-parceiro).
-  const { tokenSecret } = resolvePartner(pageId);
-  const accessToken =
-    Deno.env.get(tokenSecret) || Deno.env.get("META_PAGE_ACCESS_TOKEN");
+  // 1) Preferir o token guardado via Facebook Login (tabela meta_page_tokens),
+  //    que é por onde o dono da página (ex: Leandro) autoriza o app.
+  let accessToken: string | null = null;
+
+  if (pageId) {
+    const { data: row } = await supabaseAdmin
+      .from("meta_page_tokens")
+      .select("access_token")
+      .eq("page_id", pageId)
+      .maybeSingle();
+    if (row?.access_token) {
+      accessToken = row.access_token as string;
+    }
+  }
+
+  // 2) Fallback: token em secret fixo (configuração antiga por parceiro).
+  if (!accessToken) {
+    const { tokenSecret } = resolvePartner(pageId);
+    accessToken = Deno.env.get(tokenSecret) || Deno.env.get("META_PAGE_ACCESS_TOKEN") || null;
+  }
 
   if (!accessToken) {
-    console.error(`❌ Token não configurado (secret: ${tokenSecret})`);
+    console.error(`❌ Nenhum token disponível para a página ${pageId}`);
     return null;
   }
 
